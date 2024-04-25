@@ -19,6 +19,17 @@ See [this video](http://www.youtube.com/watch?v=zL1K6K1g6NY) and [this website](
     Click here to start typing...
 </div>
 
+  <h1>Interactive Note Box</h1>
+    <textarea id="noteBox" placeholder="Type your notes here..." rows="4" cols="50"></textarea>
+    <p>Your notes: <span id="displayNotes"></span></p>
+
+    <script>
+        document.getElementById('noteBox').addEventListener('input', function() {
+            document.getElementById('displayNotes').textContent = this.value;
+        });
+    </script>
+
+
 <h1>Simple Calculator</h1>
     <input type="number" id="value1" placeholder="Enter a number">
     <input type="number" id="value2" placeholder="Enter another number">
