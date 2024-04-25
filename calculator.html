@@ -1,0 +1,24 @@
+<!-- A very simple calculator -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+    <input type="number" id="value1" placeholder="Enter a number">
+    <input type="number" id="value2" placeholder="Enter another number">
+    <button onclick="calculateSum()">Calculate Sum</button>
+    <p>Result: <span id="result">0</span></p>
+
+    <script>
+        function calculateSum() {
+            var val1 = document.getElementById('value1').value;
+            var val2 = document.getElementById('value2').value;
+            var sum = Number(val1) + Number(val2);
+            document.getElementById('result').textContent = sum;
+        }
+    </script>
+</body>
+</html>
