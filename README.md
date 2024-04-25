@@ -14,4 +14,28 @@ See [this video](http://www.youtube.com/watch?v=zL1K6K1g6NY) and [this website](
     The quick brown fox jumps over the lazy dog. 
     </div>
 
-This document is deployed at https://standardgalactic.github.io/sandbox/
+<p>Edit the text below:</p>
+<div contenteditable="true" style="border: 1px solid gray; min-height: 50px; padding: 8px;">
+    Click here to start typing...
+</div>
+
+<h1>Simple Calculator</h1>
+    <input type="number" id="value1" placeholder="Enter a number">
+    <input type="number" id="value2" placeholder="Enter another number">
+    <button onclick="calculateSum()">Calculate Sum</button>
+    <p>Result: <span id="result">0</span></p>
+
+    <script>
+        function calculateSum() {
+            var val1 = document.getElementById('value1').value;
+            var val2 = document.getElementById('value2').value;
+            var sum = Number(val1) + Number(val2);
+            document.getElementById('result').textContent = sum;
+        }
+    </script>
+
+
+
+
+
+This site is deployed at https://standardgalactic.github.io/sandbox/
