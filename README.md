@@ -40,6 +40,13 @@ See [this video](http://www.youtube.com/watch?v=zL1K6K1g6NY) and [this website](
 
 [Check out the calculator!](./calculator.html)
 
+---
+layout: default
+---
+
+Here is my dynamic calculator:
+
+{% include calculator.html %}
 
 
 
