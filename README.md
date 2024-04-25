@@ -13,3 +13,5 @@ See [this video](http://www.youtube.com/watch?v=zL1K6K1g6NY) and [this website](
     
     The quick brown fox jumps over the lazy dog. 
     </div>
+
+This document is deployed at https://standardgalactic.github.io/sandbox/
