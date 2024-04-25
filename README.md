@@ -48,8 +48,7 @@ Here is my dynamic calculator:
 
 {% include calculator.html %}
 
-
-<iframe width="1080" height="1920" src="atrahasis.mp4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+<br>
+<br>
 
 This site is deployed at https://standardgalactic.github.io/sandbox/
