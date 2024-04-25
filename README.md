@@ -36,15 +36,9 @@ See [this video](http://www.youtube.com/watch?v=zL1K6K1g6NY) and [this website](
     <button onclick="calculateSum()">Calculate Sum</button>
     <p>Result: <span id="result">0</span></p>
 
-    <script>
-        function calculateSum() {
-            var val1 = document.getElementById('value1').value;
-            var val2 = document.getElementById('value2').value;
-            var sum = Number(val1) + Number(val2);
-            document.getElementById('result').textContent = sum;
-        }
-    </script>
 
+
+[Check out the calculator!](./calculator.html)
 
 
 
