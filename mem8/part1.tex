@@ -1,0 +1,114 @@
+\part{Foundations: What a Memory System Must Accomplish}
+
+\chapter{Introduction: From Retrieval to Reconstruction}\label{ch:intro}
+
+The dominant engineering picture of memory treats it as content-addressable storage. A record is written under some key or embedding, a query of the same kind is later presented, and the system returns the stored record whose key best matches the query. This picture is adequate for a large class of tasks and has been refined for decades through hashing, indexing, vector quantization, and approximate nearest-neighbor search. It is inadequate as an account of remembering, because it silently assumes that what is stored at encoding is what is wanted at retrieval, that the retrieval cue is of the same kind as the stored key, and that the correct output is always an element of the store. None of these assumptions survives contact with the phenomena that the psychology of memory has catalogued since Bartlett's studies of serial reproduction \cite{bartlett1932}, in which remembered material is shaped by the schema, context, and purpose present at recall, or with the experimental literature on suggestion and misinformation \cite{loftus1974}, in which the very same stored episode yields different recollections under different cues.
+
+Five distinct capacities are routinely run together under the single word memory, and the first task of a formal treatment is to separate them. Semantic lookup returns a stored item or a stored attribute of an item given a cue that names it, and is correctly modeled by a map from keys to values. Associative completion returns a whole pattern given a fragment of it, and is correctly modeled by a dynamical system with attractors or by a posterior over patterns given partial evidence. Episodic reinstatement returns not only the content of a past event but the organization that bound that content together at the time, including order, duration, and the surrounding context. Reconstructive remembering returns a representation assembled at the time of recall from stored constraints and current inference, which may differ from every stored element and which may be correct or incorrect with respect to the history it purports to describe. Prospective simulation returns a representation of a state that has not occurred, assembled from the same constraints and used to guide action. A system may be excellent at the first and incapable of the others, and the converse is also possible; success at one capacity does not imply success at another.
+
+\begin{proposition}[Non-implication of capacities]\label{prop:nonimpl}
+There exist memory systems that perform exact semantic lookup and exact associative completion on every cue from a stated family, and that cannot reinstate the temporal order of any episode composed of two or more items.
+\end{proposition}
+
+\begin{proof}
+Let the item vocabulary be a set of $V$ orthonormal vectors $e_1,\dots,e_V$ in a Hilbert space, and let an episode be an ordered pair $h=(a,b)$ of distinct items. Define the encoding $E(h)=e_a+e_b$, which is symmetric in its arguments. Lookup of either item and completion of the pair from one member, by projection onto the stored sum, are exact. For the two episodes $h_1=(a,b)$ and $h_2=(b,a)$ one has $E(h_1)=E(h_2)$. A target recollection function $T(h,c)$ that returns the first item of the episode takes the values $a$ and $b$ respectively for any cue $c$ that does not itself reveal the order, so no decoder $\Eph$ can satisfy $\Eph(E(h),c)=T(h,c)$ for both histories. The failure is not one of retrieval strategy. It is a property of the encoding, and Chapter~\ref{ch:ident} states the exact condition that characterizes it.
+\end{proof}
+
+The proposition has a simple moral that organizes the rest of the monograph. A memory system is judged by the family of future recollections it can support, and the capacity to support one family does not extend to another. The question is therefore never whether a given architecture stores information in some abstract sense, but which recollection tasks the information it preserves is sufficient for.
+
+The central problem can now be stated. Let a past organization be denoted $x_{t_0}$, a latent object that may be an item, a pattern, an episode, or a trajectory. At a later time $t$, the system holds persistent memory $M_t$, receives a cue $c_t$ that is generally partial and may be of a different kind from anything stored, and is in a contextual state $z_t$ that includes its current inferential and dynamical condition. The goal is to produce an estimate
+\begin{equation}\label{eq:ecphory-intro}
+\widehat{x}_{t_0}=\Eph(c_t,M_t,z_t)
+\end{equation}
+that is constrained by the history that produced $M_t$. The ecphoric operator $\Eph$ is the central object of the theory, and it must be defined independently of the particular encoding scheme, the retrieval algorithm, and the dynamical substrate used to implement it. The wave-based resonance score of Listopad \cite{listopad2025}, the modern continuous associative memories of Ramsauer and colleagues \cite{ramsauer2021}, and the oscillatory reconstruction processes developed in later chapters are all candidate realizations of $\Eph$, and the theory is designed so that they can be compared on equal terms.
+
+The monograph is organized in ten parts. The first fixes vocabulary and the system state. The second reconstructs the wave-based semantic representation with independent checks and proves what it can and cannot claim over real-valued vectors. The third examines distributed oscillatory dynamics and the empirical study that motivates them. The fourth through sixth develop reconstruction, inference, and the persistence and transformation of traces. The seventh states the formal theory, including the sufficiency criterion around which the work is built. The eighth specifies the computational architecture, the ninth the experimental program, and the tenth separates what has been demonstrated from what has only been motivated.
+
+\chapter{The Conceptual History of Ecphory}\label{ch:history}
+
+The vocabulary of ecphory comes from Richard Semon, whose Mneme books distinguished the engram, the lasting change left in an organism by a stimulus, from the processes by which that change is acquired and later brought to expression \cite{semon1904,semon1909}. Semon called the acquisition engraphy and the awakening of a stored engram by a retrieval stimulus ecphory. Two features of his account remain structurally important. The first is that the engram is not itself the remembered experience: it is a persistent condition of the organism, and the experience occurs only when the condition is brought into interaction with an ecphoric stimulus. The second is that ecphory is partial and cue-driven. A fragment of the original stimulus complex is sufficient to evoke the whole, which Semon called the principle of homophony, and the same engram may be evoked by different fragments with different results.
+
+Tulving restored the term to experimental psychology and made the interaction between cue and trace the central object of study \cite{tulving1973,tulving1983}. His encoding specificity principle holds that what is retrievable depends on the overlap between the information present in the cue at retrieval and the information encoded with the trace at storage, so that a cue that is objectively weaker may nonetheless succeed if it reinstates the encoding context. Two consequences follow. Retrievability is a relation between trace and cue, never a property of the trace alone, and the accessibility of a trace can change without any change to the trace. Tulving further distinguished the retrieval information that guides output from the recollective experience of re-living an episode, a distinction taken up in Chapter~\ref{ch:phenom}, where the monograph declines to infer the second from the first.
+
+Tulving's later term for the joint dependence is synergistic ecphory: the experience that results is a product of the trace and the cue together, so that a cue carrying misleading information changes what is reconstructed, and no inspection of the trace alone predicts the outcome \cite{tulving1983}. The classic demonstration is the cue-wording effect of Loftus and Palmer, in which changing a single verb in a question about a filmed collision shifted estimates of speed and the later endorsement of details that had not occurred \cite{loftus1974}. In the notation introduced next, synergy is the statement that $\Eph(m,c,z)$ is not a function of $m$ alone, and the cue-wording effect is the statement that two cues $c,c'$ with the same intended content can send one trace to different reconstructions. Bartlett's account of remembering as an effortful reconstruction guided by schemas \cite{bartlett1932} contributes the complementary point that the reconstruction draws on the rememberer's prior organization as well as on trace and cue, which in the formal theory enters through the context argument $z$.
+
+For the formal theory three maps are separated. Let $\Hist$ be a space of histories, understood as whatever organized past the system could in principle be asked about, and let $\Mem$ be a space of memory states.
+
+\begin{definition}[Engraphy, persistence, ecphory]\label{def:triple}
+Trace formation, or engraphy, is a map $E:\Hist\to\Mem$ that assigns to each history the memory state it leaves, possibly stochastically. Trace persistence is a family of maps $P_{s}:\Mem\to\Mem$, $s\ge 0$, with $P_0=\mathrm{id}$ and $P_{s+s'}=P_{s'}\circ P_s$, describing the autonomous evolution of the memory state during an interval without new input. Ecphory is a map $\Eph:\Mem\times\Cues\times\mathcal Z\to\Recs$ from memory state, cue, and context to a reconstruction.
+\end{definition}
+
+The semigroup law for persistence is an idealization, since real persistence is perturbed by interference from intervening events, a feature added in Part~VI. It is adopted here so that the three maps can be studied in isolation and then composed.
+
+The separation leads to a notion that the rest of the monograph uses repeatedly. Two physically different memory states can be equivalent with respect to a specified family of future recollections, in the sense that no cue from the family can tell them apart through $\Eph$. This is the memory analogue of observational equivalence in automata theory.
+
+\begin{definition}[Recollective equivalence]\label{def:equiv}
+Fix a cue family $Q\subseteq\Cues$ and a context family $\mathcal Z_0\subseteq\mathcal Z$. Two memory states $m,m'\in\Mem$ are $(Q,\mathcal Z_0)$-equivalent, written $m\sim_{Q,\mathcal Z_0}m'$, if $\Eph(m,c,z)=\Eph(m',c,z)$ for all $c\in Q$ and $z\in\mathcal Z_0$.
+\end{definition}
+
+Equivalence is an equivalence relation, and the quotient $\Mem/\!\sim_{Q,\mathcal Z_0}$ is the space of memory states that matter for the stated family. A state with surplus structure, in the sense of distinctions no admissible cue can elicit, lies in the same class as one without it. This is the sense in which the monograph speaks of preserving conditions for reinstatement rather than preserving content: what must be preserved is the class, and everything finer is free to vary, to be compressed, or to be forgotten.
+
+\chapter{The Limits of Conventional Memory Architectures}\label{ch:limits}
+
+Several families of architecture have been proposed as models or engineering substitutes for memory, and each fixes a different compromise among the capacities distinguished in Chapter~\ref{ch:intro}. A brief comparison clarifies what a new architecture must add and which of its claims will need independent support.
+
+Symbolic stores and relational databases keep records under explicit keys and answer exact queries. They support lookup with perfect fidelity and offer no completion from partial or corrupted cues unless the query language is extended with similarity operators. Key-value memories, including the attention mechanism of transformers \cite{vaswani2017}, generalize the exact match to a soft match, so that the output is a weighted combination of stored values with weights given by a similarity between the query and the keys. Vector embeddings with approximate nearest-neighbor indexes trade a controlled loss of recall for sublinear query time and support retrieval by semantic proximity, but they return elements of the store, and their similarity is typically a cosine, which discards magnitude and carries no notion of context beyond what the encoder placed in the vector.
+
+Hopfield networks introduced the idea that memory can be a property of a dynamical system, with stored patterns as stable fixed points of an energy-descending update \cite{hopfield1982}. The classical network stores a number of random patterns proportional to the number of units, with a critical ratio near $0.14$ patterns per unit \cite{amit1985}. Dense associative memories raised the capacity to a polynomial of higher degree in the dimension \cite{krotov2016}, an exponential-interaction variant achieves capacity exponential in the dimension \cite{demircigil2017}, and the continuous formulation of Ramsauer and colleagues showed that a single update step of such a network is the attention operation, with exponentially large capacity and retrieval in one or few steps \cite{ramsauer2021}. Sparse distributed memory offers a complementary construction, in which addresses and contents are high-dimensional binary vectors and storage is distributed over all locations within a Hamming radius of the address \cite{kanerva1988}. Holographic reduced representations compose and decompose structured items by circular convolution, which is multiplication in the frequency domain of complex-valued vectors \cite{plate1995}, and are the closest precedent for phase-based binding. Recurrent networks and differentiable neural memories add learned dynamics and learned read and write operations at the cost of capacity guarantees.
+
+A comparison on common terms requires dimensions along which any memory can be assessed. Seven are used throughout: storage capacity, which is the number of items or episodes that can be stored with recall error below a stated bound; cue dependence, which is the class of cues for which recall succeeds; reconstruction accuracy, which is distance to the target recollection, not merely the identity of the nearest stored item; interference, which is the degradation of recall of one item caused by the presence of others; modification, which is whether and how stored material can be updated with its history preserved; latency; and computational cost per query and per write. Table~\ref{tab:compare} gives a qualitative placement of the families on these dimensions, based on the literature cited above. The entries are intended to show where each family is structurally strong or weak and are not measurements.
+
+\begin{table}[t]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Family & Capacity & Cue dependence & Output & Modification\\
+\midrule
+Database / key-value & Limited by storage only & Exact or soft key match & Stored element & Explicit, with versioning if designed\\
+Embedding with ANN index & Large, with recall loss from approximation & Similarity in encoder space & Stored element & Insert and delete, no provenance by default\\
+Classical Hopfield & Order $0.14$ per unit \cite{amit1985} & Partial pattern, same format & Fixed point, possibly spurious & Hebbian rewrite, destructive\\
+Dense / continuous Hopfield & Polynomial to exponential in dimension \cite{krotov2016,demircigil2017,ramsauer2021} & Partial pattern, same format & Fixed point or metastable mixture & Rewrite of stored matrix\\
+Sparse distributed memory & Large for high dimension \cite{kanerva1988} & Noisy address within a radius & Blended content & Additive writes\\
+Phase-aware resonance \cite{listopad2025} & Exact scan, no training & Resonance in complex space & Stored element & Insert, no stated provenance\\
+Mem8 (this work) & Bound derived in Chapter~\ref{ch:capacity} & Partial, contextual, cross-format & Reconstruction with confidence and provenance & Controlled, provenance-preserving\\
+\bottomrule
+\end{tabularx}
+\caption{Qualitative comparison of memory families on the dimensions used in this monograph. Entries for earlier families summarize the cited literature. The final row states design targets, not achieved properties.}\label{tab:compare}
+\end{table}
+
+Two limits are common to most of these architectures. First, they conflate the stored object with the output: even when retrieval is dynamical, the stable output is intended to equal a stored pattern, so a memory is judged correct when it returns one of the things that was put in. Second, they treat context as a property of the cue, not as a persistent condition of the system that alters how every cue is read. Both limits are consequential for episodic and reconstructive tasks, where the correct output may be a composite of stored constraints, where the same cue must yield different outputs under different contexts, and where the output must carry an assessment of its own historical support.
+
+\chapter{The Idealized Mem8 Problem}\label{ch:problem}
+
+The theory is first posed for an unconstrained system, in which representation spaces are infinite-dimensional where convenient, computation is exact, and no budget limits retrieval. Constraints enter in Parts~VIII and IX. The advantage of the unconstrained formulation is that it separates what is impossible for information-theoretic reasons from what is impossible for resource reasons, a separation that Chapter~\ref{ch:ident} makes precise.
+
+The full system state is the tuple
+\begin{equation}\label{eq:state}
+X_t=(M_t,\Psi_t,\Theta_t,Z_t,H_t,B_t),
+\end{equation}
+in which $M_t$ denotes the persistent traces, $\Psi_t$ the distributed representational fields, $\Theta_t$ the oscillatory phases, $Z_t$ the contextual and inferential state, $H_t$ the historical provenance, and $B_t$ the computational resource constraints. The first specification requirement is that every component have a defined state space, a transition law, an observation map, and a persistence policy. Table~\ref{tab:state} gives the idealized assignment, and the sections that follow develop each row.
+
+\begin{table}[t]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Component & State space & Transition law & Observation & Persistence policy\\
+\midrule
+$M_t$ traces & Finite set of tuples in $\Hil\times\mathcal T\times\dots$ (Ch.~\ref{ch:substrate}) & Write, update, merge, split, forget (Ch.~\ref{ch:reconsol}, \ref{ch:adaptive}) & Through $\Eph$ only & Persistent, append-only for inscriptions\\
+$\Psi_t$ fields & Complex fields on a spatial index set & Field equation (Ch.~\ref{ch:cgl}) & Mode coefficients & Transient, reconstructed on demand\\
+$\Theta_t$ phases & Torus $\mathbb T^N$ & Coupled-oscillator dynamics (Ch.~\ref{ch:kuramoto}) & Order parameters, relative phases & Transient, reset by events\\
+$Z_t$ context & Context space $\mathcal Z$ with a group action on cues & Inference and task dynamics (Ch.~\ref{ch:context}) & Context reports & Slowly varying, logged\\
+$H_t$ provenance & Append-only ledger of typed records & Append only (Ch.~\ref{ch:provenance}) & Ledger queries & Permanent\\
+$B_t$ resources & Budgets on time, memory, energy & Scheduler (Ch.~\ref{ch:budget}) & Remaining budget & Per task\\
+\bottomrule
+\end{tabularx}
+\caption{State components of Mem8 with the four required specifications. Chapter references indicate where each specification is developed.}\label{tab:state}
+\end{table}
+
+The system evolves as a controlled stochastic process, written formally in Chapter~\ref{ch:transition}. At each step it may receive an observation to be encoded, a cue to be answered, or neither, and it may take actions that change the context or the resources. The accessible mnemonic state, meaning whatever can be read out through some sequence of admissible cues, is in general a strict function of the physical state: the same accessible state can be realized by many physical states, which is the content of the recollective equivalence of Definition~\ref{def:equiv}.
+
+A requirement on the problem statement itself is that it separate three kinds of success. A reconstruction can be accurate with respect to the history that produced the trace, which is historical fidelity. It can be adequate to the present context, in the sense that it supplies what the current inference needs, which is contextual adequacy. It can be valuable for the future, in the sense that it improves the continuation of the system under its objectives, which is viability. The three are related but distinct, and a design that collapses them cannot represent the case in which a useful reconstruction is historically false, or the case in which a historically accurate reconstruction is useless in the present. The viability formulation of Chapter~\ref{ch:viability} keeps historical fidelity as a separately measurable constraint for exactly this reason.

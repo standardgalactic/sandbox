@@ -1,0 +1,128 @@
+\part{Interpretation and Limits}
+
+\chapter{What the Architecture Explains}\label{ch:explains}
+
+A monograph that mixes theorems, simulations, neuroscientific motivation and conjecture invites the reader to assign to the whole the confidence that belongs only to the strongest part. This chapter prevents that by sorting the claims of the preceding parts into four classes. A claim is formally demonstrated if it is proved here from stated assumptions. It is simulation-supported if a computation, with stated protocol and outcome, bears on it. It is a neuroscientifically motivated hypothesis if it is suggested by empirical findings but not established by them. It is speculative if it extrapolates beyond all of these.
+
+The formally demonstrated results are those of Parts~II, IV, V, VI and VII, and they are results about the idealized system. They include the closed form $S=\tfrac\rho2(1+\rho c)$ of the resonance score and its invariances (Theorem~\ref{thm:closed}), the equivalence of the complex and real parametrizations (Theorem~\ref{thm:realif}) and the matched-baseline principle that follows (Theorem~\ref{thm:matched}), the ecphoric sufficiency criterion and its minimal-memory corollary (Theorem~\ref{thm:suff}, Corollary~\ref{cor:minimal}), the identifiability limit (Proposition~\ref{prop:identlimit}), the Banach bounds and the contraction and stability criterion of the softmax update (Lemma~\ref{lem:banach}, Theorem~\ref{thm:contract}), the false-activation and capacity bounds under the random-pattern model (Proposition~\ref{prop:falseact}, Theorem~\ref{thm:capacity}), the dilution and centroid-lure results, the drift of self-referential updating (Proposition~\ref{prop:drift}), the failure of penalties to guarantee fidelity (Proposition~\ref{prop:penalty}), and the closure criteria for abstraction. These are conditional on their hypotheses, and the hypotheses are often the substantive content: that traces are random on the sphere, that the dynamics is a contraction, that the target is fixed.
+
+The simulation-supported class is nearly empty by design. The only computations performed in this work are the algebraic checks of Appendix~\ref{app:pilot}, which confirm identities and bounds numerically, and they support no claim about the performance of the architecture. The experimental program of Part~IX is the means by which this class would be populated.
+
+The neuroscientifically motivated hypotheses are three. The first is that the macroscale oscillatory modes reported by Cabral and colleagues \cite{cabral2023} indicate that slow, spatially organized, standing-wave-like dynamics are a feature of the resting rodent brain that could in principle coordinate distributed activity. The study is an imaging study of anesthetized rats, its modes are damped and noise-driven in the authors' own model, and its authors state that the neural and vascular contributions are not separated; it does not address episodic recall, and it is used here as motivation only. The second is that retrieval in biological systems is reconstructive and cue-dependent in the manner of encoding specificity \cite{tulving1973}. The third is that phase relations may carry contextual information, for which the literature cited in Chapter~\ref{ch:binding} is suggestive.
+
+The speculative class contains the proposal that a ledger-based, evidence-gated architecture of the kind specified here would show better calibrated memory modification than ungated ones in realistic settings, that the posterior geometry of Chapter~\ref{ch:geometry} characterizes accessibility, and that any of this bears on biological memory. None is supported beyond the formal results that bound them. Table~\ref{tab:status} lists the principal claims with their class.
+
+\begin{table}[t]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\toprule
+Claim & Status\\
+\midrule
+Closed form and invariances of the resonance score & Demonstrated\\
+Sign-phase reduction to a norm-weighted cosine; matched-baseline principle & Demonstrated\\
+Sufficiency criterion; minimal memory; identifiability limit & Demonstrated\\
+Contraction and local stability of the softmax update & Demonstrated\\
+Exponential capacity under a random-pattern model & Demonstrated, model-conditional\\
+Evidence-gated updating resists self-generated drift & Mechanism demonstrated; effect size untested\\
+Complex-valued retrieval outperforms matched real baselines & Untested\\
+Oscillatory coordination improves reconstruction & Untested\\
+Cabral modes as a substrate for episodic recall & Hypothesis, not supported by the cited study\\
+Posterior geometry characterizes accessibility & Open problem\\
+\bottomrule
+\end{tabularx}
+\caption{Status of the principal claims of the monograph.}\label{tab:status}
+\end{table}
+
+\chapter{Biological Plausibility and Computational Equivalence}\label{ch:equivalence}
+
+The question is which properties of biological oscillations are necessary for the computation that Mem8 specifies, and which are properties of one implementation. The formal results give a partial answer, because they show which computational properties are needed and are silent on the physical ones.
+
+What the theory requires is the following. The encoding must preserve the recollective class of the history for the committed cue family (Theorem~\ref{thm:suff}). Retrieval must select among stored candidates with a margin sufficient for the number of candidates (Proposition~\ref{prop:basin}, Theorem~\ref{thm:capacity}). The cue must be transformable by context so that the same content can be retrieved differently under different contexts (Chapter~\ref{ch:context}). The refinement must be stable, which is a contraction condition with a certificate (Theorem~\ref{thm:contract}). Provenance must be separable from content if source is to be recoverable (Proposition~\ref{prop:source}). None of these requires oscillation. A context operator can be implemented by a phase rotation controlled by an oscillator, by a learned linear map, by a gating network, or by a lookup, and by the matched-baseline principle the oscillatory form is a special case of real-linear transformation with a particular parametrization. Whether the oscillatory parametrization has advantages in sample efficiency, in robustness, or in interpretability is an empirical question that the ablation of Chapter~\ref{ch:ablation} addresses.
+
+Biological systems, if they implement something of this kind, must also meet constraints that the abstract theory ignores: energy, noise, wiring, and developmental feasibility. These may select oscillatory implementations for reasons that have nothing to do with the computational advantage, such as the efficiency of coordinating distributed populations by a common slow rhythm. The converse also holds: an artificial system need not reproduce any of this. A successful artificial analogue of ecphory would be an implementation of the computational requirements above, and it would not carry evidence about the hippocampus unless the biological system were independently shown to implement the same requirements. The inference in the other direction is equally constrained. That a measured biological quantity, such as the slow macroscale mode of the Cabral study, has a form compatible with the resonant dynamics of Chapter~\ref{ch:cgl} shows only that the dynamics are a candidate description of it, since many models produce damped noise-driven oscillations of similar spectral form.
+
+\chapter{Recollection without Phenomenology}\label{ch:phenom}
+
+The word recollection has a functional sense and a phenomenological sense. In the functional sense it names the reconstruction of a prior organization from a cue under a context, with the properties formalized in Parts~IV to VII. In the phenomenological sense it names the experience of remembering, the sense of reliving a past event and of its belonging to one's own past, which the psychological literature associates with autonoetic awareness \cite{tulving1983}. The monograph is a theory of the first. Nothing in the definitions or theorems implies anything about the second, and the specification forbids drawing such an implication from similarity of computation.
+
+The distinction has practical force. A system that reconstructs a prior state with high fidelity, reports the source, and distinguishes recollection from familiarity, as in Chapter~\ref{ch:source}, has the functional profile that is used in behavioral research to operationalize recollection. Whether anything further accompanies that profile in such a system is not a question the profile answers, and a design document should not use phenomenological vocabulary as if it settled it. Where the monograph uses terms such as recollection, familiarity and confidence, they are defined by their operational role, and any claim that goes beyond that role is outside the theory. A related restriction applies to first-person temporal experience: the phase codes of Chapter~\ref{ch:binding} represent lag, and they are not claimed to represent the passage of time as experienced.
+
+\chapter{Memory, Identity, and Historical Continuity}\label{ch:identity}
+
+A system that revises its memories, changes its internal state, and reconstructs rather than retrieves seems to lack a stable core, and the question is how continuity of the system through time can be understood without positing one. The architecture supplies a precise answer with two ingredients: the chain of records in the ledger and the preservation of constraints.
+
+Two states of the system at different times are historically connected if the ledger at the later time contains the ledger at the earlier time as a prefix in the canonical order of Proposition~\ref{prop:derived}, equivalently if the later state was obtained from the earlier by a fold over additional records. This relation is reflexive and transitive and orders the states of a single replica into a chain. It does not require any trace to be unchanged, since traces may be transformed, merged or released, and the ledger records each change. What persists is the record of how the present arose from the past, and the identity of the system over time is carried by that record and not by any part of the representation.
+
+Constraint preservation is the second ingredient. The viability kernel of Chapter~\ref{ch:viability} defines the set of states from which the system can continue to meet its constraints, including the floor on historical fidelity. A system whose revisions always remain inside the kernel retains the capacity to reconstruct what its constraints require, even as the representation changes. The picture is that of a river whose water changes while the channel persists, with the channel being the constraints together with the record of how they were maintained. The picture has limits worth stating. Continuity of the record is compatible with arbitrary change in content, so the theory does not say that a system with a continuous ledger is the same system in any sense that matters for questions of moral or personal identity; it says only that the continuity relation is well defined, auditable, and independent of an immutable core. The ledger can also be forked, since replicas may diverge (Chapter~\ref{ch:distributed}), and the relation then branches. The formal framework does not decide which branch is the continuation, and the decision is part of the specification of the application.
+
+\chapter{The Ideal Architecture and Its Realizable Approximations}\label{ch:hierarchy}
+
+The ideal architecture of Parts~VII and VIII is unconstrained, deterministic and fully instrumented, and no realizable system meets all its specifications. A hierarchy of implementations makes progress measurable, with each level defined by what it adds and each level carrying its own acceptance criterion, so that a failure at a higher level does not retroactively invalidate a lower one.
+
+\begin{table}[t]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Level & Adds & Acceptance criterion\\
+\midrule
+0. Static resonance retrieval & Complex patterns and the resonance score & Reproduces the operator structure and the algebraic identities of Part~II; matched real baseline reported (Chapter~\ref{ch:repro})\\
+1. Recurrent contextual reconstruction & Softmax iteration with context operator & Meets the contraction certificate of Theorem~\ref{thm:contract}; improves target recovery over level 0 on the completion tasks of Chapter~\ref{ch:completion}\\
+2. Temporally coordinated ecphory & Oscillator and phase-coded time & Recovers order and lag within the code period; beats frozen-phase and shuffled-phase controls (Chapter~\ref{ch:sequence})\\
+3. Provenance-preserving memory & Ledger, typed records, replay & Replay reproduces the live state bit for bit; source accuracy above the content-only baseline (Chapter~\ref{ch:source-exp})\\
+4. Fully adaptive persistent memory & Consolidation, gated reconsolidation, budgeted retrieval & Gated updating dominates ungated on the adaptability and resistance trade-off; viability constraint never violated (Chapters~\ref{ch:reconsol-exp},~\ref{ch:budget})\\
+\bottomrule
+\end{tabularx}
+\caption{Hierarchy of Mem8 implementations with independent acceptance criteria.}\label{tab:levels}
+\end{table}
+
+The levels are cumulative in design and independent in evaluation. A level-2 system that fails the frozen-phase control is still a valid level-1 system, and its failure is reported as the absence of evidence for the contribution of oscillation. The hierarchy also fixes what may be claimed at each stage: results at level 0 are results about resonance retrieval and not about ecphory, and the word ecphory is reserved for systems that meet the criterion of level 1 at least.
+
+\chapter{Open Mathematical Problems}\label{ch:open}
+
+Six questions stated in the proposal remain open, and two further problems arise from the dynamic and integrated results of Chapters~\ref{ch:ident} and~\ref{ch:provenance}. Each is formulated here to the extent that the theory allows. They are collected as problems because the results of the monograph bound them but do not resolve them.
+
+\begin{problem}[Capacity under correlated and phase-structured traces]\label{prob:capcorr}
+Theorem~\ref{thm:capacity} assumes independent uniformly random traces. Derive the capacity, in the sense of the margin condition of Proposition~\ref{prop:basin}, for traces with a prescribed covariance, for clustered stores, and for phase-correlated traces, and determine the dependence of the required inverse temperature on the overlap structure.
+\end{problem}
+
+\begin{problem}[Representational identifiability]\label{prob:identifiability}
+Given a family of decoders and only the input--output behavior of the system on the cue family, determine the equivalence class of memory states that are indistinguishable, and characterize when the learned representation is determined up to a symmetry such as the $O(2n)$ invariance of the resonance score (Theorem~\ref{thm:closed}).
+\end{problem}
+
+\begin{problem}[Stability under continual learning]\label{prob:continual}
+For the two-store system of Chapter~\ref{ch:consolidation} with interleaved replay, give conditions on the replay distribution, the learning rate and the readout temperature under which the sufficiency of the slow store for a fixed cue family is preserved as new episodes arrive, or show that no such conditions exist without growth in capacity.
+\end{problem}
+
+\begin{problem}[Optimal compression under sufficiency]\label{prob:optcomp}
+Determine the minimal description length of a sufficient encoding in terms of the structure of $\approx_T$ (Corollary~\ref{cor:minimal}), and characterize the optimal approximately sufficient encoding at tolerance $\varepsilon$ in terms of the sets $A(m,c)$ of Theorem~\ref{thm:approx}, including the trade-off with the distortion bound of Proposition~\ref{prop:distort}.
+\end{problem}
+
+\begin{problem}[Provenance-preserving revision]\label{prob:prov}
+Characterize the class of update rules for which the ledger of Chapter~\ref{ch:provenance} supports both reversibility and commutativity under concurrent replicas (Proposition~\ref{prop:derived}), and the cost in replay length of rules that are not commutative.
+\end{problem}
+
+\begin{problem}[Necessity of oscillatory coordination]\label{prob:osc}
+Identify a target recollection function, a resource budget and a cue family for which every nonoscillatory decoder of equal parameter count and budget is provably worse than an oscillatory one, or prove that for a stated class of tasks the oscillatory parametrization has no advantage.
+\end{problem}
+
+\begin{problem}[Compression under stochastic future commitments]\label{prob:dynuncertain}
+In the setting of Theorem~\ref{thm:dynsuff}, let the future target families arrive according to a stochastic process. Characterize the optimal compression and rebuild policy of Proposition~\ref{prop:ledgerrepair} that minimizes expected storage and rebuild cost subject to a bound on the probability that a query arrives for a family the trace store can no longer answer, and extend the theorem to transformations driven by the system's own retrievals.
+\end{problem}
+
+\begin{problem}[An interaction theorem]\label{prob:interaction}
+The results of this monograph concern components taken one at a time: inner-product resonance, softmax retrieval, factorization through a sufficient representation, contraction, and closure. Theorem~\ref{thm:dynsuff} and Proposition~\ref{prop:ledgerrepair} couple sufficiency, provenance and adaptive transformation but remain elementary. State and prove a result whose conclusion depends essentially on the joint action of ecphoric reconstruction, an append-only provenance ledger, and adaptive memory dynamics, for example a lower bound on the cost of maintaining answerability under changing questions that no one of the three components alone can match.
+\end{problem}
+
+Problem~\ref{prob:geometry} on the geometry of accessibility belongs with these. The sixth is the one on which the empirical program of Part~IX bears most directly, and a negative theoretical answer for a stated class would shape the interpretation of the empirical results.
+
+\chapter{Conclusion: Memory as Organized Reinstatement}\label{ch:conclusion}
+
+The central distinction of the monograph is between possessing stored information and retaining the capacity to reconstruct a consequential prior organization under changing conditions. A store may hold every detail of a past and still fail to reinstate what a present cue requires, because the information is not in a form from which the cue can elicit it, or because it has been merged with other information beyond separation. A store may also hold much less than the past and reinstate what is needed, because it preserved the conditions of reinstatement. The sufficiency criterion makes this precise: what must survive encoding and compression is the recollective class of the history for the cue family the system commits to, and everything finer is free to vary.
+
+Around that criterion the monograph arranges three further separations. The separation between information preservation and resource-bounded accessibility places mechanisms, resonance, attractor dynamics, oscillatory coordination and inference, in the role of ways of computing a decoder within a budget, which may succeed or fail irrespective of whether the information is present. The separation between the stability of a reconstruction and its fidelity warns that a contraction converges to a fixed point whether or not the fixed point is the past. And the separation between historical fidelity and future utility insists that a useful reconstruction can be historically unwarranted, and that fidelity should be enforced as a constraint and recorded in a ledger that makes revision auditable.
+
+The results here are conditional, and the experimental program that would test the architecture has been specified and not run. The honest summary is therefore that the theory supplies a criterion, a set of bounds, and a specification, together with a list of what would have to be shown for the architecture to earn the claims made for it, and that the ambition of the work is a mathematical account in which storage, retrieval, reconstruction, historical fidelity and future viability are distinct but formally related functions. Memory, on this account, is organized reinstatement: the maintained ability to bring back, under new conditions and from partial cues, an organization that mattered.

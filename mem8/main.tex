@@ -1,0 +1,177 @@
+\documentclass[11pt,twoside,openany]{book}
+\usepackage[a4paper,margin=1.15in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,array,tabularx}
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{setspace}
+\usepackage[hidelinks,pdfusetitle]{hyperref}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+\setstretch{1.08}
+\setlength{\parindent}{1.4em}
+\setlength{\parskip}{0pt}
+
+\titleformat{\chapter}[display]{\normalfont\Large\bfseries}{\chaptertitlename\ \thechapter}{8pt}{\LARGE}
+\titlespacing*{\chapter}{0pt}{-10pt}{22pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\nouppercase{\leftmark}}
+\fancyhead[RO]{\small\nouppercase{\rightmark}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{problem}[theorem]{Open Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{definition}
+\newtheorem{workedex}{Worked Example}[chapter]
+\newtheorem{counterex}{Counterexample}[chapter]
+\newtheorem{extension}{Extension}[chapter]
+\input{gen/numbers.tex}
+\input{gen/life_numbers.tex}
+\input{gen/july_numbers.tex}
+
+% notation
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Hil}{\mathcal{H}}
+\newcommand{\Eph}{\mathcal{E}}
+\newcommand{\Mem}{\mathcal{M}}
+\newcommand{\Hist}{\mathcal{H}\!ist}
+\newcommand{\Cues}{\mathcal{C}}
+\newcommand{\Recs}{\mathcal{Y}}
+\newcommand{\Ex}{\mathbb{E}}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\softmax}{softmax}
+\DeclareMathOperator{\KL}{KL}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Viab}{Viab}
+\newcounter{lstcount}
+\newcommand{\iu}{\mathrm{i}}
+
+\title{\textbf{Mem8: Ecphoric Reconstruction\\and the Dynamics of Resonant Memory}\\[1.2ex]
+\large A Mathematical Monograph and Idealized System Specification}
+\author{Flyxion\\Independent Researcher}
+\date{October 2026}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This monograph develops an idealized mathematical architecture for memory systems in which recollection is modeled as the context-dependent reconstruction of previously organized states rather than the retrieval of static representations. The framework combines complex-valued semantic encoding, phase-sensitive resonance, distributed oscillatory modes, recurrent associative dynamics, predictive inference, and history-dependent modification of persistent memory. Its motivating distinction is between the preservation of representational content and the preservation of conditions sufficient for its subsequent reinstatement.
+
+Beginning with wave-based semantic memory and resonance-based retrieval, the framework generalizes static interference scores into an evolving system of coupled memory fields, contextual operators, temporal modes, and constrained reconstruction processes. Ecphoric recall is formulated as the interaction between a partial cue, a persistent trace, and the current dynamical state of the system. The resulting reconstruction is evaluated not solely by similarity to an encoded representation but also by contextual adequacy, historical fidelity, uncertainty, and its contribution to viable future continuation.
+
+The specification develops conditions for stable encoding, selective resonance, associative completion, temporal binding, interference control, consolidation, reconsolidation, forgetting, and controlled revision. It distinguishes mathematically necessary properties from neuroscientific analogies and from experimentally testable architectural hypotheses. Formal results address identifiability, observability, stability, representational equivalence, reconstruction error, and the conditions under which phase-sensitive dynamics could offer advantages over conventional real-valued memory systems. Among them are a closed form for the resonance score of Listopad (2025) that exposes exactly what it adds to ordinary inner-product similarity, a realification theorem showing that no expressive advantage of complex over real vectors can be claimed, a necessary and sufficient condition for the existence of a decoder given an encoding, and an explicit stability threshold for the recurrent reconstruction map. A capacity theorem is stated as a baseline associative-retrieval result for the softmax readout, with its temperature requirement, and is not claimed to give an episodic capacity; a dynamic sufficiency theorem characterizes which memory transformations preserve the ability to answer a changing family of historically grounded questions; and the recurrent reconstruction iteration is related to Bayesian inference by showing that it computes posterior modes, which is a different operator from the posterior mean.
+
+Mem8 is proposed as an idealized computational target rather than a claim of achieved biological equivalence. It supplies a common mathematical language for studying semantic memory, episodic reconstruction, dynamical association, and the preservation of organized experience across changing contexts.
+
+\chapter*{Scope, Sources, and Status}
+\addcontentsline{toc}{chapter}{Scope, Sources, and Status}
+
+The text is a specification and a theory. It is not a report of a completed empirical program. Every chapter in Part~IX describes an experiment as a protocol with hypotheses, baselines, metrics, and acceptance criteria, and nothing in that part should be read as a result. The only numerical outputs reported anywhere in the monograph are the small deterministic verifications of Appendix~\ref{app:pilot}, the figures computed from the analytic results by the script supplied with the source, and the worked examples of Parts~VI to VIII, whose every number is produced by the scripts \texttt{examples.py} and \texttt{lifecycle.py}. These confirm algebraic identities, probability bounds and exact computations on synthetic data, and say nothing about the architecture's competence at memory tasks.
+
+Two sources organize the mathematical program. The first is the wave-based semantic memory proposal of Listopad (2025), which models patterns as complex waveforms and retrieves them by an interference score; it is treated here as one special case of a more general theory of ecphoric reconstruction, and its equations are reproduced with attribution and independently checked. The second is the study of Cabral, Fernandes, and Shemesh (2023), which used ultrafast functional magnetic resonance imaging in rats to identify intrinsic macroscale oscillatory modes with standing-wave properties. That study supplies empirical motivation for modeling distributed temporal coordination. It does not establish a mechanism of episodic recollection, and the monograph keeps that boundary visible wherever the two meet.
+
+Two features of the first source shape the treatment that follows and are stated here so that later chapters can rely on them. The four named semantic operators of the wave-based proposal (negation, a controlled phase shift, and two amplitude operators) are named and discussed in its text but are not given formal definitions there, and results for the announced phase and amplitude perturbation experiments are not reported. The monograph therefore proposes candidate definitions of the operators where it needs them, labels them as such, and designs the reproduction protocol around what the source does specify. The second feature is that the source's own mapping from real embeddings assigns phase $0$ or $\pi$ according to the sign of each coordinate, a fact whose consequences for the comparison with real-valued retrieval are worked out in Chapter~\ref{ch:equiv}.
+
+A third source is an earlier specification of the same name, by Chenoweth and Chenoweth \cite{chenoweth2025}, whose architecture of wave records, emotional modulation, temporal blankets, a protective controller and reactive layers is mapped onto the present framework in Appendix~\ref{app:july}. The mapping gives some of its mechanisms a precise form with small checks, records the internal inconsistencies of its printed figures, and lists its performance, safety and consciousness claims as reported by their source and not adopted. The relation between the two projects is for the author to state, and this monograph makes no claim of derivation.
+
+A fourth group of sources consists of two companion manuscripts by the author on manifold-aligned prediction and semantic dynamics \cite{flyxion2026npn,flyxion2026hall}. Their tangent--normal decomposition is used in Chapter~\ref{ch:projection} as the curved generalization of an exactly checkable linear statement about the softmax readout, and their empirical claims about recent generative models are cited as claims of those manuscripts and are not independently asserted here.
+
+Three labels mark material that is not an established theorem of the literature. A \emph{Worked Example} applies results already stated in the text to specific numbers or a finite instance, and every number in it was checked by a deterministic script. A \emph{Counterexample} exhibits a situation in which a plausible inference fails, and each states which condition fails and which does not. An \emph{Extension} is a proposed result that is proved where it is stated; it is built from classical ingredients, which are cited, and the claim that it is new is limited to the combination or the quantification, never to the ingredients. Where an extension restates a classical result, it says so. Theorem, proposition and chapter numbers of the earlier text are unchanged, and the new labels carry their own numbering within each chapter.
+
+\tableofcontents
+
+\mainmatter
+
+\input{part1}
+\input{part2}
+\input{part3}
+\input{part4}
+\input{part5}
+\input{part6}
+\input{part7}
+\input{part8}
+\input{part9}
+\input{part10}
+\appendix
+\input{appendices}
+
+\begin{thebibliography}{99}
+\bibitem{listopad2025} A.~Listopad. Wave-based semantic memory with resonance-based retrieval: a phase-aware alternative to vector embedding stores. arXiv:2509.09691, 2025.
+\bibitem{vaswani2017} A.~Vaswani et al. Attention is all you need. \emph{Advances in Neural Information Processing Systems} 30, 2017.
+\bibitem{eckart1936} C.~Eckart and G.~Young. The approximation of one matrix by another of lower rank. \emph{Psychometrika} 1:211--218, 1936.
+\bibitem{chenoweth2025} C.~M.~Chenoweth and A.~A.~Chenoweth. MEM|8: A wave-based cognitive architecture for multi-modal memory integration and consciousness simulation. Preprint, 26 July 2025 (byline also lists two language models; Zenodo record 16436298, DOI 10.5281/zenodo.16436298).
+\bibitem{trabelsi2018} C.~Trabelsi et al. Deep complex networks. \emph{International Conference on Learning Representations}, 2018.
+\bibitem{amit1985} D.~J. Amit, H.~Gutfreund, and H.~Sompolinsky. Storing infinite numbers of patterns in a spin-glass model of neural networks. \emph{Physical Review Letters} 55:1530--1533, 1985.
+\bibitem{krotov2016} D.~Krotov and J.~J. Hopfield. Dense associative memory for pattern recognition. \emph{Advances in Neural Information Processing Systems} 29, 2016.
+\bibitem{hintzman1984} D.~L. Hintzman. MINERVA 2: a simulation model of human memory. \emph{Behavior Research Methods, Instruments, \& Computers} 16:96--101, 1984.
+\bibitem{loftus1974} E.~F. Loftus and J.~C. Palmer. Reconstruction of automobile destruction: an example of the interaction between language and memory. \emph{Journal of Verbal Learning and Verbal Behavior} 13:585--589, 1974.
+\bibitem{moore1956} E.~F. Moore. Gedanken-experiments on sequential machines. In \emph{Automata Studies}, Princeton University Press, 1956, pp.~129--153.
+\bibitem{tulving1973} E.~Tulving and D.~M. Thomson. Encoding specificity and retrieval processes in episodic memory. \emph{Psychological Review} 80:352--373, 1973.
+\bibitem{tulving1983} E.~Tulving. \emph{Elements of Episodic Memory}. Oxford University Press, 1983.
+\bibitem{bartlett1932} F.~C. Bartlett. \emph{Remembering: A Study in Experimental and Social Psychology}. Cambridge University Press, 1932.
+\bibitem{flyxion2026hall} Flyxion. Hallucination Is Normal: A Geometric Theory of Manifold-Aligned Semantic Dynamics. Unpublished manuscript.
+\bibitem{flyxion2026npn} Flyxion. Never Predict Noise: Manifold-Aligned Prediction as Generative Inference. Unpublished manuscript, November 2025, revised May 2026.
+\bibitem{buzsaki2006} G.~Buzs\'aki. \emph{Rhythms of the Brain}. Oxford University Press, 2006.
+\bibitem{roediger1995} H.~L. Roediger and K.~B. McDermott. Creating false memories: remembering words not presented in lists. \emph{Journal of Experimental Psychology: Learning, Memory, and Cognition} 21:803--814, 1995.
+\bibitem{ramsauer2021} H.~Ramsauer et al. Hopfield networks is all you need. \emph{International Conference on Learning Representations}, 2021. arXiv:2008.02217.
+\bibitem{aranson2002} I.~S. Aranson and L.~Kramer. The world of the complex Ginzburg--Landau equation. \emph{Reviews of Modern Physics} 74:99--143, 2002.
+\bibitem{aubin1991} J.-P. Aubin. \emph{Viability Theory}. Birkh\"auser, 1991.
+\bibitem{acebron2005} J.~A. Acebr\'on, L.~L. Bonilla, C.~J. P\'erez Vicente, F.~Ritort, and R.~Spigler. The Kuramoto model: a simple paradigm for synchronization phenomena. \emph{Reviews of Modern Physics} 77:137--185, 2005.
+\bibitem{cabral2023} J.~Cabral, F.~F. Fernandes, and N.~Shemesh. Intrinsic macroscale oscillatory modes driving long range functional connectivity in female rat brains detected by ultrafast fMRI. \emph{Nature Communications} 14, 2023. doi:10.1038/s41467-023-36025-x.
+\bibitem{lisman2013} J.~E. Lisman and O.~Jensen. The theta-gamma neural code. \emph{Neuron} 77:1002--1016, 2013.
+\bibitem{kemeny1960} J.~G. Kemeny and J.~L. Snell. \emph{Finite Markov Chains}. Van Nostrand, 1960.
+\bibitem{hopfield1982} J.~J. Hopfield. Neural networks and physical systems with emergent collective computational abilities. \emph{Proceedings of the National Academy of Sciences} 79:2554--2558, 1982.
+\bibitem{mcclelland1995} J.~L. McClelland, B.~L. McNaughton, and R.~C. O'Reilly. Why there are complementary learning systems in the hippocampus and neocortex. \emph{Psychological Review} 102:419--457, 1995.
+\bibitem{zacks2007} J.~M. Zacks, N.~K. Speer, K.~M. Swallow, T.~S. Braver, and J.~R. Reynolds. Event perception: a mind-brain perspective. \emph{Psychological Bulletin} 133:273--293, 2007.
+\bibitem{ball1997} K.~Ball. An elementary introduction to modern convex geometry. In \emph{Flavors of Geometry}, MSRI Publications 31, Cambridge University Press, 1997, pp.~1--58.
+\bibitem{friston2017} K.~Friston, T.~FitzGerald, F.~Rigoli, P.~Schwartenbeck, and G.~Pezzulo. Active inference: a process theory. \emph{Neural Computation} 29:1--49, 2017.
+\bibitem{nader2000} K.~Nader, G.~E. Schafe, and J.~E. LeDoux. Fear memories require protein synthesis in the amygdala for reconsolidation after retrieval. \emph{Nature} 406:722--726, 2000.
+\bibitem{lamport1978} L.~Lamport. Time, clocks, and the ordering of events in a distributed system. \emph{Communications of the ACM} 21(7):558--565, 1978.
+\bibitem{carreira2000} M.~\'A. Carreira-Perpi\~n\'an. Mode-finding for mixtures of Gaussian distributions. \emph{IEEE Transactions on Pattern Analysis and Machine Intelligence} 22(11):1318--1323, 2000.
+\bibitem{demircigil2017} M.~Demircigil, J.~Heusel, M.~L\"owe, S.~Upgang, and F.~Vermet. On a model of associative memory with huge storage capacity. \emph{Journal of Statistical Physics} 168:288--299, 2017.
+\bibitem{shapiro2011} M.~Shapiro, N.~Pregui\c{c}a, C.~Baquero, and M.~Zawirski. Conflict-free replicated data types. In \emph{Stabilization, Safety, and Security of Distributed Systems}, LNCS 6976:386--400, 2011.
+\bibitem{howard2002} M.~W. Howard and M.~J. Kahana. A distributed representation of temporal context. \emph{Journal of Mathematical Psychology} 46:269--299, 2002.
+\bibitem{fries2015} P.~Fries. Rhythms for cognition: communication through coherence. \emph{Neuron} 88:220--235, 2015.
+\bibitem{kanerva1988} P.~Kanerva. \emph{Sparse Distributed Memory}. MIT Press, 1988.
+\bibitem{milner1989} R.~Milner. \emph{Communication and Concurrency}. Prentice Hall, 1989.
+\bibitem{semon1904} R.~Semon. \emph{Die Mneme als erhaltendes Prinzip im Wechsel des organischen Geschehens}. Engelmann, Leipzig, 1904.
+\bibitem{semon1909} R.~Semon. \emph{Die mnemischen Empfindungen}. Engelmann, Leipzig, 1909.
+\bibitem{amari2016} S.~Amari. \emph{Information Geometry and Its Applications}. Springer, 2016.
+\bibitem{strogatz2000} S.~H. Strogatz. From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators. \emph{Physica D} 143:1--20, 2000.
+\bibitem{watanabe1994} S.~Watanabe and S.~H. Strogatz. Constants of motion for superconducting Josephson arrays. \emph{Physica D} 74:197--253, 1994.
+\bibitem{plate1995} T.~A. Plate. Holographic reduced representations. \emph{IEEE Transactions on Neural Networks} 6:623--641, 1995.
+\bibitem{cover2006} T.~M. Cover and J.~A. Thomas. \emph{Elements of Information Theory}, 2nd ed. Wiley, 2006.
+\bibitem{parr2022} T.~Parr, G.~Pezzulo, and K.~J. Friston. \emph{Active Inference: The Free Energy Principle in Mind, Brain, and Behavior}. MIT Press, 2022.
+\bibitem{kuramoto1984} Y.~Kuramoto. \emph{Chemical Oscillations, Waves, and Turbulence}. Springer, 1984.
+\end{thebibliography}
+
+\end{document}

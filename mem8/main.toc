@@ -1,0 +1,109 @@
+\contentsline {chapter}{Abstract}{ii}{chapter*.1}%
+\contentsline {chapter}{Scope, Sources, and Status}{iii}{chapter*.2}%
+\contentsline {part}{I\hspace {1em}Foundations: What a Memory System Must Accomplish}{1}{part.1}%
+\contentsline {chapter}{\numberline {1}Introduction: From Retrieval to Reconstruction}{2}{chapter.1}%
+\contentsline {chapter}{\numberline {2}The Conceptual History of Ecphory}{4}{chapter.2}%
+\contentsline {chapter}{\numberline {3}The Limits of Conventional Memory Architectures}{6}{chapter.3}%
+\contentsline {chapter}{\numberline {4}The Idealized Mem8 Problem}{8}{chapter.4}%
+\contentsline {part}{II\hspace {1em}Wave-Based Semantic Representation}{10}{part.2}%
+\contentsline {chapter}{\numberline {5}Complex-Valued Semantic States}{11}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Resonance and Interference as Retrieval Operations}{13}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Phase Transformations and Semantic Operators}{16}{chapter.7}%
+\contentsline {chapter}{\numberline {8}ResonanceDB as a Baseline Architecture}{18}{chapter.8}%
+\contentsline {chapter}{\numberline {9}The Representational Equivalence Problem}{20}{chapter.9}%
+\contentsline {part}{III\hspace {1em}Distributed Oscillatory Memory}{22}{part.3}%
+\contentsline {chapter}{\numberline {10}Empirical Foundations of Macroscale Resonance}{23}{chapter.10}%
+\contentsline {chapter}{\numberline {11}Spectral Decomposition of Distributed Activity}{25}{chapter.11}%
+\contentsline {chapter}{\numberline {12}Coupled Oscillators and Phase Synchronization}{27}{chapter.12}%
+\contentsline {chapter}{\numberline {13}Oscillatory Modes as a Computational Substrate}{29}{chapter.13}%
+\contentsline {chapter}{\numberline {14}Temporal Binding and Phase-Coded Associations}{31}{chapter.14}%
+\contentsline {part}{IV\hspace {1em}Ecphoric Reconstruction}{33}{part.4}%
+\contentsline {chapter}{\numberline {15}The Ecphoric Interaction Operator}{34}{chapter.15}%
+\contentsline {chapter}{\numberline {16}Associative Completion and Attractor Geometry}{35}{chapter.16}%
+\contentsline {chapter}{\numberline {17}Episodic Memory and Temporal Reinstatement}{37}{chapter.17}%
+\contentsline {chapter}{\numberline {18}Context-Sensitive Reconstruction}{38}{chapter.18}%
+\contentsline {chapter}{\numberline {19}Recollection, Familiarity, and Source Discrimination}{39}{chapter.19}%
+\contentsline {chapter}{\numberline {20}Memory Interference and False Recollection}{40}{chapter.20}%
+\contentsline {part}{V\hspace {1em}Predictive Inference and Memory}{42}{part.5}%
+\contentsline {chapter}{\numberline {21}Memory as Inference over Latent Causes}{43}{chapter.21}%
+\contentsline {chapter}{\numberline {22}Variational Ecphory}{46}{chapter.22}%
+\contentsline {chapter}{\numberline {23}Precision Weighting and Resonance Selection}{47}{chapter.23}%
+\contentsline {chapter}{\numberline {24}Active Inference and Prospective Memory}{48}{chapter.24}%
+\contentsline {chapter}{\numberline {25}Amortized Deliberation and Learned Retrieval Policies}{49}{chapter.25}%
+\contentsline {part}{VI\hspace {1em}Persistence, Consolidation, and Transformation}{50}{part.6}%
+\contentsline {chapter}{\numberline {26}Encoding as the Creation of Recoverable Constraints}{51}{chapter.26}%
+\contentsline {chapter}{\numberline {27}Consolidation and Multiscale Memory}{52}{chapter.27}%
+\contentsline {chapter}{\numberline {28}Reconsolidation and Memory Modification}{55}{chapter.28}%
+\contentsline {chapter}{\numberline {29}Forgetting, Interference, and Resource Constraints}{58}{chapter.29}%
+\contentsline {chapter}{\numberline {30}Memory Compression and Future Admissibility}{60}{chapter.30}%
+\contentsline {part}{VII\hspace {1em}Formal Theory of Reconstructive Memory}{63}{part.7}%
+\contentsline {chapter}{\numberline {31}State Spaces and Transition Systems}{64}{chapter.31}%
+\contentsline {chapter}{\numberline {32}Observability and Reconstructive Identifiability}{65}{chapter.32}%
+\contentsline {chapter}{\numberline {33}Stability of Recurrent Reconstruction}{72}{chapter.33}%
+\contentsline {chapter}{\numberline {34}Resonance Selectivity and Capacity}{77}{chapter.34}%
+\contentsline {paragraph}{Random-pattern model.}{77}{chapter.34}%
+\contentsline {chapter}{\numberline {35}Information Geometry of Memory}{81}{chapter.35}%
+\contentsline {chapter}{\numberline {36}Projection, Abstraction, and Sufficient Memory States}{83}{chapter.36}%
+\contentsline {paragraph}{A linear example: projection onto the span of the traces.}{84}{theorem.36.4}%
+\contentsline {chapter}{\numberline {37}Memory as Preservation of Viable Continuation}{88}{chapter.37}%
+\contentsline {paragraph}{Setting.}{89}{theorem.37.3}%
+\contentsline {paragraph}{Relation to established results.}{90}{extension.37.1}%
+\contentsline {part}{VIII\hspace {1em}The Mem8 Computational Architecture}{93}{part.8}%
+\contentsline {chapter}{\numberline {38}Representational Substrate}{94}{chapter.38}%
+\contentsline {chapter}{\numberline {39}The Oscillatory Coordination Engine}{96}{chapter.39}%
+\contentsline {chapter}{\numberline {40}The Ecphoric Retrieval Engine}{98}{chapter.40}%
+\contentsline {chapter}{\numberline {41}Persistent Memory and Historical Provenance}{100}{chapter.41}%
+\contentsline {chapter}{\numberline {42}Adaptive Memory Organization}{103}{chapter.42}%
+\contentsline {paragraph}{A unified learning objective.}{104}{workedex.42.1}%
+\contentsline {chapter}{\numberline {43}Resource Scheduling and Bounded Computation}{106}{chapter.43}%
+\contentsline {chapter}{\numberline {44}Distributed and Asynchronous Memory}{108}{chapter.44}%
+\contentsline {chapter}{\numberline {45}Reference Implementation}{110}{chapter.45}%
+\contentsline {paragraph}{Encoding and partial-cue reconstruction (S1 to S3).}{110}{table.45.1}%
+\contentsline {paragraph}{Misleading cue (S4).}{112}{table.45.1}%
+\contentsline {paragraph}{Misleading and then corroborating evidence (S5 and S6).}{112}{table.45.1}%
+\contentsline {paragraph}{Later recollection (S7).}{112}{table.45.1}%
+\contentsline {paragraph}{Replay, audit and reversal (S8 to S10).}{113}{table.45.1}%
+\contentsline {part}{IX\hspace {1em}The Experimental Program}{115}{part.9}%
+\contentsline {chapter}{\numberline {46}Reproduction of the Wave-Based Retrieval Paper}{117}{chapter.46}%
+\contentsline {paragraph}{Acceptance.}{117}{chapter.46}%
+\contentsline {chapter}{\numberline {47}Ecphoric Pattern Completion}{118}{chapter.47}%
+\contentsline {chapter}{\numberline {48}Temporal Sequence Reconstruction}{119}{chapter.48}%
+\contentsline {paragraph}{Segmentation as a separate test.}{119}{chapter.48}%
+\contentsline {chapter}{\numberline {49}Contextual Interference and Source Attribution}{120}{chapter.49}%
+\contentsline {paragraph}{Warrant coverage.}{120}{chapter.49}%
+\contentsline {chapter}{\numberline {50}Consolidation and Reconsolidation}{121}{chapter.50}%
+\contentsline {chapter}{\numberline {51}Oscillatory Ablation Experiments}{122}{chapter.51}%
+\contentsline {paragraph}{An integrated longitudinal benchmark.}{122}{chapter.51}%
+\contentsline {chapter}{\numberline {52}Scaling and Computational Efficiency}{124}{chapter.52}%
+\contentsline {chapter}{\numberline {53}Robustness and Failure Analysis}{125}{chapter.53}%
+\contentsline {part}{X\hspace {1em}Interpretation and Limits}{126}{part.10}%
+\contentsline {chapter}{\numberline {54}What the Architecture Explains}{127}{chapter.54}%
+\contentsline {chapter}{\numberline {55}Biological Plausibility and Computational Equivalence}{129}{chapter.55}%
+\contentsline {chapter}{\numberline {56}Recollection without Phenomenology}{130}{chapter.56}%
+\contentsline {chapter}{\numberline {57}Memory, Identity, and Historical Continuity}{131}{chapter.57}%
+\contentsline {chapter}{\numberline {58}The Ideal Architecture and Its Realizable Approximations}{132}{chapter.58}%
+\contentsline {chapter}{\numberline {59}Open Mathematical Problems}{134}{chapter.59}%
+\contentsline {chapter}{\numberline {60}Conclusion: Memory as Organized Reinstatement}{136}{chapter.60}%
+\contentsline {chapter}{\numberline {A}Complex Hilbert Spaces and Realification}{137}{appendix.A}%
+\contentsline {chapter}{\numberline {B}The Resonance Score: Derivation and Properties}{138}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Spectral Graph Theory}{139}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Coupled-Oscillator Stability}{140}{appendix.D}%
+\contentsline {chapter}{\numberline {E}Recurrent Attractor Convergence}{141}{appendix.E}%
+\contentsline {chapter}{\numberline {F}Variational Inference}{142}{appendix.F}%
+\contentsline {chapter}{\numberline {G}Observability and Identifiability}{143}{appendix.G}%
+\contentsline {chapter}{\numberline {H}Rate--Distortion Theory}{144}{appendix.H}%
+\contentsline {chapter}{\numberline {I}Dynamical Sufficiency under Projection}{145}{appendix.I}%
+\contentsline {chapter}{\numberline {J}Computational Complexity}{146}{appendix.J}%
+\contentsline {chapter}{\numberline {K}Reproducibility Protocols}{147}{appendix.K}%
+\contentsline {chapter}{\numberline {L}A Minimal Mem8 Model}{148}{appendix.L}%
+\contentsline {chapter}{\numberline {M}Pilot Algebraic Verification}{149}{appendix.M}%
+\contentsline {chapter}{\numberline {N}Reconciliation with the July 2025 MEM|8 Specification}{153}{appendix.N}%
+\contentsline {section}{\numberline {N.1}Mapping of components}{153}{section.N.1}%
+\contentsline {section}{\numberline {N.2}Emotional modulation as a prior}{153}{section.N.2}%
+\contentsline {section}{\numberline {N.3}Context-dependent decay}{154}{section.N.3}%
+\contentsline {section}{\numberline {N.4}Noise-floor storage}{154}{section.N.4}%
+\contentsline {section}{\numberline {N.5}Repetition and the Custodian}{155}{section.N.5}%
+\contentsline {section}{\numberline {N.6}Reactive layers}{155}{section.N.6}%
+\contentsline {section}{\numberline {N.7}Coherence normalization}{155}{section.N.7}%
+\contentsline {section}{\numberline {N.8}Reported by the source and not adopted}{155}{section.N.8}%
+\contentsline {section}{\numberline {N.9}Arithmetic of the printed figures}{155}{section.N.9}%

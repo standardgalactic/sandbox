@@ -1,0 +1,262 @@
+\chapter{Complex Hilbert Spaces and Realification}\label{app:complex}
+
+Let $\C^n$ carry the inner product $\ip{u}{v}=\sum_xu_x^*v_x$, linear in the second argument. The monograph uses the opposite convention from the source paper \cite{listopad2025}, in which the product is linear in the first argument; only the real part $\Re\ip{u}{v}$ enters the resonance score, and it is the same under both conventions. The realification is the map $\iota:\C^n\to\R^{2n}$, $\iota(z)=(\Re z,\Im z)$. It is a real-linear isomorphism, preserves norms and the real inner product, $\Re\ip{u}{v}=\ip{\iota u}{\iota v}_{\R^{2n}}$, and intertwines multiplication by $\iu$ with the block matrix $J=\begin{pmatrix}0&-I\\ I&0\end{pmatrix}$, so that $\iota(\iu z)=J\iota(z)$.
+
+\begin{proposition}\label{prop:A1}
+A real-linear map $A$ on $\R^{2n}$ is the realification of a complex-linear map on $\C^n$ if and only if $AJ=JA$. The real-linear maps form a space of dimension $4n^2$ and the complex-linear maps a subspace of real dimension $2n^2$.
+\end{proposition}
+
+\begin{proof}
+A map $L$ on $\C^n$ is complex-linear if and only if $L(\iu z)=\iu L(z)$, which under $\iota$ reads $AJ=JA$ with $A=\iota L\iota^{-1}$. The commutant of $J$ consists of block matrices $\begin{pmatrix}P&-Q\\Q&P\end{pmatrix}$ with $P,Q$ real $n\times n$, giving $2n^2$ real parameters, against $4n^2$ for a general real $2n\times2n$ matrix.
+\end{proof}
+
+The proposition is the basis of the remark in Chapter~\ref{ch:equivalence} that complex-linear operators are a $2n^2$-dimensional subfamily of real-linear operators, so a real system of the same width is at least as expressive. A phase assignment restricted to $\phi\in\{0,\pi\}$ gives $\psi=\pm A$, a real vector, and in that case the score reduces to the norm-weighted cosine (Proposition~\ref{prop:signphase}).
+
+\chapter{The Resonance Score: Derivation and Properties}\label{app:score}
+
+For $\psi,q\in\C^n$ with energies $E_1=\norm\psi^2$ and $E_2=\norm q^2$, the score of the source paper is
+\begin{equation}
+S(\psi,q)=\frac12\,\frac{\norm{\psi+q}^2}{E_1+E_2}\,R,\qquad R=\frac{2\sqrt{E_1E_2}}{E_1+E_2}.
+\end{equation}
+Write $a=\norm\psi$, $b=\norm q$, $\rho=2ab/(a^2+b^2)=R$, and $c=\Re\ip\psi q/(ab)$ for the cosine of the real angle. Expanding $\norm{\psi+q}^2=a^2+b^2+2ab\,c$ and dividing by $a^2+b^2$ gives $1+\rho c$, so that
+\begin{equation}\label{eq:Aclosed}
+S(\psi,q)=\frac\rho2\,(1+\rho\,c).
+\end{equation}
+This is Theorem~\ref{thm:closed}. Several properties follow immediately. Since $\rho$ and $c$ depend only on the norms and on the real inner product, $S$ is invariant under every orthogonal transformation of $\R^{2n}$, in particular under all unitary maps and all realified rotations. On the unit sphere $\rho=1$ and $S=(1+c)/2$, so $S$ is a monotone function of the real cosine. For a query that is a positively aligned copy of $\psi$ at scale $\lambda$, $\rho=2\lambda/(1+\lambda^2)$ and $c=1$, so $S=\rho(1+\rho)/2$; for $\lambda=2$ one has $\rho=0.8$ and $S=0.72$. For an antiphase copy, $c=-1$ and $S=\rho(1-\rho)/2$, whose maximum over $\rho\in(0,1]$ is $1/8$ attained at $\rho=1/2$ and whose infimum is zero, attained as $\rho\to1$ or $\rho\to0$. On unit-norm patterns $\sqrt{1-S}=\tfrac12\norm{\psi-q}$, so $1-S$ is the square of a metric and not a metric itself, since the triangle inequality fails for squared distances in general. The equivalent forms $S=\norm{\psi+q}^2\norm\psi\norm q/(\norm\psi^2+\norm q^2)^2$ and $S=(E_1+E_2+2\Re\ip\psi q)\sqrt{E_1E_2}/(E_1+E_2)^2$ are algebraic rewritings of \eqref{eq:Aclosed}.
+
+\chapter{Spectral Graph Theory}\label{app:graph}
+
+For a weighted undirected graph on $N$ nodes with nonnegative symmetric weights $W_{ij}$ and degrees $d_i=\sum_jW_{ij}$, the Laplacian is $L=D-W$. For a vector $f\in\R^N$, $f^\top Lf=\tfrac12\sum_{ij}W_{ij}(f_i-f_j)^2\ge0$, so $L$ is positive semidefinite with the constant vector in its kernel, and the multiplicity of the zero eigenvalue is the number of connected components. The spectral theorem gives an orthonormal basis of eigenvectors $\phi_k$ with eigenvalues $0=\lambda_1\le\lambda_2\le\dots\le\lambda_N$, and the graph Fourier transform of a signal $f$ is the coefficient vector $\hat f_k=\ip{\phi_k}{f}$. By the Courant--Fischer principle $\lambda_k=\min_{\dim S=k}\max_{f\in S}f^\top Lf/\norm f^2$, so low eigenvalue modes are the smoothest signals on the graph. A real eigenmode $\phi_k$ is a standing pattern: every node oscillates in phase or in antiphase with the others, which is the discrete analogue of the standing-wave criterion of Chapter~\ref{ch:spectral}, where a mode $\varphi=e^{\iu\alpha}w$ with $w$ real is standing and a mode whose phases vary across nodes is traveling. Dynamic mode decomposition fits a linear operator to successive snapshots and returns complex eigenvalues whose arguments are the oscillation frequencies and whose moduli are the decay rates, and the complex eigenvectors of such an operator are generally traveling modes.
+
+\chapter{Coupled-Oscillator Stability}\label{app:osc}
+
+Let $K$ be symmetric and set $\omega_i=0$. The dynamics $\dot\theta_i=\sum_jK_{ij}\sin(\theta_j-\theta_i)$ is the gradient flow $\dot\theta=-\nabla V$ of $V(\theta)=-\sum_{i<j}K_{ij}\cos(\theta_j-\theta_i)$, since $\partial V/\partial\theta_i=-\sum_jK_{ij}\sin(\theta_j-\theta_i)$. Therefore $\dot V=-\norm{\nabla V}^2\le0$, and trajectories converge to the critical set of $V$, which is compact on the torus.
+
+For the explicit Euler discretization $\theta^+=\theta-\Delta t\nabla V(\theta)$ the descent lemma gives $V(\theta^+)\le V(\theta)-\Delta t\bigl(1-\tfrac12L_g\Delta t\bigr)\norm{\nabla V}^2$ when $\nabla V$ is $L_g$-Lipschitz. The Hessian has entries $H_{ii}=\sum_jK_{ij}\cos(\theta_j-\theta_i)$ and $H_{ij}=-K_{ij}\cos(\theta_j-\theta_i)$, so by the Gershgorin circle theorem every eigenvalue satisfies $|\lambda|\le2\max_i\sum_j|K_{ij}|=:2\kappa$, and one may take $L_g=2\kappa$. Therefore $V$ decreases at every step if $\Delta t<1/\kappa$. With a common frequency $\omega_i=\omega$ the same holds in the rotating frame. With distinct frequencies the flow is not a gradient and synchrony is possible only when the coupling exceeds the detuning, as in the Kuramoto analysis \cite{kuramoto1984,acebron2005}. For all-to-all coupling with $K_{ij}=K/N$ the global minimizer of $V$ is full synchrony, and the remark of Chapter~\ref{ch:oscengine} follows that unrestricted coupling maximizes alignment and therefore erases the phase differences that carry context.
+
+The complex Ginzburg--Landau equation \eqref{eq:cgl} with $I\equiv0$ has plane-wave solutions $\Psi=Ae^{\iu(k\cdot x-\nu t)}$ with $A^2=(\alpha-Dk^2)/\beta$ and $\nu=\Omega k^2-\omega+\chi A^2$ (Proposition~\ref{prop:planewave}), and after rescaling the Benjamin--Feir--Newell criterion $1+(\Omega/D)(\chi/\beta)>0$, equivalent to $D\beta+\Omega\chi>0$ for $D,\beta>0$, is the condition for the uniform oscillation to be stable to long-wavelength perturbations \cite{aranson2002}. In the damped regime $\alpha<0$ the origin is stable, there are no self-sustained plane waves, and oscillations persist only if driven by noise, which is the regime matching the subcritical Hopf model of the Cabral study. The self-sustained regime $\alpha>0$ is a design choice of the Mem8 oscillator and is not supported by that study.
+
+\chapter{Recurrent Attractor Convergence}\label{app:attractor}
+
+The softmax update $F(r)=\sum_iw_i(r)m_i$ with $w=\softmax(\beta\ip{m_i}{r})$ is the gradient map of the energy $\mathcal E(r)=\tfrac12\norm r^2-\beta^{-1}\ln\sum_je^{\beta\ip{m_j}{r}}$, since $\nabla\mathcal E(r)=r-F(r)$. Fixed points are critical points of $\mathcal E$. The Jacobian is $DF=\beta\Cov_w(m)$, positive semidefinite, with trace at most one for unit traces. Theorem~\ref{thm:contract} gives global contraction for $\beta<1$ and local stability at fixed points where $\beta\lambda_{\max}(\Cov_{w^\star}(m))<1$. For the cleanup bound of Proposition~\ref{prop:basin}, the weight outside the leading trace is at most $(P-1)e^{-\beta\Delta}$ for a margin $\Delta$. The Banach bounds of Lemma~\ref{lem:banach} give the residual and a priori bounds. A summary of the relations among the margin $\Delta$, the inverse temperature $\beta$, and the cap bound of Chapter~\ref{ch:capacity} is that for $P=e^{\kappa(n-1)}$ random traces the margin condition holds with probability tending to one provided $\beta(1-a-2\delta)>\kappa(n-1)$, where $a^2>2\kappa$ bounds the maximal overlap and $\delta$ the cue error.
+
+\chapter{Variational Inference}\label{app:var}
+
+For observed cue $c$ and latent cause $z$ with joint $p(c,z)$, and a variational distribution $q(z)$, the variational free energy is $\mathcal F[q]=\Ex_q[\ln q(z)-\ln p(c,z)]$. Writing $p(c,z)=p(z\mid c)p(c)$ gives
+\begin{equation}
+\mathcal F[q]=\KL\bigl(q\,\Vert\,p(\cdot\mid c)\bigr)-\ln p(c),
+\end{equation}
+so minimizing $\mathcal F$ over $q$ is the minimization of the Kullback--Leibler divergence to the posterior, attained at $q=p(\cdot\mid c)$, and the minimum is $-\ln p(c)$. If the memory is a mixture of Gaussians $p(x\mid i)=\mathcal N(m_i,\sigma_x^2I)$ with uniform prior over $i$ and the cue is a noisy observation $c=x+\xi$ with $\xi\sim\mathcal N(0,\sigma_c^2I)$, then the posterior over $i$ given $c$ is the softmax of $\ip{m_i}{c}/(\sigma_x^2+\sigma_c^2)$ when the traces have equal norm, so the posterior mean of the stored pattern is $\sum_iw_im_i$ with $\beta=1/(\sigma_x^2+\sigma_c^2)$. This is the interpretation of the softmax readout used in Chapter~\ref{ch:inference}. The decomposition of the expected error into reducible and irreducible parts is the usual one: the squared error of the posterior mean against the truth is the posterior variance, which cannot be reduced by any decoder using only $c$ and the model. Precision weighting multiplies the log-likelihood of the cue by a precision $\pi$, which for this family is a rescaling of $\beta$, so precision and the selection temperature are not separately identifiable from outcomes alone, as stated in Chapter~\ref{ch:precision}; separate identification needs cue-specific precision manipulations or time-course data. Active inference adds expected free energy as the criterion for action selection and is kept separate from recollection in Chapter~\ref{ch:active}.
+
+\chapter{Observability and Identifiability}\label{app:ident}
+
+The results of Chapter~\ref{ch:ident} are collected here with the proofs of their elementary lemmas. Let $E:\Hist\to\Mem$ and $T:\Hist\times\Cues\to\Recs$. Define $\ker E=\{(h_1,h_2):E(h_1)=E(h_2)\}$ and $\approx_T$ as the kernel of the profile map $h\mapsto T(h,\cdot)$. Sufficiency is $\ker E\subseteq{\approx_T}$. For a finite $\Hist$ with prior $p$, the optimal accuracy of identifying $h$ from $E(h)$ is the sum over fibers of the maximum prior mass (Proposition~\ref{prop:identlimit}). For a fixed cue $c$, the optimal accuracy of reconstructing $T(h,c)$ exactly is the sum over fibers $m$ of the largest total mass of a single value of $T(\cdot,c)$ within the fiber. It equals one if and only if $T(\cdot,c)$ is constant on every fiber, which is sufficiency for the single cue. Fano's inequality in the form $\Pr[\text{error}]\ge(H(h\mid E(h))-\ln2)/\ln|\Hist|$ gives a lower bound on the error that no decoder can beat. For noisy encodings the criterion is replaced by the comparison of the conditional laws of $T(h,c)$ given the memory state, and the identifiability limit becomes a statement about the Bayes risk of the posterior given the state.
+
+\chapter{Rate--Distortion Theory}\label{app:rd}
+
+For a source $X$ with a distortion measure $d$, the rate--distortion function is $R(D)=\min_{p(\hat x\mid x):\Ex d\le D}I(X;\hat X)$. For a Gaussian source with independent components of variance $\sigma^2$ and squared-error distortion, $R(D)=\tfrac12\log_2(\sigma^2/D)$ bits per component for $0<D<\sigma^2$ and zero otherwise \cite{cover2006}. The bound of Chapter~\ref{ch:compression} for a trace with $d$ real components and total squared distortion $\delta^2$ takes $D=\delta^2/d$. For a matrix store with singular values $\sigma_1\ge\sigma_2\ge\dots$ the Eckart--Young theorem states that the best rank-$k$ approximation in the Frobenius norm has error $(\sum_{j>k}\sigma_j^2)^{1/2}$ \cite{eckart1936}. Both are bounds under magnitude-based criteria. The sufficiency-based compression of Chapter~\ref{ch:compression} is a different object, because it discards by recollective class and can exceed any magnitude-based method on stores whose structure is largely irrelevant to the committed cue family.
+
+\chapter{Dynamical Sufficiency under Projection}\label{app:proj}
+
+The closure criterion of Proposition~\ref{prop:closure} is that $\pi(x)=\pi(y)\Rightarrow\pi(F(x))=\pi(F(y))$. For a finite stochastic kernel $P$ it is strong lumpability: the block sum $\sum_{y\in B}P(x,y)$ depends on $x$ only through the block of $x$ \cite{kemeny1960}. Closure is not preservation of identifying information: for any $F$ the projection to a single point is closed and discards everything (Example~\ref{ex:trivialproj}), and the constant map $F\equiv x_0$ is closed under every projection. For approximate closure with defect $\varepsilon$ and an $\bar L$-Lipschitz compressed map, the drift after $k$ steps is at most $\varepsilon\sum_{j<k}\bar L^j$ (Proposition~\ref{prop:drift2}). The projector onto the span of the traces satisfies $\Pi F=F=F\Pi$ for the softmax update (equation~\eqref{eq:blind}), and is therefore exactly closed.
+
+\chapter{Computational Complexity}\label{app:complexity}
+
+Let $P$ be the number of stored traces, $n$ the complex dimension, and $k$ the number of refinement steps. A single score $S(\psi,q)$ costs $O(n)$ operations, with a constant of a few complex multiplications. An exhaustive top-one query costs $O(Pn)$ operations plus the cost of selection, linear in $P$ at fixed $n$. The softmax reconstruction costs $O(Pn)$ per refinement step for the scores and the weighted sum, so $O(kPn)$ in total, and by Proposition~\ref{prop:stopping} the optimal $k$ grows as $\ln(R\ln(1/\lambda)/\varsigma)/\ln(1/\lambda)$. Memory for the traces is $O(Pn)$ complex numbers, that is $16Pn$ bytes at double precision. Approximate retrieval replaces $P$ by a candidate set of size $C\ll P$ at the cost of the index and a loss of recall. Replay for the ledger of Proposition~\ref{prop:derived} costs the number of records from the first affected position forward, which is linear in the length of the ledger in the worst case and is reduced by snapshots. The cost of the oscillator is $O(N^2)$ per step for dense coupling and $O(N\,\mathrm{deg})$ for sparse coupling. These counts are for the algorithms as specified and do not describe any measured implementation.
+
+\chapter{Reproducibility Protocols}\label{app:repro}
+
+Every experiment of Part~IX is run under the following protocol. The random seed, library versions, hardware description and a hash of the configuration are written to the ledger at the start of a run, so that the run is identified by its ledger. The data generators are deterministic functions of the seed. The primary metric, the statistical analysis and the acceptance rule are written to a pre-registration file before the first query is evaluated, and the file's hash is recorded. All retrievals are logged as interpretation records with the cue, the context, the scores and the iterates, so that any reported number can be recomputed from the log. Replay tests are part of the suite: the state rebuilt from the ledger must equal the live state bit for bit. Confidence intervals are computed by the bootstrap over seeds, with the seed as the unit of replication, and comparisons between systems use the same queries and the same seeds. Negative results and failures are reported with the same completeness as positive ones, and exploratory analyses are labeled as such. Latency measurements report the processor, the memory, the operating system, the language runtime, the number of threads, the cache state, and the percentiles, since averages alone conceal the tail.
+
+\chapter{A Minimal Mem8 Model}\label{app:minimal}
+
+The minimal model places resonance selection, contextual modulation, recurrent reconstruction and oscillatory coordination in one executable system. The state consists of persistent traces $m_1,\dots,m_P\in\C^n$, a context $z\in\R^n$, oscillator phases $\theta\in\mathbb T^n$, and a reconstruction state $r\in\C^n$. The context operator is the diagonal phase rotation $U(z,\theta)=\operatorname{diag}\bigl(e^{\iu(z_x+\theta_x)}\bigr)_{x=1}^n$, which is unitary. The scorer is $R(m,q)=S(m,q)$, the resonance score of Appendix~\ref{app:score}. One retrieval proceeds for $k=0,1,2,\dots$ by
+\begin{align}
+s_i^{(k)}&=R\bigl(m_i,\,U(z,\theta^{(k)})\,c\bigr),\\
+w_i^{(k)}&=\frac{\exp(\beta s_i^{(k)})}{\sum_j\exp(\beta s_j^{(k)})},\\
+r^{(k+1)}&=(1-\eta)\,r^{(k)}+\eta\sum_iw_i^{(k)}m_i,\\
+\theta_i^{(k+1)}&=\theta_i^{(k)}+\Delta t\Bigl[\omega_i+\sum_jK_{ij}\sin\bigl(\theta_j^{(k)}-\theta_i^{(k)}\bigr)\Bigr],
+\end{align}
+with $r^{(0)}=0$, a coupling matrix $K$ symmetric with $\Delta t<1/\max_i\sum_j|K_{ij}|$, and $\eta\in(0,1]$.
+
+Two properties of this baseline are stated to prevent overreading. First, the scores depend on the cue and the phases but not on $r^{(k)}$, and the phase dynamics does not depend on $r^{(k)}$ either. With the phases frozen, the weights $w^\star$ are constant in $k$ and the reconstruction relaxes linearly to the weighted mean: $r^{(k)}=\bigl(1-(1-\eta)^k\bigr)\sum_iw_i^\star m_i$, converging at the exact geometric rate $1-\eta$. The baseline therefore does not exhibit attractor dynamics. Replacing the cue by the current reconstruction in the score, $s_i=R(m_i,U\,r^{(k)})$, restores the feedback of the Hopfield-type update of Chapter~\ref{ch:attractor} and the analysis of Chapter~\ref{ch:stability} applies. Second, the baseline has no learning rule, no provenance, no temporal sequence representation and no uncertainty beyond the weights; these are added by the modules of Chapter~\ref{ch:refimpl}. The model is intended for testing implementations of the interfaces and for the algebraic checks of Appendix~\ref{app:pilot}, and not as a claim about memory.
+
+\chapter{Pilot Algebraic Verification}\label{app:pilot}
+
+The script of Listing~\ref{lst:pilot} checks, with a fixed random seed, the identities and bounds used in Parts~II, III and VII. It performs no evaluation of the architecture. Table~\ref{tab:pilot} lists the outputs. The closed form \eqref{eq:Aclosed}, the normalized reduction $S=(1+c)/2$, and the realification identity $\Re\ip uv=\ip{\iota u}{\iota v}$ were each compared with their definitions on random complex vectors, and the maximum absolute errors are at the level of double-precision rounding. For antiphase scaled copies the sampled minimum of $S$ was on the order of $10^{-11}$, consistent with the infimum zero stated in Appendix~\ref{app:score}; the maximum of $\rho(1-\rho)/2$ is $1/8$. The baseline recurrence converged at a ratio of $0.7=1-\eta$ with $\eta=0.3$, as stated in Appendix~\ref{app:minimal}. In the Kuramoto check, $V$ did not increase at any step under the step bound of Appendix~\ref{app:osc}.
+
+Two further scripts supply the examples of Parts~VI to VIII. The script \texttt{examples.py} (seed 32) computes and asserts every number of the worked examples, counterexamples and extensions of those parts, including the finite history space and the noisy-encoding risk of Chapter~\ref{ch:ident}, the three-trace spectrum and bistability window of Chapter~\ref{ch:stability}, the near-duplicate family of Chapter~\ref{ch:capacity}, the lumpability drift and the congruence refinement of Chapters~\ref{ch:projection} and~\ref{ch:viability}, and the closed forms of Part~VI, and it writes the macros that the text uses for these numbers, so that the numerical values quoted from these computations are not typed by hand. The script \texttt{lifecycle.py} runs the miniature memory lifecycle of Chapter~\ref{ch:refimpl} in exact arithmetic and asserts after every operation that the ledger has only grown and that its replay equals the store. The script \texttt{july.py} (seed 25) computes and asserts the figures of Appendix~\ref{app:july}. The Bayes-risk lower bound of Extension~\ref{ext:bayesrisk} was additionally checked on 2000 randomly drawn binary channels. 
+
+A second script, \texttt{pilot2.py}, checks Proposition~\ref{prop:map} and Proposition~\ref{prop:blend}. On 200 random instances with random store sizes, dimensions, prior and cue precisions and damping $\eta\in(0.05,1.9)$, the objective $J$ satisfied the stated descent inequality at every step of 60 iterations, and a finite-difference check confirmed the gradient identity $\nabla J=L(x-T(x))$ to within $10^{-6}$. On 100 random stores with $\beta<1$, the fixed point of the softmax update satisfied the weight bound $w_j\le e^{2\beta}/P$ and the distance bound of Proposition~\ref{prop:blend} for every stored trace.
+
+\begin{table}[t]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Check & Result\\
+\midrule
+Closed form against definition, max abs error & $4.4\times10^{-16}$\\
+Normalized reduction, max abs error & $3.3\times10^{-16}$\\
+Realification identity, max abs error & $4.4\times10^{-16}$\\
+Antiphase scaled copies, sampled minimum of $S$ & $2\times10^{-11}$\\
+Baseline recurrence, observed contraction ratio & $0.700$ ($=1-\eta$)\\
+Kuramoto, maximum increase of $V$ per step & $0$\\
+Kuramoto, final order parameter & $1.0$\\
+\bottomrule
+\end{tabular}
+\caption{Outputs of the pilot verification script.}\label{tab:pilot}
+\end{table}
+
+Table~\ref{tab:falseact} compares the empirical frequency of $\Re\ip uv>a$ for independent uniform unit vectors in $\C^n$ with the cap bound $(1-a^2)^{n-1}$ of equation~\eqref{eq:cap}, from $4\times10^5$ trials per entry. The bound holds in every case, and it is loose by a factor of between one and several orders of magnitude, as expected for a union-type bound.
+
+\begin{table}[t]
+\centering
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+$n$ & $a$ & Empirical frequency & Bound $(1-a^2)^{n-1}$\\
+\midrule
+16 & 0.2 & 0.1322 & 0.5421\\
+16 & 0.3 & 0.0449 & 0.2430\\
+16 & 0.4 & 0.0106 & 0.0731\\
+32 & 0.2 & 0.0547 & 0.2821\\
+32 & 0.3 & 0.0076 & 0.0537\\
+32 & 0.4 & 0.00043 & 0.0045\\
+64 & 0.2 & 0.0116 & 0.0764\\
+64 & 0.3 & 0.00029 & 0.0026\\
+64 & 0.4 & 0 (none observed) & $1.7\times10^{-5}$\\
+\bottomrule
+\end{tabular}
+\caption{Empirical frequency of $\Re\ip uv>a$ against the cap bound.}\label{tab:falseact}
+\end{table}
+
+\begin{small}
+\begin{center}\textbf{Listing~\refstepcounter{lstcount}\label{lst:pilot}\thelstcount.} Pilot verification script.\end{center}
+\VerbatimInput[fontsize=\scriptsize,numbers=left,numbersep=4pt]{pilot.py}
+\end{small}
+
+\chapter{Reconciliation with the July 2025 MEM|8 Specification}\label{app:july}
+
+\section*{Status and attribution}
+
+This appendix records the relation of the monograph to an earlier specification that bears the same name: C.~M.~Chenoweth and A.~A.~Chenoweth, \emph{MEM|8: A Wave-Based Cognitive Architecture for Multi-modal Memory Integration and Consciousness Simulation}, 26 July 2025 \cite{chenoweth2025}. Its byline also lists two language models, and the monograph cites it under its human authors. The earlier specification is cited here as the source of an architecture and of a vocabulary. The monograph does not claim to derive from it, and the relation of the two projects is a matter for the author to state; the sections below make no claim about it beyond the overlap that can be read off the two texts.
+
+The treatment follows one rule. A design component of the earlier specification is mapped, and where the mapping is natural it is given a precise form and a small check, labelled as a worked example, counterexample or extension of this monograph. A quantitative, performance or psychological claim of the earlier specification is listed as reported by its source, with the reason it is not adopted. No result of the earlier specification is asserted here. Every number below is computed by \texttt{july.py} from closed forms of this monograph or from figures printed in the earlier specification, and is written to the macro file that the text loads.
+
+\section{Mapping of components}
+
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{p{3.6cm}p{4.2cm}p{4.6cm}}
+\toprule
+Component of the earlier specification & Closest object in this monograph & Status \\
+\midrule
+Complex wave with amplitude, phase, decay and interference & Complex trace, resonance score of Part~II, decay of Chapter~\ref{ch:stability} & Retained; the score has a closed form and the decay is treated as a free scale \\
+Context-dependent decay time $\tau(c)$ & Recency scale of Part~VI & Retained as a parameter family; see Section~\ref{sec:july-decay} \\
+Emotional amplitude modulation & Prior weight on a trace & Reformulated; see Worked Example~\ref{ex:emotion-prior} \\
+Noise-floor storage with periodic sampling & Eligibility for inscription & Proposed formalization; see Worked Example~\ref{ex:peek} \\
+Temporal blankets, hard and soft & Admission filter before inscription & Proposed; hard is a fixed mask, soft is an adaptive mask \\
+Sensor arbitration & Evidence gate with one vote per source & Related; the gate is stricter and bounds any single source \\
+Four reactive layers & Cached retrieval versus reconstruction, plus a protective tier & The two hierarchies coexist; see Section~\ref{sec:july-layers} \\
+Custodian guard & Supervisory controller over the viable set & Proposed; see Section~\ref{sec:july-custodian} \\
+Repetition poisoning prevention & Drift bound of Chapter~\ref{ch:stability} and the repetition cap & Reformulated; see Counterexample~\ref{cex:pbreak} \\
+\texttt{.m8} and Marqant formats & Serialization of the append-only ledger & Not specified here; a format is an interface, not a theory \\
+Consciousness simulation & None & Not adopted \\
+\bottomrule
+\end{tabular}
+\caption{Components of the earlier specification and their treatment.}\label{tab:july-map}
+\end{table}
+
+\section{Emotional modulation as a prior}\label{sec:july-emotion}
+
+The earlier specification scales a trace amplitude by $(1+\alpha v)(1+\beta a)$ with valence $v$ and arousal $a$. Taking the printed constants $\alpha=0.3$ and $\beta=0.5$ at the extreme of the ranges, the largest gain is $g=\ngmax{}$ and the smallest, at $v=-1$ and $a=0$, is $0.7$.
+
+\begin{workedex}\label{ex:emotion-prior}
+The resonance score of Part~II for a unit query aligned with a trace of amplitude $g$ is $S(g)=\tfrac12\rho(1+\rho)$ with $\rho=2g/(1+g^2)$. It satisfies $S(g)=S(1/g)$ and $S(1)=1$. Hence a trace boosted to $g=\ngmax{}$ scores $S=\nSgmax{}$, and one attenuated to $g=0.7$ scores $\nSgmin{}$, both below the unmodulated score $1$. Emotional amplification applied to the amplitude therefore lowers the resonance of an otherwise perfect match. Against an unmodulated competitor with the same alignment and a softmax of inverse temperature $\beta=8$, the boosted trace receives weight $\nwboost{}$ rather than a preference. If the gain enters instead as a log prior, so that the weight is proportional to $g\,e^{\beta s}$, the boosted trace receives weight $\nwprior{}$, which equals the shift of the score by $\ln g/\beta=\nshift{}$.
+\end{workedex}
+
+The computation shows that amplitude is the wrong carrier for salience when retrieval is by resonance, and that a prior weight carries the same intent without penalizing a match. This is a statement about the formal model and not about affect.
+
+\section{Context-dependent decay}\label{sec:july-decay}
+
+The earlier specification sets $\tau(c)=\tau_{\mathrm{base}}\,R\,F\,T$ with factor ranges that, at their extremes, give a total multiplier from $\ntaulo{}$ to $\ntauhi{}$, a range of $\ntaurange{}$ to one.
+
+\begin{extension}\label{ext:tau-range}
+With decay $e^{-t/\tau}$ and the recency scale of Part~VI, the age at which the resonance score of an aligned trace falls to half is $\operatorname{arcosh}(\varphi)\,\tau=\nhalfscore{}\,\tau$, where $\varphi$ is the golden ratio. The half-score age therefore spans the same factor of $\ntaurange{}$ across contexts. Whether a given context range is reasonable is an empirical question that the monograph does not decide.
+\end{extension}
+
+\section{Noise-floor storage}
+
+The earlier specification stores sub-threshold signals with a small probability $p=0.01$ of examination at each step.
+
+\begin{workedex}\label{ex:peek}
+With independent examinations at probability $p=0.01$, the number of steps to the first examination is geometric with mean $\nnmean{}$ and median $\nnmedian{}$. To detect a persistent signal with probability at least $0.94$ requires $\nnninetyfour{}$ steps. The figures follow from $1-(1-p)^n$ and are confirmed by simulation. They show the cost of periodic sampling as a latency to detection and not a guarantee of detection.
+\end{workedex}
+
+\section{Repetition and the Custodian}\label{sec:july-custodian}
+
+The earlier specification gives a probability of interrupting repeated retrieval of the form $P_{\mathrm{break}}=1-e^{-\lambda(C-C_{\mathrm{th}})^2}$.
+
+\begin{counterex}\label{cex:pbreak}
+With $\lambda=0.01$ and $C_{\mathrm{th}}=10$, chosen only to display the effect, $P_{\mathrm{break}}(0)=P_{\mathrm{break}}(20)=\npbzero{}$. The square makes the expression symmetric about $C_{\mathrm{th}}$, so a trace that has never been repeated is interrupted with the same probability as one repeated twice the threshold. A one-sided form $1-e^{-\lambda\max(C-C_{\mathrm{th}},0)^2}$ removes the defect, and under it $P_{\mathrm{break}}(0)=0$.
+\end{counterex}
+
+\begin{extension}\label{ext:rep-cap}
+Self-reinforcing drift contracts the gap to the target by the factor $(1-\eta w)^n$ after $n$ retrievals (Chapter~\ref{ch:stability}). With $\eta=0.05$ and $w=0.4$, half the gap remains after $\nncaphalf{}$ retrievals, and a retained fraction of $0.8$ is the cap at $n=\nncapeightfloor{}$. A repetition cap of the Custodian type is thus a bound on a computable quantity, and may be set from the drift rate and a tolerated displacement.
+\end{extension}
+
+The supervisory role described for the Custodian can be stated within the framework of Chapter~\ref{ch:viability}: a controller that may veto any transition that would leave the viable set, together with a rule for reintroducing suppressed traces. The monograph supplies this reading as a design proposal. It does not supply a psychological safety guarantee.
+
+\section{Reactive layers}\label{sec:july-layers}
+
+The four layers of the earlier specification, from an immediate protective response through pattern-matched and emotionally modulated responses to deliberation, order responses by latency. The distinction of this monograph between cached retrieval and costly reconstruction is orthogonal: either may serve a layer. A combined system would add a protective tier whose transitions are always permitted, and would leave the rest to the criteria of the earlier parts.
+
+\section{Coherence normalization}
+
+\begin{counterex}\label{cex:coherence}
+The coherence of Equation~18 of the earlier specification is
+\[\frac{\bigl|\sum_jA_je^{i\phi_j}\bigr|^2}{\sum_jA_j^2}.\]
+For three in-phase unit amplitudes it equals $\ncthree{}$, not a value at most $1$. In general it is bounded by the number of components, and the normalized form $\bigl|\sum_jA_je^{i\phi_j}\bigr|\big/\sum_jA_j$ lies in $[0,1]$. The order parameter of Chapter~\ref{ch:stability} uses the latter.
+\end{counterex}
+
+\section{Reported by the source and not adopted}
+
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{p{5.2cm}p{7.2cm}}
+\toprule
+Claim of the earlier specification & Reason it is not adopted \\
+\midrule
+Insertion, retrieval and storage speed-ups over vector databases & No benchmark protocol, data or hardware baseline is given in enough detail to reproduce \\
+Semantic-preserving compression of 100 to 1 & No semantic fidelity measure is defined \\
+Energy per operation, ranking against other systems & Inconsistent with the printed power and latency; see Table~\ref{tab:july-arith} \\
+Constant-time associative retrieval against quadratic vector comparison & The cost depends on the index and on the grid; no argument is given \\
+Psychological safety and trauma-prevention properties & No operational definition and no evidence \\
+Consciousness simulation and related claims & No operational definition; outside the scope of this monograph \\
+\bottomrule
+\end{tabular}
+\caption{Claims listed as reported by their source.}\label{tab:july-report}
+\end{table}
+
+\section{Arithmetic of the printed figures}
+
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{p{6.0cm}p{6.4cm}}
+\toprule
+Printed figure & Recomputed value \\
+\midrule
+Grid $256\times256\times65536$ at 32 bytes per cell, memory & $\npts{}$ cells; $\ngbDC{}$ GB at 32 bytes, $\ngbEA{}$ GB at 40 bytes \\
+Compressed record of 32 bytes with five 8-byte fields & Five 8-byte fields total 40 bytes; the paper also prints 48 bytes for one example \\
+13 nJ per operation at 42 W and 12 \textmu s & $42\ \mathrm{W}\times12\ \mu\mathrm{s}=\nejoule{}\ \mu\mathrm{J}$, a factor $\neratio{}$ above 13 nJ; at 83 000 operations per second the energy is $\nopsE{}\ \mu\mathrm{J}$ \\
+65\,536 layers as 18.2 hours at millisecond resolution & $65\,536$ ms is $\nsecms{}$ s; 18.2 hours corresponds to one layer per second \\
+Speed-ups 973, 292 and 10.7 & Reproduced from the printed times and sizes ($\nins{}$, $\nret{}$, $\nsto{}$) \\
+\bottomrule
+\end{tabular}
+\caption{Consistency of figures printed in the earlier specification.}\label{tab:july-arith}
+\end{table}
+
+The first three rows are internal inconsistencies. Parallel execution and different measurement boundaries could change the energy reading, but they would have to be stated. The last row confirms only that the ratios follow from the printed times and sizes, which says nothing about whether the times are correct.

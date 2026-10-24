@@ -1,0 +1,122 @@
+\part{Predictive Inference and Memory}
+
+\chapter{Memory as Inference over Latent Causes}\label{ch:inference}
+
+Recollection is formulated as inference under a generative model in which the past organization is a latent cause of the present cue. Let $x$ denote the latent past organization, $M$ the persistent memory, $Z$ the current context, and $c$ the cue. The recollection problem is to compute or approximate
+\begin{equation}\label{eq:posterior}
+p(x_{t_0}\mid c_t,M_t,Z_t)\ \propto\ p(c_t\mid x_{t_0},Z_t)\,p(x_{t_0}\mid M_t).
+\end{equation}
+The factor $p(x\mid M)$ is the prior over past organizations that the persistent memory induces, and the factor $p(c\mid x,Z)$ is the cue likelihood, which says how a cue is produced from the past organization under the present context. The decomposition places the contribution of memory and the contribution of evidence in separate terms and makes explicit that recollection draws on both.
+
+The softmax retrieval rule that appears throughout the monograph is the exact Bayesian posterior mean under a simple instance of this model. Let the prior be a mixture of isotropic Gaussians centered on the stored traces, $p(x\mid M)=\sum_i\pi_i\,\mathcal N(x;m_i,\sigma_x^2I)$, and let the cue be a noisy full observation, $c=x+\xi$ with $\xi\sim\mathcal N(0,\sigma_c^2I)$, all in the realified space.
+
+\begin{proposition}[Softmax readout as posterior mean]\label{prop:posteriormean}
+Under this model the posterior is a mixture with weights $w_i\propto\pi_i\exp\bigl(-\norm{c-m_i}^2/(2s^2)\bigr)$, $s^2=\sigma_x^2+\sigma_c^2$, and posterior mean
+\begin{equation}\label{eq:postmean}
+\Ex[x\mid c]=(1-g)\sum_iw_im_i+g\,c,\qquad g=\frac{\sigma_x^2}{\sigma_x^2+\sigma_c^2}.
+\end{equation}
+If the traces and the cue have equal norms and the prior is uniform, then $w_i=\softmax_i(\beta\ip{c}{m_i})$ with $\beta=1/s^2$, the weight rule of \eqref{eq:modernhop}.
+\end{proposition}
+
+\begin{proof}
+Marginalizing $x$ within component $i$, the cue is distributed as $\mathcal N(m_i,s^2I)$, which gives the mixture weights by Bayes' rule. Within component $i$ the posterior of $x$ is Gaussian with mean $(\sigma_c^2m_i+\sigma_x^2c)/s^2=(1-g)m_i+gc$. Averaging over components gives \eqref{eq:postmean}. For equal norms, $\norm{c-m_i}^2=\norm c^2+\norm{m_i}^2-2\ip c{m_i}$, and the terms that do not depend on $i$ cancel in the normalization, leaving $w_i\propto\exp(\ip c{m_i}/s^2)$.
+\end{proof}
+
+The resemblance between this expression and the recurrent relaxation step needs care, because two different operators are involved. The posterior mean \eqref{eq:postmean} is a one-shot reconstruction operator: its weights are evaluated at the cue, with inverse temperature $\beta_c=1/(\sigma_x^2+\sigma_c^2)$, and the coefficient $g$ weights the observation itself, so that a precise cue ($\sigma_c\to0$) gives $g\to1$ and the reconstruction follows the cue. The relaxation step of the minimal model, $r^{(k+1)}=(1-\eta)r^{(k)}+\eta\sum_iw_i(r^{(k)})m_i$, is an iteration whose weights are evaluated at the current state and whose coefficient $\eta$ is a step size and not a reliability ratio. Both are convex combinations of a memory-weighted readout with another vector, and that is all the resemblance establishes. A formal relationship requires an objective whose stationary points the iteration computes, and such an objective exists. Take unit-norm traces, a uniform prior, and write $\beta_x=1/\sigma_x^2$ and $\mathcal E_{\beta}$ for the energy of Chapter~\ref{ch:attractor} at inverse temperature $\beta$. The negative log of the unnormalized posterior over the latent organization $x$ given the cue is, up to an additive constant,
+\begin{equation}\label{eq:Jobj}
+J(x)=\beta_x\,\mathcal E_{\beta_x}(x)+\frac{\norm{x-c}^2}{2\sigma_c^2},
+\end{equation}
+since $\log\sum_ie^{-\norm{x-m_i}^2/2\sigma_x^2}=-\tfrac12\beta_x\norm x^2+\log\sum_ie^{\beta_x\ip{m_i}{x}}+\mathrm{const}$ for unit-norm traces.
+
+\begin{proposition}[Cue-anchored recurrence computes posterior modes]\label{prop:map}
+Let $L=\beta_x+\sigma_c^{-2}$, let $g=\sigma_x^2/(\sigma_x^2+\sigma_c^2)$, and define $T(x)=(1-g)F_{\beta_x}(x)+g\,c$, where $F_{\beta_x}$ is the softmax update \eqref{eq:modernhop} at inverse temperature $\beta_x$. Then $\nabla J(x)=L\,(x-T(x))$, so the stationary points of $J$ are exactly the fixed points of $T$. For every $\eta\in(0,2)$ the damped iteration $x^{+}=(1-\eta)x+\eta\,T(x)$ satisfies
+\begin{equation}
+J(x^{+})\le J(x)-L\,\eta\Bigl(1-\frac\eta2\Bigr)\norm{x-T(x)}^2,
+\end{equation}
+so $J$ decreases along the iteration, and every limit point of the iteration is a fixed point of $T$. When $\sigma_c\to\infty$ the iteration reduces to the cue-free relaxation $x^+=(1-\eta)x+\eta F_{\beta_x}(x)$, which descends the energy $\mathcal E_{\beta_x}$.
+\end{proposition}
+
+\begin{proof}
+The gradient is $\nabla J(x)=\beta_x(x-F_{\beta_x}(x))+(x-c)/\sigma_c^2$. Since $L(1-g)=\beta_x$ and $Lg=\sigma_c^{-2}$, this equals $L(x-T(x))$. For the decrease, write $J(x)=\tfrac12L\norm x^2-\ip x c/\sigma_c^2-\ell(x)+\mathrm{const}$ with $\ell(x)=\log\sum_ie^{\beta_x\ip{m_i}{x}}$, which is convex with $\nabla\ell(x)=\beta_xF_{\beta_x}(x)$. Linearizing $\ell$ at $x$ gives the majorizer $\tilde Q(y)=\tfrac12L\norm y^2-\ip yc/\sigma_c^2-\ell(x)-\ip{\beta_xF_{\beta_x}(x)}{y-x}\ge J(y)$ with equality at $y=x$. The function $\tilde Q$ is a quadratic of curvature $L$ minimized at $y=T(x)$, with $\nabla\tilde Q(x)=-L(T(x)-x)$. Along the segment $x+\eta(T(x)-x)$, $\tilde Q$ equals $\tilde Q(x)-L(\eta-\eta^2/2)\norm{T(x)-x}^2$, and $J\le\tilde Q$ with $J(x)=\tilde Q(x)$ gives the stated inequality. The function $J$ is bounded below and coercive, because $\log\sum_ie^{\beta_x\ip{m_i}{x}}\le\log P+\beta_x\norm x$. The summed decreases are therefore finite, $\norm{x-T(x)}\to0$, and continuity of $T$ shows that limit points are fixed points. The final statement is the case $L=\beta_x$, $g=0$.
+\end{proof}
+
+The proposition is the precise relationship between the two operators. The recurrent iteration is a monotone algorithm for the posterior mode, an instance of the concave--convex procedure, and in the cue-free case it is the mean-shift or expectation-maximization mode-finding iteration for the Gaussian mixture density of variance $\sigma_x^2$ \cite{carreira2000}. The posterior mean \eqref{eq:postmean} is a different object, a minimum-mean-square-error estimate evaluated at the cue with the flatter weights $\beta_c<\beta_x$. The two agree when the memory holds a single trace, since then $F\equiv m_1$ and both reduce to $(1-g)m_1+gc$, and in general they differ: the mode of a multimodal posterior is a stored trace blended with the cue, while the posterior mean is an average over modes. The monograph therefore treats them as two reconstruction operators that answer different questions, and the sharpness parameter that governs selection in the recurrent iteration is $\beta_x=\sigma_x^{-2}$, the precision of the prior around each trace, and not the total precision of the cue and trace.
+
+Three forms of inference over time should be distinguished. Filtering estimates the present state from past observations and is the mode used in forward prediction. Smoothing estimates a past state from observations that include later ones, and recollection of an earlier episode is naturally a smoothing problem, because the cue at recall time, and what has been learned since, are evidence about the earlier state. Prediction extrapolates forward from an estimated state. Reconstruction and prediction are therefore posteriors over latent states at different times under a common generative model, which accounts for the empirical coupling between remembering the past and imagining the future without identifying the two. Amortized inference replaces the iterative computation of the posterior by a trained map $q_\phi(x\mid c,M,Z)$; the penalty is the amortization gap, the expected divergence $\Ex_c\KL(q_\phi(\cdot\mid c)\,\Vert\,p(\cdot\mid c))$ between the learned approximation and the true posterior, and Chapter~\ref{ch:amortized} treats when it is worth paying.
+
+\chapter{Variational Ecphory}\label{ch:variational}
+
+Let $q$ be an approximate posterior over the latent organization. The variational free energy of the recollection problem is
+\begin{equation}\label{eq:vfe}
+\mathcal F[q]=\Ex_q\bigl[-\log p(c,x\mid M,Z)\bigr]-H(q).
+\end{equation}
+
+\begin{proposition}[Decomposition of the free energy]\label{prop:vfe}
+For every distribution $q$ with support contained in that of the posterior, $\mathcal F[q]=\KL\bigl(q\,\Vert\,p(\cdot\mid c,M,Z)\bigr)-\log p(c\mid M,Z)$. Hence $\mathcal F[q]\ge-\log p(c\mid M,Z)$ with equality if and only if $q$ is the exact posterior.
+\end{proposition}
+
+\begin{proof}
+Write $p(c,x\mid M,Z)=p(x\mid c,M,Z)\,p(c\mid M,Z)$. Then $\Ex_q[-\log p(c,x)]=\Ex_q[-\log p(x\mid c)]-\log p(c)$, and $-H(q)=\Ex_q[\log q]$, so the sum is $\Ex_q[\log q-\log p(x\mid c)]-\log p(c)=\KL(q\Vert p(\cdot\mid c))-\log p(c)$. Nonnegativity of the divergence gives the inequality and its equality case.
+\end{proof}
+
+Two sources of uncertainty enter any recollection and the framework requires that they be kept apart. The first is uncertainty about the historical episode that remains even when the posterior is computed exactly, measured by the posterior entropy $H(p(\cdot\mid c,M,Z))$ and, for point estimates, by the posterior covariance. It is a property of what the memory and the cue together determine. The second is uncertainty caused by present retrieval dynamics: the system does not hold the exact posterior but a truncated or biased approximation $q_k$ after $k$ iterations, and its excess relative to the exact posterior is the inference gap $\mathcal F[q_k]-\mathcal F[p]=\KL(q_k\Vert p)\ge0$. For a point estimate $\hat x$ that is a function of the cue, the corresponding decomposition of squared error is exact.
+
+\begin{proposition}[Irreducible and reducible error]\label{prop:error}
+For any estimator $\hat x(c)$ and posterior mean $\mu(c)=\Ex[x\mid c]$, $\Ex\bigl[\norm{x-\hat x(c)}^2\mid c\bigr]=\operatorname{tr}\Cov(x\mid c)+\norm{\mu(c)-\hat x(c)}^2$. The first term does not depend on the estimator and is the irreducible uncertainty about the episode given cue and memory; the second is the reducible part attributable to the retrieval procedure.
+\end{proposition}
+
+\begin{proof}
+Add and subtract $\mu(c)$ inside the norm; the cross term vanishes because $\Ex[x-\mu(c)\mid c]=0$.
+\end{proof}
+
+The monograph reports reconstruction error in this decomposed form wherever the posterior is available, so that an improvement in retrieval dynamics cannot be mistaken for a reduction in intrinsic uncertainty and a system that is confidently wrong can be distinguished from one that is appropriately uncertain.
+
+\chapter{Precision Weighting and Resonance Selection}\label{ch:precision}
+
+Precision-sensitive cue integration weights each source of evidence by its reliability, and the architecture contains three places where an oscillatory coherence signal could plausibly act. It could change the gain on incoming evidence, so that coherent states give more weight to the cue. It could change the selection of memory traces, so that coherence sharpens or flattens the competition among them. It could change the transition dynamics of the reconstruction process, so that coherence speeds or slows convergence. These are distinct hypotheses with different observable signatures, and the first task is to determine which of them are distinguishable at all from outcomes.
+
+Consider unit-norm traces and several cues $c_1,\dots,c_J$ with precisions $\Pi_1,\dots,\Pi_J$, each cue observing the target with independent Gaussian noise of variance $1/\Pi_j$. By the calculation of Proposition~\ref{prop:posteriormean} extended to several cues, the trace weights are
+\begin{equation}\label{eq:multicue}
+w_i\ \propto\ \pi_i\exp\Bigl(\sum_{j=1}^J\Pi_j\ip{c_j}{m_i}\Bigr).
+\end{equation}
+A uniform gain $\gamma$ on all evidence multiplies every $\Pi_j$ by $\gamma$, and a change of the selection temperature, $\beta\mapsto\gamma\beta$, multiplies the whole exponent by $\gamma$ as well.
+
+\begin{proposition}[Identifiability of the three loci]\label{prop:loci}
+(i) A uniform gain on evidence and a change of the selection inverse temperature produce identical trace weights, and cannot be distinguished by the weights, the reconstruction at convergence, or the accuracy. (ii) They can be distinguished by cue-specific precision, because gain changes act on $\Pi_j/\Pi_{j'}$ only if the gain depends on the cue, whereas a temperature change leaves relative cue weighting fixed. (iii) A change of the relaxation coefficient $\eta$ in $r^{(k+1)}=(1-\eta)r^{(k)}+\eta\sum_iw_im_i$ leaves the fixed point unchanged and changes only the rate, with error $(1-\eta)^k\norm{r^{(0)}-r^\star}$ at step $k$.
+\end{proposition}
+
+\begin{proof}
+(i) is immediate from \eqref{eq:multicue}: the exponent is scaled by $\gamma$ in both cases. For (ii), if the gain applies uniformly then $\Pi_j/\Pi_{j'}$ is unchanged, and the weight vector is a function only of the common scale and the ratios, so a uniform gain cannot be told from a temperature change; a cue-specific gain changes the ratios, which no temperature change can do. For (iii), the fixed point of $r\mapsto(1-\eta)r+\eta v$ with $v=\sum_iw_im_i$ is $v$ for every $\eta\in(0,1]$, and $r^{(k)}-v=(1-\eta)^k(r^{(0)}-v)$.
+\end{proof}
+
+The implication for empirical discrimination is a design requirement. To separate the gain and selection hypotheses the experiment must manipulate the relative reliability of two or more cues while manipulating coherence; to separate transition effects from the other two, it must record the time course of convergence in addition to the endpoint. A coherence manipulation that changes only endpoint accuracy cannot discriminate among the three, and the program in Chapter~\ref{ch:ablation} is specified to include these manipulations.
+
+\chapter{Active Inference and Prospective Memory}\label{ch:active}
+
+Reconstruction extends to action selection and future simulation by embedding the recollected state in a model of the future. The standard formalism, active inference, evaluates candidate policies $\pi$ by their expected free energy,
+\begin{equation}\label{eq:efe}
+G(\pi)=\Ex_{q(o,s\mid\pi)}\bigl[\log q(s\mid\pi)-\log p(o,s\mid\pi)\bigr]
+\end{equation}
+which, under a prior preference distribution $p(o)$ over outcomes, decomposes into a risk term, the divergence of predicted outcomes from preferred outcomes, and an ambiguity term, the expected uncertainty of outcomes given states \cite{friston2017,parr2022}. Remembered states enter through the predictive prior: a recollection $q(x_{t_0}\mid c,M,Z)$ informs beliefs about the present and future state through the transition model $p(s_{t+1}\mid s_t,a)$ for states that depend on the remembered organization. Remembering is not thereby identified with planning, because the two computations condition on different things. Recollection conditions on a cue about the past and on persistent memory, and its posterior \eqref{eq:posterior} contains no term for preferences or policies. Planning conditions on candidate policies and on preferences, and its posterior over policies is proportional to $\exp(-\gamma G(\pi))$. They are connected through the shared generative model and distinct in the quantities that define their objectives.
+
+It follows that the value of a future continuation is not equivalent to the historical accuracy of a recollection, and a system optimizing one can sacrifice the other. A reconstruction biased toward outcomes that are favorable under the current preferences can have higher expected value for action selection and lower fidelity to the history, and an accurate reconstruction of a history irrelevant to the present can be of no value. Mem8 therefore keeps two separately defined objectives. The recollection objective is the variational free energy of Chapter~\ref{ch:variational}, with historical fidelity measured against the ledger, and the decision objective is the expected free energy \eqref{eq:efe} or a utility from Chapter~\ref{ch:viability}. A specification that merged them into a single scalar would make it impossible to detect the case in which fidelity has been traded for value, and the architecture rules out silent trade by treating fidelity as a constraint, not as one term of a sum, in Chapter~\ref{ch:viability}.
+
+\chapter{Amortized Deliberation and Learned Retrieval Policies}\label{ch:amortized}
+
+Reconstruction costs computation, and the cost is not always justified. The system faces a recurring choice among three actions when a cue arrives: to reuse a cached reconstruction produced earlier for a similar cue and context, to initiate a full ecphoric process, or to acquire further evidence before reconstructing. The distinction between costly reconstruction and cached retrieval is the memory-specific instance of a general distinction between deliberation whose cost is paid at decision time and responses amortized from earlier deliberation, with the cost spread over many uses; the same decision-theoretic structure applies whether the cached object is an intuitive judgment or a stored reconstruction, and what varies is only the price and the validity conditions.
+
+The contraction analysis of Chapter~\ref{ch:ecphoric} supplies a principled validity condition for the cache and a principled stopping rule for the iteration.
+
+\begin{proposition}[Cache validity radius and iteration budget]\label{prop:cache}
+Let the reconstruction map be a $\lambda$-contraction with cue-Lipschitz constant $L_c$ as in Theorem~\ref{thm:converge}. A reconstruction cached for cue $c'$ is within $\varepsilon$ of the fixed point for cue $c$ whenever $d(c,c')\le\varepsilon(1-\lambda)/L_c$. Starting from any $r^{(0)}$, the iteration is within $\varepsilon$ of its fixed point after
+\begin{equation}
+k\ \ge\ \frac{\ln\bigl(\varepsilon(1-\lambda)/d(r^{(1)},r^{(0)})\bigr)}{\ln\lambda}
+\end{equation}
+steps. In the relaxation map of the minimal model with fixed weights, $\lambda=1-\eta$ and the error after $k$ steps equals $(1-\eta)^k$ times the initial error.
+\end{proposition}
+
+\begin{proof}
+The first statement is part (iii) of Theorem~\ref{thm:converge} rearranged. The second solves $\lambda^kd(r^{(1)},r^{(0)})/(1-\lambda)\le\varepsilon$ for $k$, noting that $\ln\lambda<0$ reverses the inequality. The last statement is part (iii) of Proposition~\ref{prop:loci}.
+\end{proof}
+
+A policy for the choice among reuse, reconstruction, and evidence acquisition is a map from the observable state, which includes the cue, the context, the age and provenance of the cached item, and the current uncertainty, to an action. The optimal policy compares net values: reuse has cost near zero and a value reduced by the expected error at cache distance; reconstruction has cost proportional to the iteration count of Proposition~\ref{prop:cache} and a value corresponding to the residual error; evidence acquisition has the cost of the observation and a value equal to the expected reduction of posterior uncertainty, which the variational account of Chapter~\ref{ch:variational} makes computable as an expected information gain. Under a myopic value-of-computation criterion, the iteration continues while the expected decrease in loss from one more step exceeds the marginal cost of the step, and stops otherwise. A learned retrieval policy amortizes this decision as a trained classifier over the observable state, which is itself an instance of the amortized deliberation that it governs: the policy's own cost is paid once at training and spread over all later decisions, and its validity depends on the stationarity of the distribution of cues, so its failure under distribution shift is a failure mode to be tested in Chapter~\ref{ch:failure}.
