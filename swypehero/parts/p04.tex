@@ -1,0 +1,244 @@
+This part defines how a stroke is turned into a decision. It begins with the normalization that makes strokes comparable, describes a deterministic baseline recognizer, and then develops three families of alternatives: elastic alignment, geometric features, and a probabilistic formulation that supplies calibrated confidence. The later chapters of the part treat rejection, early recognition, personalization and evaluation. Every recognizer in the part implements the same interface (Chapter~\ref{ch:recognition-engine}) and is evaluated on the same recordings, so that the choice between them is an empirical matter.
+
+\chapter{Input Normalization}\label{ch:normalization}
+
+\section{The pipeline}
+
+Normalization converts a raw gesture of arbitrary length, position and size into a fixed-length representation in a canonical frame. It is a pipeline of pure functions, each taking a gesture and returning a gesture, with no hidden state, and the pipeline as a whole carries a version identifier. The stages, in order, are conditioning, smoothing, resampling, centering, scaling and optional rotation.
+
+\emph{Conditioning} removes samples that do not carry information: consecutive samples at the same position, and samples with a non-increasing timestamp, which can arise from event coalescing. \emph{Smoothing} is optional and applies a low-pass filter to reduce jitter. For a pointing device the adaptive one-euro filter has the useful property that it reduces jitter at low speed and lag at high speed \cite{casiez2012}\evD{}; the baseline pipeline uses a simple three-point weighted average with weights $(\tfrac14,\tfrac12,\tfrac14)$ applied to interior points, and the filter variants are alternatives to be compared. \emph{Resampling} replaces the stroke by $N$ points equally spaced along its arc length; with the common choice $N=64$ this suffices to represent the gestures of the vocabulary and is the value used by comparable recognizers \cite{wobbrock2007}.\evD{} \emph{Centering} translates the points so that their centroid is the origin. \emph{Scaling} divides the coordinates by a size measure of the stroke. \emph{Rotation} is applied only when the invariance group contains rotations.
+
+\section{Resampling}
+
+Let a conditioned stroke have points $p_1,\dots,p_M$ and total length $\ell$. The resampled stroke has points $q_1,\dots,q_N$ with $q_k=\gamma\bigl(\tfrac{k-1}{N-1}\ell\bigr)$, where $\gamma$ is the piecewise-linear arc-length parameterization of the stroke. The first and last points are therefore preserved exactly, and the result is independent of the original sampling density. A stroke with $\ell=0$ cannot be resampled and is rejected before this stage. The algorithm is given in Appendix~\ref{app:algorithms}.
+
+\section{Scale normalization}
+
+The size of a stroke is measured by $S(G)=\max(w,h)$ where $w$ and $h$ are the width and height of its bounding box, and the normalized coordinates are $q_k/S(G)$, so that the larger side of the bounding box has length one. Uniform scaling by the larger side preserves the aspect ratio, which is essential for distinguishing a line from a circle or an oval from a circle, and it is well defined for a straight line, whose bounding box has zero extent in one direction. Scaling each axis independently to a unit square, as some recognizers do, destroys that information and makes a horizontal line indistinguishable from a diagonal. A stroke with $S(G)$ below $S_{\min}$ is rejected as too small to normalize (Chapter~\ref{ch:execution}).\evS
+
+\section{Coordinate transformations}
+
+Pointer events deliver coordinates in CSS pixels relative to the viewport. The transformation to logical units is composed of a translation by the position of the playfield element, a scaling by $W_p/\text{width in CSS pixels}$, and no rotation, since the drawing surface is not rotated. On a device that changes orientation, the transformation is recomputed and strokes in progress are discarded. The device pixel ratio does not enter the logical coordinates at all, as stated in Requirement~\ref{req:logical}. For a keyboard overlay (Part~\ref{part:words}) there is a second, fixed transformation from logical coordinates to key widths, determined by the layout of the displayed keyboard.
+
+\begin{requirement}[Preserve and version]\label{req:pipeline-version}
+Every stage of the normalization pipeline \must{} be a pure function of its input and its parameters. The pipeline \must{} be identified by a version string recorded with every recognition result, and the raw gesture \must{} be retained alongside any normalized form.\evS
+\end{requirement}
+
+\chapter{Baseline Template Matching}\label{ch:template-matching}
+
+\section{The recognizer}
+
+The baseline is the simplest recognizer that is useful. It is deterministic, it has no learned parameters other than the templates, and it runs entirely in the browser. The library $\Lib$ contains for each gesture $g$ one or more templates $T_{g,1},\dots,T_{g,m_g}$, each already normalized by the same pipeline as the input. Given a normalized stroke $G$ with $N$ points, the distance to a template is the mean pointwise Euclidean distance,
+\[
+d(G,T)=\frac1N\sum_{k=1}^{N}\norm{G_k-T_k},
+\]
+and the distance to a gesture is the smallest matching cost (Chapter~\ref{ch:invariance}) to any of its templates, where the cost minimizes $d$ over the allowed set $\mathcal S_g$ that the candidate gesture declares,
+\[
+d_g(G)=\min_{m}\;c_g(G,T_{g,m}),\qquad c_g(G,T)=\min_{s\in\mathcal S_g}d(sG,T).
+\]
+The cost is directional: each candidate applies its own allowance to the input, and no claim is made that $d_g(G)$ is a metric in $G$ and $g$. The ranked list of gestures by $d_g(G)$, with ties broken by library order, is the output of the matching stage. It is the \emph{geometric} ranking, and it is distinct from the posterior ranking of Chapter~\ref{ch:probabilistic}, which can differ from it once priors or gesture-specific tolerances enter. The decision stage that turns the ranking into an outcome is the subject of Chapter~\ref{ch:confidence}.
+
+\section{Cost and reproducibility}
+
+For a library of $K$ gestures with $m$ templates each, one recognition takes $O(KmN)$ operations before the invariance search, which for the first milestone ($K=20$, $m=1$, $N=64$) is on the order of a thousand distance evaluations. Rotation invariance with the closed-form angle of Chapter~\ref{ch:invariance} adds a constant factor, and reflection and reversal each double the count. The cost is negligible on any device that runs a modern browser, and Chapter~\ref{ch:performance} sets the budget formally.
+
+The baseline is reproducible in principle because it contains no randomness. In practice, floating-point results depend on the implementation of elementary functions. The ECMAScript specification permits implementation-approximated results for transcendental functions such as sine, cosine and arctangent, so two engines may differ in the last digits.\evD{} The consequence is that the specification asks for reproducibility to a tolerance and not to the bit. Fixtures (Appendix~\ref{app:fixtures}) record expected distances to a tolerance of $10^{-9}$ and record the margin by which each decision exceeds its threshold, so that a decision that depends on a rounding difference is detected as a fragile fixture and not as a failure of the implementation.
+
+\begin{requirement}[Baseline determinism]\label{req:baseline-determinism}
+Given the same normalized stroke, library and parameters, the baseline recognizer \must{} return the same ranking on every conforming implementation, and its numerical distances \must{} agree to within $10^{-9}$.\evS
+\end{requirement}
+
+\chapter{Dynamic Time Warping}\label{ch:dtw}
+
+\section{Elastic alignment}
+
+The pointwise distance of Chapter~\ref{ch:template-matching} compares the $k$th point of the stroke with the $k$th point of the template. It is correct when the two have been resampled to correspond by arc length, and it is sensitive to local misalignment: a player who draws a corner slightly early shifts every subsequent point. Dynamic time warping (DTW) relaxes the correspondence, allowing a point of one sequence to be matched to several points of the other, subject to monotonicity \cite{sakoe1978}.\evD{} For sequences $a_1,\dots,a_n$ and $b_1,\dots,b_m$ with local cost $c(i,j)=\norm{a_i-b_j}$, define the accumulated cost by the \emph{symmetric} recursion, in which a diagonal step carries twice the local cost,
+\[
+D(i,j)=\min\bigl\{D(i-1,j)+c(i,j),\ D(i,j-1)+c(i,j),\ D(i-1,j-1)+2\,c(i,j)\bigr\},
+\]
+with $D(0,0)=0$ and $D(i,0)=D(0,j)=\infty$ for $i,j>0$. The DTW distance is $D(n,m)/(n+m)$.
+
+The weights are chosen so that the normalizer is exact and not a convention. Every admissible path from $(1,1)$ to $(n,m)$ accumulates local costs whose weights sum to $n+m$: a horizontal or vertical step increases $i+j$ by one and carries weight one, a diagonal step increases $i+j$ by two and carries weight two, and the first cell, reached by a diagonal step from $(0,0)$, carries weight two. Hence $D(n,m)/(n+m)$ is a weighted average of local costs along the selected path, whatever the number of cells in that path. With the unweighted recursion, by contrast, paths of the same inputs have different numbers of cells, between $\max(n,m)$ and $n+m-1$, and a fixed denominator $n+m$ is not an average over the path; it also places the value on a scale about half that of the pointwise distance. For $n=m$ the symmetric form agrees with the pointwise distance of Chapter~\ref{ch:template-matching} on the diagonal path, and since that path is admissible whenever the band contains the diagonal, the DTW distance is never larger than the pointwise distance of the same two sequences.\evD{} The two recognizers are therefore on the same scale and can share thresholds as a starting point.
+
+\section{Constraints and complexity}
+
+Unconstrained DTW takes $O(nm)$ time and, if only the final value is needed, $O(\min(n,m))$ memory by keeping two rows. A global constraint restricts the alignment to a band around the diagonal. The Sakoe--Chiba band admits only cells with $\abs{i-j}\le w$, which reduces the time to $O(nw)$ and prevents the pathological alignments in which a long run of one sequence is matched to a single point of the other.\evD{} A band width of about ten percent of the sequence length is a typical starting value and is tuned on recorded strokes. Lower bounds such as that of Keogh allow most templates to be discarded without computing the full alignment, which matters when the library is a lexicon of tens of thousands of words but not when it is twenty shapes \cite{keogh2005}.\evD{}
+
+\section{When warping helps and when it does not}
+
+After arc-length resampling, DTW no longer compensates for differences in drawing speed, because speed has already been removed. What it compensates for is geometric misalignment, such as a corner placed earlier or later along the stroke and differences in the proportions of the parts of a shape, and it is applicable without resampling when the strokes are compared at their native sampling. The main failure mode is excessive flexibility. A warping path is free to match a long stretch of one stroke to a short stretch of another, and with a loose constraint two different shapes can acquire a deceptively small distance because a mismatched part is absorbed by warping. The effect is most harmful for shapes that differ in the number of repetitions, where a circle drawn once and a circle drawn twice can align at low cost. A tight band, a penalty on non-diagonal steps, or comparison on a feature sequence that includes the heading, in place of position alone, are the standard mitigations, and the comparison of DTW with the baseline is a primary experiment of Chapter~\ref{ch:competing-recognizers}.\evH
+
+\chapter{Geometric Feature Recognition}\label{ch:geometric-recognition}
+
+\section{Recognizing by structure}
+
+A different approach discards the pointwise correspondence and describes a stroke by a small number of geometric facts about it. The turning function of a polygonal shape, which records the heading as a function of arc length, was introduced as an efficiently computable shape metric and has the properties of invariance to translation and scale, and a simple behavior under rotation, which adds a constant to the function \cite{arkin1991}.\evD{} A recognizer built from the landmarks of Chapter~\ref{ch:curvature} encodes a stroke as a string over a small alphabet whose symbols describe its structure: the compass direction of each straight segment, the sign of each turn, the presence of a closed loop, and the existence of a crossing. A gesture library then consists of such strings, and a stroke is recognized by an edit distance between the string of the stroke and each string of the library, with substitution costs that reflect how easily two symbols are confused, for example a higher cost for replacing a left turn by a right turn than for replacing east by northeast.
+
+\section{Comparison with pointwise matching}
+
+Feature recognizers have two attractive properties. They are interpretable, because a rejection can be explained in terms of a missing turn or an extra crossing, which is valuable for a game that must tell the player why a stroke failed. They are tolerant of the proportions of a shape, since only the structure is compared. They also have two weaknesses. They are brittle at their thresholds, since a corner of $44^\circ$ is a straight segment and one of $46^\circ$ is a corner when the threshold is $45^\circ$, so that tiny changes of the stroke produce different strings; and they discard metric information that the pointwise distance retains, such as the relative length of two sides of an L. The practical resolution, to be tested in Chapter~\ref{ch:competing-recognizers}, is a hybrid in which the feature string proposes a short list of candidates and a pointwise distance chooses among them.\evH
+
+\chapter{Probabilistic Recognition}\label{ch:probabilistic}
+
+\section{From distances to probabilities}
+
+A recognizer that returns only a ranking cannot say how sure it is, and the game needs to know. The probabilistic formulation treats recognition as inference. For a stroke $G$ and a candidate target $w$ (a gesture, or later a word), the posterior probability is
+\[
+P(w\mid G)\;\propto\;P(G\mid w)\,P(w),
+\]
+which separates the geometric evidence $P(G\mid w)$ from the prior expectation $P(w)$ of how likely each target is a priori. In the first milestone the prior is uniform over the candidate set, and the posterior reduces to the normalized likelihood. In the word setting of Part~\ref{part:words} the prior is a language model, and the interplay of the two terms is a central subject (Chapter~\ref{ch:word-ambiguity}).
+
+\section{Likelihood model}
+
+The likelihood is derived from the distance. A simple and defensible model treats the normalized stroke as the template plus isotropic Gaussian noise of standard deviation $\sigma_w$, so that, with $d_w=d_w(G)$ the matching cost of Chapter~\ref{ch:template-matching} to the nearest template of $w$ and $n_{\mathrm{eff}}$ an effective dimension,
+\[
+\log P(G\mid w)= -\,n_{\mathrm{eff}}\log\sigma_w-\frac{d_w^{2}}{2\sigma_w^{2}}+\text{const}.
+\]
+A shared $\sigma$ is the initial choice, and per-gesture and per-user values of $\sigma_w$ are estimated from recorded strokes, so that gestures that people draw consistently, such as straight lines, are held to a tighter tolerance than gestures that people draw variably, such as spirals. The effective dimension and the Gaussian assumption are modeling choices and not facts about hands, and their adequacy is checked by calibration (below). Combining the terms with a weight $\lambda\ge0$ on the prior,
+\[
+\log P(w\mid G)=\log P(G\mid w)+\lambda\log P(w)-\log Z,
+\]
+where $Z$ normalizes over the candidate set $\mathcal C$, so that the posterior is a softmax over $\mathcal C$. The weight $\lambda$ makes explicit how much the prior is allowed to override the geometry, and it is reported with every experiment.
+
+\section{Calibration}
+
+A probability is useful only if it is calibrated, meaning that among strokes assigned posterior $p$ about a fraction $p$ are correct. Models of this kind are often miscalibrated, and a standard remedy is to divide the log-posterior by a temperature $\Theta$ fitted on held-out data \cite{guo2017}.\evD{} The expected calibration error, computed by binning the maximum posterior and comparing the mean confidence with the accuracy in each bin, is one of the evaluation measures of Chapter~\ref{ch:recognition-evaluation}.
+
+\chapter{Recognition Confidence}\label{ch:confidence}
+
+\section{The decision rule}
+
+The decision stage converts the ranked and scored candidates into one of three outcomes. The system should be able to say that a stroke is ambiguous and not force a choice, and it should be able to say that a stroke belongs to no candidate. Let $\mathcal C$ be the candidate set. Each candidate $g$ has a matching distance $d_g$ (Chapter~\ref{ch:template-matching}) and a posterior $p_g$ (Chapter~\ref{ch:probabilistic}), and the two rankings need not agree, because priors and gesture-specific tolerances $\sigma_g$ can promote a candidate that is not the geometrically nearest. The rule therefore names the candidates explicitly. The \emph{posterior winner} is
+\[
+g^{\ast}=\argmax_{g\in\mathcal C}\,p_g,
+\]
+with ties broken by the smaller $d_g$ and then by library order, and the \emph{nearest candidate} is $g_{\mathrm{nn}}=\argmin_{g\in\mathcal C}d_g$. Let $p^{\ast}=p_{g^\ast}$ and let $p_2$ be the largest posterior among the other candidates, with $p_2=0$ when $\abs{\mathcal C}=1$. Three thresholds govern the decision: an absolute distance gate $d_{\max}$, a posterior threshold $\tau_{\mathrm{acc}}$ and a margin $\mu>0$.
+
+\begin{definition}[Decision rule]\label{def:decision}
+The outcome for a stroke and a candidate set $\mathcal C$ is
+\[
+\text{outcome}=\begin{cases}
+\textsc{Rejected}(\text{no\_candidates}) & \text{if } \mathcal C=\varnothing,\\
+\textsc{Rejected}(\text{too\_far}) & \text{if } d_{g^\ast}>d_{\max},\\
+\textsc{Accepted}(g^{\ast}) & \text{if } d_{g^\ast}\le d_{\max},\ p^{\ast}\ge\tau_{\mathrm{acc}}\text{ and }p^{\ast}-p_2\ge\mu,\\
+\textsc{Ambiguous}(\{g:p_g\ge p_{\min}\}) & \text{otherwise.}
+\end{cases}
+\]
+Acceptance requires both posterior confidence and geometric support \emph{for the same candidate}, $g^{\ast}$. When $g^{\ast}\ne g_{\mathrm{nn}}$ the result records a prior override, so that the cases in which the prior decided against the geometry can be counted and audited.
+\end{definition}
+
+The degenerate cases are defined and not left to the implementation. An empty candidate set yields a rejection with its own reason, since there is nothing to accept. With a single candidate the softmax gives $p^{\ast}=1$ and $p_2=0$, so the posterior conditions hold trivially and the absolute gate alone decides between acceptance and rejection; this is correct but means that a one-balloon screen is only as strict as $d_{\max}$, and it is a reason for the vocabulary-wide assessment of the next section. Exact ties in posterior give $p^{\ast}-p_2=0<\mu$ and are therefore ambiguous. A stroke that fails normalization is rejected before scoring with the reason \texttt{malformed} or \texttt{too\_short}, and never reaches this rule.
+
+\section{Active candidates and the full vocabulary}
+
+The candidate set is part of the input to the rule, and the outcome depends on it. A stroke that is accepted when three balloons are on the screen can be ambiguous when twenty different gestures are present, because the competitors that make it ambiguous were absent. This is a legitimate source of difficulty, since a crowded screen is a harder task, but it makes the outcome an unreliable measure of what the player has learned: a gesture can appear mastered only because its neighbors were not there.
+
+The specification therefore distinguishes two recognitions of the same stroke. \emph{Active recognition} uses the gestures of the balloons currently on screen as $\mathcal C$, and its outcome drives the game: the balloon that pops, the combo, the score. \emph{Vocabulary recognition} uses every gesture that the player has been introduced to as $\mathcal C$, and its outcome is used for the competence estimates of Chapter~\ref{ch:adaptive-difficulty}, for the retention and transfer measures of Chapter~\ref{ch:retention}, and for the research recordings. A stroke is a \emph{transferable success} if it is accepted as the intended gesture under vocabulary recognition, and a \emph{context-assisted success} if it is accepted under active recognition but not under vocabulary recognition. Both rates are reported, and the second is a direct measure of how much of the player's apparent performance is owed to the sparseness of the screen. Both recognitions are cheap at the library sizes of the first milestone, and the result records which scope produced it.
+
+\begin{requirement}[Two scopes]\label{req:two-scopes}
+Every stroke in a play session \must{} be scored against the active candidate set for gameplay, and the competence model, the retention measures and the stored recordings \must{} use the outcome against the vocabulary candidate set. The scope of every result \must{} be recorded.\evS
+\end{requirement}
+
+\section{Why an absolute gate is necessary}
+
+The posterior is a normalized quantity. A softmax over candidates assigns probabilities that sum to one regardless of how far the stroke is from every candidate, so that a meaningless scribble that happens to be slightly nearer to one template than to the rest can receive a posterior close to one. A decision based only on $p_1$ and the margin would accept it. This is the open-set problem: the stroke may belong to none of the candidates. The absolute gate $d_{\max}$ handles it by rejecting any stroke that is not close enough to any template, independently of the competition among the candidates. An alternative that makes the rejection part of the probabilistic model adds a null class to $\mathcal C$ with a broad likelihood, whose posterior is the probability that the stroke is not any gesture. The two are equivalent in intent; the gate is simpler to explain and to set from data, and it is the specified behavior.\evS
+
+\section{Setting thresholds and reporting}
+
+The thresholds are set from the trade-off between two kinds of error. Accepting a wrong gesture frustrates a player by popping the wrong balloon, and declining a correct gesture frustrates a player by ignoring a good stroke. The trade-off is summarized by the risk--coverage curve of selective classification, which plots the error rate among accepted strokes against the fraction of strokes accepted as the threshold varies \cite{geifman2017}.\evD{} In the game, the costs are asymmetric. A wrong acceptance may destroy a balloon that the player did not intend, which is worse than an ambiguous outcome, and the thresholds are therefore set to produce a low error among accepted strokes at the cost of a higher ambiguity rate, with starting values $\tau_{\mathrm{acc}}=0.8$, $\mu=0.3$, $p_{\min}=0.15$ and $d_{\max}$ set at the ninety-fifth percentile of genuine strokes in the calibration set.\evS{} All four are calibration constants\evC{} in the units of the distance they gate (normalized-stroke units for $d_{\max}$, probability for the others), and Appendix~\ref{app:notation} lists the procedure that fixes each.
+
+\begin{requirement}[Explicit non-acceptance]\label{req:non-acceptance}
+A recognizer \must{} be able to return the Ambiguous and Rejected outcomes of Definition~\ref{def:decision}, \must{} report the scores that produced the outcome, and \mustnot{} select a gesture when the acceptance conditions fail.\evS
+\end{requirement}
+
+\chapter{Partial Trajectory Recognition}\label{ch:partial-recognition}
+
+\section{Recognizing before the stroke ends}
+
+The question of this chapter is whether a stroke can be recognized before it is finished, so that the remaining movement is unnecessary. Long-term users of gesture keyboards report that a long word is often selected when only its early or distinctive portion has been drawn, and that this property is part of what makes the technique fast.\evO{} The claim is plausible, because a lexicon is a set of paths that diverge from one another, and after enough of a path has been drawn only one word remains consistent with it. The problem is to define when the game or keyboard may commit.
+
+\section{Prefix distance}
+
+For a stroke prefix $G_{1:k}$ and a template $T$, the prefix distance is the minimum, over prefixes of the template, of the distance between the stroke prefix and that template prefix,
+\[
+d_{\mathrm{pre}}(G_{1:k},T)=\min_{m}\;d\bigl(\rho(G_{1:k}),\,\rho(T_{1:m})\bigr),
+\]
+where $\rho$ is resampling to a common number of points. An efficient computation uses open-end dynamic time warping, in which the alignment of the stroke must start at the beginning of the template but may end anywhere. The scale of the stroke is unknown while it is incomplete, which is a difficulty for shape-channel recognition and not for a recognition against fixed coordinates, such as a keyboard whose layout is displayed; for that reason early recognition is most natural in the word setting, and the gesture setting uses a coarse estimate of the scale or a candidate set small enough that the ambiguity does not arise.
+
+\section{Commit rule}
+
+A commit rule decides when to accept a prefix. The one specified requires that the leading candidate hold its position and its confidence. For a prefix at step $k$ with posterior $p^{(k)}_1$ and margin $p^{(k)}_1-p^{(k)}_2$, the stroke commits to the leading candidate $g$ at the first $k$ for which, over $h$ consecutive updates, $g$ has been the leading candidate, $p^{(k)}_1\ge\tau_{\mathrm{early}}$, and $p^{(k)}_1-p^{(k)}_2\ge\mu_{\mathrm{early}}$. The threshold $\tau_{\mathrm{early}}$ is set higher than $\tau_{\mathrm{acc}}$ because an early commit cannot be revised, and $h$ guards against a momentary alignment. The \emph{earliness} of a commit is the fraction $f=s_k/\ell_g$ of the \emph{template} consumed, where $s_k$ is the arc length drawn so far and $\ell_g$ is the length of the template of the committed gesture. This is deliberately a template fraction. The length that the player intended to draw is not observable once the system commits, because the stroke is cut short, so a fraction of the intended movement can be measured only in a \emph{shadow} mode in which the commit decision is logged but not enforced and the player finishes the stroke. Experiments that compare earliness with the movement that would have followed use shadow mode.
+
+\section{A property of the library}
+
+Early recognizability is a property of the library as well as of the recognizer. For a library $\Lib$ of templates and a fraction $f\in(0,1]$, let $T[f]$ denote the prefix of $T$ of fraction $f$ of its length, and treat $T_i[f]$ as the idealized partial stroke of a player who follows $T_i$ exactly up to that point. The recognizer does not compare it with the same fractional prefix of a competitor. It scores it with the prefix distance $d_{\mathrm{pre}}$ defined above, which searches over \emph{all} prefixes of the competitor with an open end, so that a competitor is a threat if the partial stroke fits any of its initial portions. The \emph{prefix separation} of $T_i$ at $f$ is therefore
+\[
+\operatorname{ps}_i(f)=\min_{j\ne i}\,d_{\mathrm{pre}}\bigl(T_i[f],T_j\bigr),
+\]
+computed with the same alignment, band and distance as the recognizer, and the \emph{earliest unambiguous fraction} is
+\[
+\operatorname{EUF}(T_i)=\inf\{f:\operatorname{ps}_i(f')\ge\delta\ \text{for all } f'\ge f\}.
+\]
+A template with a small EUF can be recognized early; one with $\operatorname{EUF}=1$ cannot be recognized before the stroke is complete. Defined this way, EUF is a property of the library that uses the same operation as the recognizer, and it cannot predict an early commit that the recognizer is unable to make. It is nevertheless an optimistic bound: it uses noise-free strokes, a threshold $\delta$ on distance and no prior, whereas the commit rule uses posteriors and a run of $h$ updates, so that the observed earliness $f$ of a commit is expected to lie above $\operatorname{EUF}$ and the size of the gap is itself a result. The word setting also fixes the scale and position of the stroke through the displayed keyboard, which is why the measure is defined there and not for shape gestures. The distribution of EUF over a lexicon measures how much a gesture keyboard can truncate strokes, and the question that Hypothesis~\ref{hyp:early} asks is how far the distribution lies below one for realistic vocabularies.
+
+\begin{hypothesis}[Early commit is available]\label{hyp:early}
+For a lexicon of common English words on the default keyboard layout, the median earliest unambiguous fraction is substantially below one, so that a recognizer with a commit rule of the form above reaches a correct decision on most words before the end of the stroke, without raising the error rate among committed words by more than a stated margin.\evH
+\end{hypothesis}
+
+\section{Effects on play and on learning}
+
+Early commit has costs that are not computational. The stroke is cut off, so the player no longer controls its end, and a player who lifts early, as a habit, will be recognized less reliably under a recognizer that does not support early commit. A game that rewards early commits will teach players to abbreviate, which is a design aim (Chapter~\ref{ch:abbreviation}), and also changes what the recordings contain. Because this affects every analysis that compares strokes, the mode is recorded in the session metadata and the analyses that assume complete strokes are restricted to sessions without early commit.
+
+\chapter{Personalized Gesture Recognition}\label{ch:personalized-recognition}
+
+\section{Two things that can be learned}
+
+A recognizer may adapt to a user in two different ways, and the two must not be conflated. It can learn the \emph{geometry} of the user's gestures, adjusting the templates and the tolerances so that the way this person draws a circle is recognized as a circle. It can also learn the \emph{prior}, adjusting the probability $P_u(w)$ that the user intends each target, so that targets the user selects often are favored. Geometry adaptation changes how strokes map to shapes. Prior adaptation changes which shape is chosen when the strokes are equivocal. They have different risks and different benefits: geometry adaptation can erode distinctions (Principle~\ref{pr:accommodation}), while prior adaptation can make rare targets unreachable. They are stored in separate structures, logged separately and can be switched off independently, and the experiments of Chapter~\ref{ch:human-vs-model} depend on this.
+
+\section{Template adaptation}
+
+A user-specific library $\Lib_u$ is initialized from the canonical library $\Lib$ and updated by an exponential average. The update is carried out in a fixed \emph{canonical frame}, because interpolating between sequences is meaningful only when they are expressed in the same coordinates, and a distance that is minimized over transformations does not define such a frame. When a stroke $G$ with a known label $g$ is observed, and its matching cost to the nearest template of $g$ satisfies the learning gate $c_g\le d_{\mathrm{learn}}$, the stroke is first aligned once to the \emph{canonical} template $T^0$ of that slot by the transformation that attains the matching cost,
+\[
+\hat G=s^{\ast}G,\qquad s^{\ast}=\argmin_{s\in\mathcal S_g}d(sG,T^{0}),
+\]
+and the personalized template is then moved toward the aligned stroke by pointwise interpolation,
+\[
+T\;\leftarrow\;(1-\eta)\,T+\eta\,\hat G,
+\]
+where both are normalized with the same number of points, and $\eta$ is the adaptation rate. The frame is thus fixed by $T^0$ and never by the current personalized template, so that the template cannot drift by following its own alignment. If the stroke is farther than $d_{\mathrm{new}}>d_{\mathrm{learn}}$ from every template of $g$ but still acceptable, it is added as a further template up to a capacity $m_{\max}$, replacing the least recently matched. The rate $\eta$ decays with the number of updates, beginning near $0.2$ and settling near $0.02$, so that a template is flexible at first and stable later.\evS
+
+\section{Protection against accidental learning}
+
+Four protections prevent the library from learning the wrong thing. First, updates are gated on the label: only strokes whose label is known with confidence, by the prompt of a practice exercise or by an explicit confirmation, may adjust the geometry. In survival mode the label is the recognizer's own output, which creates a feedback loop in which the system reinforces its own decisions, and adaptation is therefore disabled by default there.\evS{} Second, the update is rate-limited per session, so that a bad session cannot move the library far. Third, each personalized template is held within a radius $\rho_{\mathrm{drift}}$ of its canonical version,
+\[
+d\bigl(T_u,T^{0}\bigr)\le\rho_{\mathrm{drift}},
+\]
+where $d$ is the plain mean pointwise distance in the canonical frame, with no minimization over transformations. In this frame $d(T,T^0)$ is a norm of the difference $T-T^0$, so it is homogeneous: scaling the difference by $\lambda$ scales the distance by exactly $\lambda$, and an update that leaves the ball is retracted onto it by the radial rescaling $T^0+(\rho_{\mathrm{drift}}/r)(T-T^0)$ with $r=d(T,T^0)$. This is a retraction onto the ball and not the nearest point, which for a norm other than the Euclidean one it need not be, but it is feasible, deterministic and idempotent. The drift bound limits how far a template may move, and it does not by itself keep two gestures apart. The separation floor is therefore checked \emph{independently}, on the confusability distance $\kappa$ of the whole personalized library (Requirement~\ref{req:floor}): the candidate template is accepted only if the floor holds with it in place, and otherwise the step is halved along the update direction, down to a minimum step, after which the update is rejected. No monotonicity of the floor along the step is assumed, and the returned template is checked, not inferred. Fourth, every change is reversible, because the history of updates is retained and the user can reset a gesture or the whole profile.
+
+\begin{requirement}[Bounded and reversible adaptation]\label{req:bounded-adaptation}
+Template adaptation \must{} be gated on a label known independently of the recognizer, \must{} be computed in the canonical frame of the slot, \must{} be bounded by a drift radius from the canonical template measured in that frame, \must{} preserve the separation floor as an independent check on $\kappa$, \must{} be recorded as a history of updates, and \must{} be resettable by the user. The constants $\eta$, $d_{\mathrm{learn}}$, $d_{\mathrm{new}}$ and $\rho_{\mathrm{drift}}$ are calibration constants.\evC{}\evS
+\end{requirement}
+
+\section{Prior adaptation}
+
+The prior $P_u(w)$ is estimated from counts $n_u(w)$ of the user's selections, smoothed with a Dirichlet prior centered on the population prior $P_0(w)$,
+\[
+P_u(w)=\frac{n_u(w)+a\,P_0(w)}{\sum_{v}n_u(v)+a},
+\]
+with concentration $a$ controlling how many observations are needed before the personal evidence outweighs the population. The count structure is the personal dictionary of Chapter~\ref{ch:vocabulary}, and it is inspectable and editable by the user.
+
+\chapter{Recognition Evaluation}\label{ch:recognition-evaluation}
+
+\section{Measures}
+
+A recognizer is evaluated on a labeled dataset of strokes. For a library with $K$ gestures let $C_{ij}$ be the number of strokes of true gesture $i$ that the recognizer accepted as gesture $j$, with separate counts $A_i$ of strokes ambiguous and $J_i$ of strokes rejected. The \emph{accuracy} is the fraction of strokes accepted as the correct gesture, the \emph{false-accept rate} is the fraction accepted as a wrong gesture, and the \emph{false-reject rate} and \emph{ambiguity rate} are the fractions rejected and ambiguous respectively. The confusion matrix is $C$ augmented with an ambiguity column and a rejection column. For each gesture, precision and recall are computed in the usual way from $C$, and the macro-average over gestures is reported alongside the micro-average to prevent frequent gestures from masking poor performance on rare ones.
+
+Latency is measured as the time between the release event, or between the last sample for an early-commit decision, and the availability of the outcome. Computational cost is the processor time per recognition on a reference device, reported as a median and a ninety-fifth percentile over repeated runs after warm-up, because mean values hide the tail that causes a visible hitch. Calibration is measured by the expected calibration error and the risk--coverage curve introduced in Chapter~\ref{ch:confidence}.
+
+\section{Evaluation across users}
+
+Strokes by the same person are not independent observations, and treating them as independent understates the uncertainty. Two procedures follow. The first is that generalization to new users is measured by leaving out all strokes of a user at a time (leave-one-user-out cross-validation), in contrast to splitting strokes at random, which mixes a user's strokes between the training and test sets and measures performance on already-seen users. The second is that confidence intervals are computed by a cluster bootstrap that resamples users, with replacement, and then strokes within users, so that between-user variation contributes to the interval. A report that gives only the pooled accuracy is incomplete; the distribution of per-user accuracy is reported, with the minimum and the lower quartile, because the experience of the worst-served users is what an accessible game is judged by.
+
+\section{Benchmark datasets and procedures}
+
+A benchmark consists of a dataset, a fixed set of splits, an evaluation harness and a reporting template. The dataset is stored as one JSON object per stroke (Appendix~\ref{app:schema}), with a manifest giving its checksum. Splits are generated from a recorded seed and are never regenerated. The harness takes a recognizer implementation, identified by name and version, runs it over the splits, and writes a results file with the measures above. Comparisons between recognizers use the same splits, the same candidate sets and the same tuning budget, with hyperparameters chosen by nested cross-validation inside the training folds only. The reference benchmark is built from the data collected under Chapter~\ref{ch:dataset}, and until such data exist the harness is exercised on synthetic strokes generated by perturbing the templates, which tests the machinery and not the recognizers.\evS

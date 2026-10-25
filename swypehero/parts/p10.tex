@@ -1,0 +1,113 @@
+This part describes how the claims of the preceding parts are to be tested. The game is the instrument: every stroke it records is a measurement, and the architecture of Part~\ref{part:architecture} was designed to keep those measurements raw, versioned and reproducible. The part moves from the collection of data to the questions it can answer, and ends with the conditions under which the data and the analyses can be shared.
+
+\chapter{Gesture Dataset Construction}\label{ch:dataset}
+
+\section{Consent and minimization}
+
+Data collection is optional and requires an affirmative decision by the player, made at a moment when the player has been told what is recorded, for what purpose, how long it is kept, and how to withdraw. The consent screen is separate from the game and is not required to play. Collection follows data minimization: only what the research questions need is recorded. For each stroke the record contains the raw samples with timestamps and any extended channels, the target label and the candidate set, the recognition result, the identifiers of the recognizer, pipeline, library and layout, the mode and the session seed, and the device characteristics of Requirement~\ref{req:device-metadata} including the pointer type, the viewport size, the pixel density and the orientation. The record contains no name, no email address, no network address that the application itself stores, no free text beyond the task, and no location. The participant is identified by a random pseudonymous identifier that the player can reset.
+
+\section{Gesture data is biometric}
+
+Timing and shape of strokes are individually distinctive. Research on touch input has shown that the way a person swipes and taps can serve as a behavioral biometric for continuous authentication, with identification accuracy well above chance on small populations \cite{frank2013}.\evD{} The practical consequence is that stroke data cannot be treated as anonymous merely because it carries no name: with enough strokes it may be linked to a person, or to another dataset of the same person. The data is therefore handled as personal data. It is stored with access controls, transmitted over an encrypted connection, kept for a stated period, and covered by the right of the participant to withdraw and to have the data deleted. The relevant legal frameworks depend on the participant's jurisdiction, and examples are the Canadian PIPEDA and the European GDPR, with which the procedure is designed to be consistent.
+
+\section{Oversight}
+
+Research on human participants ordinarily proceeds under the oversight of an ethics review board. This project is conducted by an independent researcher and has no institutional board. The specification therefore commits to a published consent and data-handling protocol, to a plain-language description of the study that the participant sees before consenting, and to inviting external review of the protocol before data collection on a large scale begins, by an ethics committee or a qualified reviewer who is independent of the project. Studies involving children, or gaze data, are not to be started without such review.\evS
+
+\begin{requirement}[Consent-based collection]\label{req:consent}
+Research data collection \must{} be off by default, \must{} require a separate affirmative consent that states what is collected and for how long, \must{} be withdrawable at any time with deletion of data not yet released, and \mustnot{} be required for any function of the game.\evS
+\end{requirement}
+
+\chapter{Human Variation}\label{ch:human-variation}
+
+People draw the same shape in different ways, and the extent and structure of the differences is a central object of study. Four kinds of variation are separated. \emph{Geometric variation} is the difference in the paths of different people for the same gesture, summarized by the distance between a person's mean normalized stroke for a gesture and the population mean, and by the dispersion of strokes about a person's own mean. \emph{Timing variation} is the difference in duration, speed profile and pauses. \emph{Consistency} is the within-person dispersion of strokes of a gesture, and is the quantity that determines how tight the recognizer's tolerance can be for that person. \emph{Preferred abbreviations} are the habitual reductions of the strokes (Chapter~\ref{ch:abbreviation}).
+
+The appropriate model is hierarchical. A stroke $G_{ugk}$ of person $u$, gesture $g$ and repetition $k$ is modeled as arising from a population template for the gesture, a person-level deviation, and within-person noise. In symbols, with normalized strokes treated as points in a vector space of dimension $2N$,
+\[
+G_{ugk}=T_g+b_{ug}+\epsilon_{ugk},\qquad b_{ug}\sim\mathcal N(0,\Sigma_{b}),\quad \epsilon_{ugk}\sim\mathcal N(0,\Sigma_{\epsilon}),
+\]
+so that the ratio of the between-person to the within-person variance, per gesture, says how much is gained by personalizing the templates and how much is lost by treating all users alike. The analysis also examines variation with physical conditions, notably the screen size and the scale of the stroke (Chapter~\ref{ch:ergonomics}), handedness, and the pointer type.
+
+\begin{hypothesis}[Personalization gain tracks between-person variance]\label{hyp:variation}
+The recognition accuracy gained by personalizing templates is larger for gestures with a higher ratio of between-person to within-person variance, and negligible for gestures with a low ratio.\evH
+\end{hypothesis}
+
+\chapter{Learning Curves}\label{ch:learning-curves}
+
+\section{Measurement}
+
+The learning of a gesture is observed as the change in the measures of Chapter~\ref{ch:fluency} and in the success probability over repeated presentations. Because the study aims to cover days, weeks and months, the design uses the natural play of the game and not scheduled sessions alone, with a small number of standardized probe tasks at intervals, in which the same gestures are presented in the same conditions so that the comparison across time is free of variation in the difficulty of what was shown. The probe tasks use a frozen recognizer (Requirement~\ref{req:frozen}).
+
+\section{Models}
+
+For each person and gesture several functional forms are fitted: the power law of Chapter~\ref{ch:motor-learning}, an exponential $T(n)=a+b\,e^{-cn}$, and a hyperbolic form, and they are compared by predictive accuracy on held-out repetitions, since the form of the curve is an empirical question and the aggregate-curve caveat applies. The fit is hierarchical, with parameters for the person and the gesture drawn from population distributions, which stabilizes the estimates for people with few observations. The quantities of interest are the asymptote, the rate, and the time to reach the mastery criterion.
+
+\section{The control that matters}
+
+A learning curve shows that players improve, and not why. For the project's central question, whether the geometric curriculum yields transferable gesture-typing skill, the necessary comparison is between players trained on the geometric curriculum and players given an equal amount of direct word-gesture practice, with a third group on a non-gesture control for the effect of play alone (protocol P7). The comparison is on unseen words, without a guide, at the end of training and after a retention interval, and it is separated into the three skills of tracing, recall and generation (Chapter~\ref{ch:retention}). This is the most consequential empirical question in the specification, and the first release is built so that it can be asked: sessions record the arm, the scope of every recognition and the full raw strokes.\evH
+
+\section{Attrition}
+
+Longitudinal studies of voluntary play suffer from attrition: players stop. The analysis cannot treat the people who remain as representative of the people who began. The record therefore notes the last activity of each participant, the analysis reports the number of participants contributing to each time point, and a sensitivity analysis compares the estimated curves under assumptions about why players stop. The statements about months of practice are restricted to the subset of players who continue, and are described as such.
+
+\chapter{Human Adaptation versus Model Adaptation}\label{ch:human-vs-model}
+
+\section{The decomposition}
+
+The identification problem of Definition~\ref{def:identification} is addressed by experimental design. Let $y(t,v)$ be the success rate for a given user population at time $t$ of the user's practice, scored by recognizer version $v$. Two times $t_1<t_2$ and two versions $v_1,v_2$ define a table of four values. The total change from $(t_1,v_1)$ to $(t_2,v_2)$ decomposes as
+\[
+y(t_2,v_2)-y(t_1,v_1)=\underbrace{\bigl[y(t_2,v_1)-y(t_1,v_1)\bigr]}_{\Lambda\ \text{(learning)}}+\underbrace{\bigl[y(t_1,v_2)-y(t_1,v_1)\bigr]}_{M\ \text{(model)}}+\underbrace{I}_{\text{interaction}},
+\]
+where $I=y(t_2,v_2)-y(t_2,v_1)-y(t_1,v_2)+y(t_1,v_1)$. The learning term is the change in success caused by the change in the user's strokes when the recognizer is held fixed at $v_1$, and the model term is the change caused by the new recognizer applied to the earlier strokes. The interaction measures the extent to which the benefit of the new recognizer depends on how practiced the user is, and a large positive value would mean that adaptation helps experts more than novices, or the reverse.
+
+\section{Replay and its limits}
+
+The terms can be estimated by replay, because the raw strokes are preserved: strokes recorded at time $t$ are re-scored by any recognizer version $v$ offline, and the table is filled by computation. The method has a limit that must be stated. The strokes recorded under recognizer $v_1$ were drawn by a player who was receiving feedback from $v_1$, and who may have adjusted their strokes in response, so that the recording is not what the player would have drawn under $v_2$. Replay holds the strokes fixed and cannot capture this closed-loop effect. The remedy is a live experiment: the recognizer version, frozen or adaptive, is assigned at random to each session, or to each participant for a period, and the outcomes are compared between arms. The two designs answer different questions and both are used. Replay isolates the effect of the recognizer on a given set of strokes, and the randomized design measures what the player does when the recognizer is different.
+
+The randomized design must respect a property of the subject that a recognizer does not share: a player cannot be reset. A crossover, in which every participant experiences both arms in sequence, confounds the arm with the period and with carryover, because skill acquired under the first arm persists into the second. Counterbalancing the order balances period effects across the sample on average, but it does not remove carryover, which can differ between the two sequences, and it cannot restore the unfamiliarity of the gesture set. The primary design is therefore parallel, with each participant assigned to one arm for the whole study, and a crossover is used only as an exploratory secondary design with a washout whose adequacy is verified, a model with explicit period and sequence terms, and a pre-specified rule for discarding the second period (protocol P3).
+
+\begin{requirement}[Experimental assignment]\label{req:assignment}
+Studies of adaptation \must{} record the arm, the recognizer version and its adaptive state at the start and end of every session, and assignment to arms \must{} be randomized and recorded, with the randomization seed held separately from the recognizer.\evS
+\end{requirement}
+
+\chapter{Recognition under Degraded Information}\label{ch:degraded}
+
+How much of a gesture can be removed before recognition fails is a measure of its redundancy and of the robustness of the recognizer, and it bears directly on partial recognition (Chapter~\ref{ch:partial-recognition}) and on the choice of sampling rate and resolution for devices of low quality. The experiments degrade a set of strokes by a set of controlled operations and record the accuracy as a function of the degradation. The operations are truncation of the beginning or of the end of the stroke to a fraction $f$ of its length; deletion of a contiguous portion; deletion of random samples to a fraction $f$; subsampling in time to a lower rate; quantization of positions to a coarser grid, simulating low spatial resolution; and the addition of Gaussian noise of a given standard deviation.
+
+For each operation the curve of accuracy against the retained fraction is estimated for each recognizer. The summary quantity is the \emph{critical fraction}, $f^{\ast}$, the smallest retained fraction at which the accuracy remains at least $95$ percent of its value on undegraded strokes. A recognizer with a small $f^{\ast}$ under truncation is suitable for early commit. The occlusion profiles of Chapter~\ref{ch:curvature} are compared with the degradation curves: if the profile identifies the informative portions correctly, deleting the portions of high informativeness should reduce accuracy faster than deleting those of low informativeness at the same length, and this is a test of the profile and of its use in teaching abbreviation.\evH
+
+\chapter{Competing Recognizers}\label{ch:competing-recognizers}
+
+The recognizers of Part~\ref{part:recognition} are to be compared on equal terms. The contestants are the baseline template matcher of Chapter~\ref{ch:template-matching}, the elastic matcher of Chapter~\ref{ch:dtw}, the geometric feature recognizer of Chapter~\ref{ch:geometric-recognition}, the probabilistic recognizer of Chapter~\ref{ch:probabilistic}, and personalized variants of each. Established gesture recognizers from the literature are included as external baselines where their published definitions can be implemented faithfully, in particular the single-template stroke recognizers that are widely used in prototyping \cite{wobbrock2007,vatavu2012} and the feature-based statistical recognizer of Rubine \cite{rubine1991}.\evD{}
+
+The comparison follows a fixed protocol. All contestants receive the same recorded strokes, the same normalized inputs where the algorithm permits, and the same candidate sets. Hyperparameters are chosen on training folds by nested cross-validation, with equal budgets. Evaluation follows Chapter~\ref{ch:recognition-evaluation}: leave-one-user-out splits, cluster-bootstrap intervals, and the full set of measures including latency, rejection quality and calibration. Paired differences between two recognizers on the same strokes are tested with a paired procedure, such as the test of McNemar for paired classification outcomes \cite{mcnemar1947},\evD{} with the caveat that strokes from one person are correlated, so that the bootstrap over participants is the primary inference and the paired test is supporting.
+
+Two principles guard against self-deception. The recognizer that the project prefers for its simplicity, the baseline, receives the same tuning effort as the others. And a recognizer that wins on accuracy but loses on explanation is not declared the winner without a statement of what the game loses: the geometric feature recognizer can tell the player which part of a stroke failed, and for a learning game that capability may outweigh a small loss of accuracy.\evS
+
+\chapter{Historical Swype Comparison}\label{ch:swype-comparison}
+
+\section{Why compare}
+
+The project began from a remembered capability, and the comparison with surviving Swype installations is an attempt to turn memory into measurement. The questions are the behaviors reported in Chapter~\ref{ch:history}: the tolerance of the recognizer to inaccurate or abbreviated strokes, the effect of a personalized vocabulary, the behavior of gesture shortcuts, and the effects of long use on recognition.
+
+\section{Feasibility and method}
+
+The comparison is feasible only where legitimate copies of the software can be run, and its feasibility depends on obtaining them lawfully. It is not assumed that any copy can be obtained or redistributed, and the project does not distribute the software. Where a copy is available, it can be run on a device or an emulator of the appropriate version of the operating system, and it is a black box: the experimenter can supply strokes and observe the output text and, in some versions, the list of alternatives, but cannot observe internal scores. The method is therefore behavioral. A harness presents the same strokes to the historical software and to the new recognizer. Strokes are generated from the idealized word paths with controlled perturbations, which are noise, abbreviation operators (Chapter~\ref{ch:abbreviation}) and truncation, and they are injected by the input system of the device with timing that mimics a human stroke. The measured quantity is the acceptance curve: the fraction of words recovered as a function of the degree of perturbation, for each perturbation type. Personalization effects are measured by comparing the acceptance of words in the default lexicon with the acceptance of words that have been added by use.
+
+\section{Limits of inference}
+
+The comparison is kept as a software-behavior experiment (protocol P6). Human performance on surviving installations, which would ask how experienced users actually stroked, is a different study with different participants and different inferences (protocol P8), and it is not required by any milestone. Conclusions from this comparison are observations about the behavior of one version of one proprietary product, under synthetic strokes. They cannot establish how the product worked internally, and they say nothing about how real users stroked. They are labeled \evO{} in this specification and are used to calibrate the design and to test the recollection that early selection and abbreviation were tolerated. Appendix~\ref{app:swype-record} lists the claims that this experiment can and cannot support.
+
+\chapter{Reproducibility and Open Datasets}\label{ch:open-data}
+
+\section{Artifacts}
+
+Reproducibility rests on a small set of public artifacts. The \emph{recognizers and the evaluation harness} are released as open source with fixed version identifiers. The \emph{libraries}, \emph{layouts} and \emph{lexicons} used in studies are released with checksums. The \emph{protocols} of the studies, including the consent text, are published before the data collection begins, and deviations are recorded. The \emph{analysis code} is published with the results it generated, and a result is not reported without the command that regenerates it from the data. The \emph{datasets} are released in the form described below.
+
+\section{Documenting data}
+
+Each dataset is accompanied by a datasheet that records its motivation, composition, collection process, preprocessing, intended uses, limitations, distribution and maintenance, following the practice of documenting datasets proposed for machine learning research \cite{gebru2021}.\evD{} The datasheet is part of the release and is versioned with the data. A manifest gives the checksum of each file, and the splits used in published results are included.
+
+\section{Privacy-aware release}
+
+The release of raw strokes is constrained by Chapter~\ref{ch:dataset}: they are biometric, and perfect anonymization of time-series data of this kind cannot be guaranteed. The release is therefore tiered. At the first tier, aggregate statistics, learning-curve parameters and per-gesture summaries are public without restriction. At the second tier, normalized strokes with timing removed and with participant identifiers replaced by randomly assigned codes that are not reused across releases are public with a documented warning. At the third tier, raw strokes with full timing are released only to qualified researchers who agree to terms that prohibit re-identification, unless a participant explicitly consents to open release of their own data, in which case their strokes may be released in the open tier. The tiers, and the participants' choice among them where it applies, are stated in the consent procedure. Because the work of the project is otherwise placed in the public domain, the default license for public artifacts is a public domain dedication, and the exceptions are those data for which the consent does not permit it.\evS

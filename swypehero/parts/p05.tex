@@ -1,0 +1,171 @@
+This part treats the player as a learner. It states what is known about the acquisition of coordinated movement, specifies a curriculum that advances by geometric feature, develops a model of player competence that selects the next challenge, and defines the measures by which improvement is recognized and attributed. The recurring concern is attribution: when the success rate rises, it must be possible to say whether the player improved or the software did.
+
+\chapter{Motor Learning Foundations}\label{ch:motor-learning}
+
+\section{What is established}
+
+Several regularities of motor skill acquisition bear directly on the design. The first is the power law of practice, which describes the time to perform a task as a decreasing power function of the number of repetitions, $T(n)=a+b\,n^{-c}$ with $a$ the asymptotic time and $c>0$ the learning rate \cite{newell1981}.\evD{} It is an empirical description with known limitations, among them that curves aggregated over many learners tend to look more like power functions than the individual curves do, and the research program fits several forms and compares them (Chapter~\ref{ch:learning-curves}). The second is the description of skill acquisition as a progression from a cognitive stage, in which the learner attends to the movement and errors are large, through an associative stage, in which the movement is refined, to an autonomous stage in which performance requires little attention \cite{fitts1967}.\evD{} The third is schema theory, which proposes that what is learned for a class of movements is a relation between parameters and outcomes that generalizes beyond the movements practiced, and which motivates varying the size and the orientation of practiced gestures \cite{schmidt1975}.\evD{}
+
+Two further results shape the curriculum. Practice in which the tasks vary from trial to trial, as opposed to practice in blocks of a single task, produces poorer performance during acquisition and better retention and transfer, a finding known as the contextual interference effect \cite{shea1979}.\evD{} It argues for interleaving gestures in the survival mode instead of drilling one at a time. And frequent, detailed feedback can improve performance during practice while impairing the learning that shows up in retention, because the learner comes to depend on it; this is the guidance hypothesis \cite{salmoni1984}.\evD{} It argues for reducing visual assistance as proficiency grows (Chapter~\ref{ch:keyboard-assistance}).
+
+\section{Learning is not adaptation}
+
+The game contains two systems that can improve over time: the player and the recognizer. Improvement of the observed outcome, such as the proportion of strokes that pop a balloon, is a function of both. The distinction that organizes the research program is that between \emph{human learning}, a change in the strokes the player produces, and \emph{model adaptation}, a change in how strokes are interpreted.
+
+\begin{definition}[Identification problem]\label{def:identification}
+Let $y(u,t,v)$ be the success rate of user $u$ at time $t$ under recognizer version $v$. Observed improvement $y(u,t_2,v_2)-y(u,t_1,v_1)$ conflates a change of behavior $(t_1\to t_2)$ with a change of recognizer $(v_1\to v_2)$. The effects are separately identified only if designs are used in which one argument is held fixed while the other varies.
+\end{definition}
+
+Chapter~\ref{ch:human-vs-model} gives the designs. The requirement on the game is simpler and applies from the first milestone: it must be possible to hold the recognizer fixed.
+
+\begin{requirement}[Frozen recognizer option]\label{req:frozen}
+Every adaptive behavior of the recognizer \must{} be switchable, and a session \must{} record the identity and state of the recognizer used, so that a session can be scored again under a frozen recognizer.\evS
+\end{requirement}
+
+\chapter{The Introductory Curriculum}\label{ch:intro-curriculum}
+
+\section{Principle}
+
+The introduction presents simple shapes with generous time and little competition, and difficulty grows by introducing new geometric features and not by raising speed arbitrarily (Principle~\ref{pr:progression}). A level is defined by the feature it introduces, by the set of gestures that exhibit it, and by a mastery criterion, and the player moves on when the criterion is met and not when a number of minutes has elapsed.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}clXl@{}}
+\toprule
+Level & Feature introduced & Gestures added & Concurrent balloons \\
+\midrule
+1 & Straight stroke, horizontal and vertical & \texttt{line.h}, \texttt{line.v} & 1 \\
+2 & Diagonal direction & \texttt{line.d1}, \texttt{line.d2} & 2 \\
+3 & Single sharp corner & \texttt{corner.l}, \texttt{corner.v}, \texttt{corner.caret} & 2 \\
+4 & Open curvature & \texttt{arc.c}, \texttt{arc.d}, \texttt{hook.u}, \texttt{hook.j} & 2 \\
+5 & Closure and rotation sense & \texttt{circle.cw}, \texttt{circle.ccw} & 2 \\
+6 & Two corners in one stroke & \texttt{corner.z}, \texttt{zig.2} & 3 \\
+7 & Curvature of changing sign & \texttt{arc.s} & 3 \\
+8 & Loop on a path & \texttt{loop.l}, \texttt{loop.e} & 3 \\
+9 & Repeated reversal and nested curvature & \texttt{zig.3}, \texttt{spiral.in} & 3 \\
+\bottomrule
+\end{tabularx}
+\caption{A first curriculum over the twenty gestures of Table~\ref{tab:vocabulary}. Levels one to five form the introduction; levels six to nine open the intermediate family of Chapter~\ref{ch:intermediate}.}
+\label{tab:curriculum}
+\end{table}
+
+\section{Mastery}
+
+A gesture is considered mastered when the player's estimated success probability on it is high with confidence, and when the time to complete it is comfortably within the budget. With a Beta posterior on the success probability $\pi_g$ of gesture $g$, built from the successes and failures of recent presentations with exponential forgetting, mastery requires that the lower end of the posterior, for example its fifth percentile, exceed $0.75$ and that the median response time fall below half of the time available. A level is completed when all of its introduced gestures are mastered. Gestures that were mastered are retained in the pool at a lower frequency, which gives the distributed practice that retention requires (Chapter~\ref{ch:retention}). The criterion rests on the competence model of Chapter~\ref{ch:adaptive-difficulty}.
+
+\section{Pacing}
+
+The introduction has to be enjoyable for a player who does not know that it is an introduction. It is therefore paced by the game and not by a lesson. A new gesture first appears alone, displayed with its reference trajectory drawn faintly beside the glyph for the first appearances, and the aid fades after a few successes. Failure on the first appearances is not penalized with a lost life. After that, the gesture joins the pool and competes with the others, and the interleaving effect (Chapter~\ref{ch:motor-learning}) comes into play without any explicit change of mode.\evS
+
+\chapter{Intermediate Gesture Families}\label{ch:intermediate}
+
+The intermediate stage introduces gestures that combine features and whose discrimination from one another is itself a task. It contains compound curves, strokes with several turns, strokes that overlap their own earlier parts, and sets of gestures that are deliberately similar.
+
+\section{Compound curves and multiple turns}
+
+Compound curves, such as the S-shaped arc and the loop on a path, require the player to coordinate a change of curvature sign or to produce a closed sub-shape in the middle of a stroke. They are the first gestures in which the stroke has an internal structure that must be executed in order. Multiple-turn gestures, such as the zigzags, require the player to count: two reversals and three reversals are different gestures, and the most common error is to omit or add a segment. The game can help by making the glyph show the segment count clearly, and the recognizer is tuned so that a missing segment is a rejection and not a near-match (Chapter~\ref{ch:confidence}).
+
+\section{Overlapping trajectories}
+
+A stroke that crosses itself introduces an ambiguity of order. A figure-eight can be started at the crossing or at either lobe, and drawn in two rotation senses. Only some of these variants are the intended gesture. The library therefore carries a set of admissible variants for such gestures, each a template with an invariance configuration (Chapter~\ref{ch:invariance}), and the glyph conveys the intended start and direction through a small marker. The presence of variants raises the question of whether admitting many variants makes a gesture too easy, and the answer is controlled by the separation floor: any variant added must keep the library above $\delta_{\min}$.
+
+\section{Increasingly similar shapes}
+
+The most important property of the intermediate stage is that it teaches discrimination. A circle and an oval, a V and a U, a caret and an arch, a plain corner and a corner with a hook: each pair demands that the player attend to a feature that distinguishes them. The design device is the \emph{contrast pair}, in which the two gestures are introduced together and made to appear in the same level, and in which the recognizer's decision between them is reported to the player with a clear indication of which candidate the stroke approached. A pair is a good contrast pair when its separation is only slightly above the floor, since then the player must draw carefully enough to make the distinction, and not so far above it that the distinction is trivial.\evS
+
+\chapter{Advanced Gesture Families}\label{ch:advanced}
+
+The advanced stage prepares the player for the shapes of words. A word trajectory is typically a long, multi-segment path with several sharp turns, frequent reversals and occasional self-crossings, drawn through specific positions on a keyboard, and no single primitive prepares for the whole. The advanced exercises are therefore built to exercise the relevant features, in combination and under time pressure.
+
+\section{Exercises}
+
+\emph{Self-intersection exercises} use shapes that cross themselves one or more times, such as a figure-eight, a pretzel-like trace, and shapes with a looped tail. They train the control of a stroke that must pass over its own earlier part without hesitation. \emph{Repeated direction change exercises} use long zigzags and sawtooth paths with five or more segments, and they train rhythm and the placement of reversals at a given distance from one another. \emph{Intricate trajectory exercises} combine all of these in shapes derived by simplifying real word paths, so that the player meets word-like geometry before meeting words (Chapter~\ref{ch:transitional}). \emph{Abbreviation exercises}, described in Chapter~\ref{ch:abbreviation}, show a full shape but accept a reduced one, and they are the point at which the curriculum starts to reward economy over copying.
+
+\section{Dosage}
+
+The advanced exercises are demanding, and a curriculum that presents too many together would discourage players. They are introduced one family at a time, in short sets of balloons within otherwise familiar play, and the competence model decides when each family has been seen enough (Chapter~\ref{ch:adaptive-difficulty}). The aim is that the player experiences the advanced material as an extension of the game they already know.
+
+\chapter{Adaptive Difficulty}\label{ch:adaptive-difficulty}
+
+\section{A competence model}
+
+The next challenge is chosen from an estimate of what the player can do. The estimate is computed from outcomes against the full learned vocabulary (Requirement~\ref{req:two-scopes}), so that a gesture does not appear mastered merely because its neighbors were absent from the screen. The estimate is not a single level and not the total score. Both are too coarse: a total score mixes speed, luck and persistence, and a single level cannot represent a player who is fluent with lines and arcs and unreliable with reversals. The model used instead represents the player's competence as a vector over the geometric features of Chapter~\ref{ch:complexity}.
+
+Let $\phi(g)\in\R^m$ be the feature vector of gesture $g$, including the component values $(L,T,X,R,A)$ and indicators for closure and rotation sense. The probability that player $u$ draws $g$ acceptably is modeled as
+\[
+\Pr(y_{ug}=1)=\operatorname{logistic}\bigl(b_0+\boldsymbol\theta_u^{\top}\phi(g)\bigr),
+\]
+where the vector $\boldsymbol\theta_u$ has a coordinate for each feature, negative where the feature is difficult for the player. For a single scalar feature and a gesture-specific difficulty $b_g$ this reduces to the one-parameter logistic model of item response theory, $\Pr(y=1)=\operatorname{logistic}(\theta_u-b_g)$, and the vector form is its multidimensional generalization.\evS{} The posterior over $\boldsymbol\theta_u$ is maintained by online Bayesian logistic regression with a Gaussian prior, which produces both an estimate of competence and a measure of its uncertainty, and the posterior at the start of play is the population prior of players.
+
+\section{Selecting challenges}
+
+Learning is best supported when tasks are difficult enough to require effort and not so difficult that they cannot be done, a principle known in the literature as desirable difficulty \cite{bjork1994}.\evD{} The selection policy operationalizes it. For each gesture in the eligible pool, the model predicts a success probability $\hat\pi_g$ and its uncertainty, and the selector draws gestures with weight highest for those whose predicted success lies in a target band, taken as $[0.6,0.9]$ at the outset, and with a bonus for gestures whose competence is uncertain, so that every part of the pool is eventually explored. Gestures that were mastered recur at low frequency for retention. Constraints on the selection keep the pool coherent: no more than a fixed number of new features in a single balloon wave, no two highly confusable gestures simultaneously unless a contrast pair is intended, and no gesture for which the player's recent failure rate is very high until a simpler related gesture has been practiced.
+
+\section{Not a scalar}
+
+The selector exposes the competence vector to the rest of the system, so that the player can be shown, if they wish, which features they are strong in, and so that the research program can observe how competences develop (Chapter~\ref{ch:learning-curves}). No single number is presented as the player's level, and the level labels of Table~\ref{tab:curriculum} are curriculum stages and not ratings.
+
+\begin{requirement}[Transparent estimates]\label{req:transparent-estimates}
+The competence estimates \must{} be stored in the player profile as inspectable values with uncertainties, \must{} be resettable by the player, and \mustnot{} be used for any purpose that is not disclosed in the interface.\evS
+\end{requirement}
+
+\chapter{Gesture Fluency}\label{ch:fluency}
+
+\section{Dimensions of fluency}
+
+Fluency describes how a gesture is drawn, as distinct from whether it is recognized. Four dimensions are measured. \emph{Speed} is the path length divided by duration, and it must be compared across gestures of different length and complexity, so the useful quantity is the ratio of duration to the predicted time $\hat T(g)$ of Chapter~\ref{ch:compound}. \emph{Smoothness} is the absence of unnecessary changes in acceleration. A dimensionless measure of it is the squared jerk integrated over the movement and normalized by duration and path length, $J=\frac{T^{5}}{\ell^{2}}\int_{t_1}^{t_N}\norm{\dddot{x}(t)}^{2}\,dt$, which is unaffected by changes of scale and tempo \cite{hogan2009}.\evD{} A related simple count is the number of speed peaks in the stroke, since a smooth movement has few. \emph{Consistency} is the repeatability of the path across repetitions, measured as the mean distance of each normalized stroke to the user's centroid template for that gesture. \emph{Effort} is the amount of movement used, the path length relative to the reference path, with a small penalty for turning.
+
+\section{Fluency is not fidelity}
+
+Fidelity is the distance $d_H(G,T)$ between the stroke and the reference, and it is the quantity the recognizer is built on. Fluency and fidelity are partially independent. A stroke traced slowly and exactly has high fidelity and poor fluency. A stroke drawn quickly and economically that departs from the reference in the proportions of its parts has low fidelity and high fluency, and it may still be accepted. The distinction matters because training for fidelity produces tracing, which is a different skill from the fluent production that gesture typing depends on, and because a recognizer that accommodates the player's habits (Chapter~\ref{ch:personalized-recognition}) can improve fidelity by moving the template, which would be mistaken for improvement by the player if only fidelity were measured. The research program therefore reports fluency measures separately from recognition outcomes and fits them in the learning curves of Chapter~\ref{ch:learning-curves}.
+
+\begin{hypothesis}[Fluency gains precede fidelity gains]\label{hyp:fluency}
+In extended practice with a frozen recognizer, improvements in smoothness and consistency begin earlier and continue longer than improvements in the distance to the canonical reference.\evH
+\end{hypothesis}
+
+\chapter{Abbreviation and Economical Movement}\label{ch:abbreviation}
+
+\section{What abbreviation is}
+
+Players who use gesture keyboards for long periods report that they stop reproducing the full path of a word. They make long, flat sweeps across the middle of a word where the letters lie on a line, cut corners that the recognizer tolerates, exaggerate corners that carry information, and omit the last part of a word that the vocabulary makes obvious.\evO{} These behaviors are what \emph{abbreviation} means here: a systematic reduction of the stroke relative to the canonical path, which preserves its recognizability. The specification treats abbreviation as a skill to be taught and measured, and not as an error to be eliminated.
+
+\section{A formal frame}
+
+An \emph{abbreviation operator} $\mathcal A$ maps a template $T$ to a reduced stroke $\mathcal A(T)$. The operators considered are truncation, which drops the final portion; vertex skipping, which removes landmarks of low informativeness (Chapter~\ref{ch:curvature}) and replaces them by chords; corner exaggeration, or a \emph{swoop}, which replaces a sharp corner by an extended excursion that overshoots it; loop elision, which replaces a loop by a tight turn; and straightening, which replaces a gentle curve by its chord. An abbreviation $a$ of gesture $g$ is \emph{recoverable} in library $\Lib$ if the recognizer, applied to $a$, returns $g$ with at least the acceptance confidence, which is the condition under which the abbreviation can be used in play. The most economical recoverable abbreviation is the shortest stroke satisfying that condition,
+\[
+a^{\ast}(g)=\argmin_{a\in\mathcal A^{\ast}(T_g)}\ell(a)\quad\text{subject to}\quad \text{outcome}(a)=\textsc{Accepted}(g),
+\]
+where $\mathcal A^{\ast}$ is the closure of the operators under composition. The informativeness profile of Chapter~\ref{ch:curvature} predicts which parts can be dropped, and the prefix separation of Chapter~\ref{ch:partial-recognition} predicts where truncation is safe.
+
+\section{Teaching abbreviation}
+
+Abbreviation exercises display the full shape and accept a reduced stroke, and they report which reductions were made, so that the player gains an explicit sense of the margin. The reward is the economy bonus (Chapter~\ref{ch:scoring}), which rewards short recognized strokes without rewarding closeness to the template. If the recognizer personalizes, an abbreviation that a player uses repeatedly can be recorded as an additional template of the gesture, subject to the drift bound and the separation floor (Requirement~\ref{req:bounded-adaptation}). The danger to be managed is that abbreviations of different gestures converge on one another, since removing detail from two different shapes can make them alike, and the separation floor is the formal guard against it.
+
+\begin{hypothesis}[Abbreviation reaches a stable economical form]\label{hyp:abbreviation}
+With practice, players converge on abbreviated forms that are shorter than the canonical path by a stable proportion and that remain recoverable, and the forms are consistent within a player and differ between players.\evH
+\end{hypothesis}
+
+\chapter{Retention and Transfer}\label{ch:retention}
+
+\section{Retention}
+
+A skill that is lost after a few days is of little use, and a game that cannot show retention cannot claim to teach. Retention is measured by testing performance on a gesture after an interval without practice and comparing it with performance at the end of practice. The intervals tested are one day, one week and one month. The comparison uses the \emph{savings} measure of memory research, in which relearning after a lapse is compared with original learning: savings are large if relearning is much faster than the original learning. The curriculum protects retention by distributed practice, in which mastered gestures return to the pool at spaced intervals, and by the contextual interference of interleaved presentation (Chapter~\ref{ch:motor-learning}).
+
+\section{Transfer}
+
+Transfer asks whether practice in one condition improves performance in another. Three kinds are distinguished. \emph{Transfer between devices} is the question whether a player who learned on a phone performs well with a mouse, and conversely. \emph{Transfer between recognizers} is the question whether the skills learned under one recognizer remain effective when the recognizer is replaced by a new version, which is the situation of a user whose keyboard is updated, and it is the experimental form of the problem that motivates the whole project. \emph{Transfer between input methods} is the question whether the shape vocabulary learned by touch carries to a keyboard-driven or joystick-driven cursor (Part~\ref{part:advanced}). Each is quantified by a transfer ratio. If $P_{B\mid A}$ is performance on condition $B$ after practice on condition $A$, $P_{B\mid B}$ the performance after the same amount of practice on $B$ itself, and $P_{B\mid 0}$ the performance on $B$ without practice,
+\[
+\mathrm{TR}(A\to B)=\frac{P_{B\mid A}-P_{B\mid 0}}{P_{B\mid B}-P_{B\mid 0}},
+\]
+which is zero if practice on $A$ confers no advantage on $B$ and one if it is as good as practice on $B$.
+
+\section{Three skills that are not interchangeable}
+
+The word-gesture setting involves three distinct skills, and improvement in one does not establish improvement in another. \emph{Tracing} is reproducing a trajectory that is visible. \emph{Recall} is reproducing a learned trajectory with no guide. \emph{Generation} is producing the trajectory of a newly presented word from knowledge of the spelling and the keyboard geometry, which requires a mapping from letters to positions to movement that neither of the other two exercises. A player can become fluent at drawing complicated glyphs without becoming faster at gesture typing, because the third skill is not trained by the first. The transitional exercises of Chapter~\ref{ch:transitional} and the keyboard assistance of Chapter~\ref{ch:keyboard-assistance} are the designed bridge between them, and the bridge is an empirical question and not an assumption.
+
+Each skill is therefore assessed separately, with probes that isolate it: tracing against a displayed path, recall of a previously learned path with the guide removed, and generation for words not seen in practice. The central claim of the curriculum, that geometric practice contributes to gesture typing, is tested against a control that receives an equal amount of direct word-gesture practice (protocol P7 of Appendix~\ref{app:protocols}). Without that comparison an improvement in typing speed would show only that practice improves performance, and nothing about the geometric content of the practice.
+
+\begin{requirement}[Records that support transfer studies]\label{req:transfer-records}
+Every session record \must{} identify the device, input method, recognizer version and pipeline version, and the scope of every recognition result (active or vocabulary, Requirement~\ref{req:two-scopes}), so that retention and transfer can be analyzed without reconstructing conditions from memory.\evS
+\end{requirement}

@@ -1,0 +1,87 @@
+This entire part belongs to later development phases, after the touch-and-mouse game has become playable and stable. It is written now for one reason: the principle of device independence (Principle~\ref{pr:independence}) is a promise about the architecture, and the promise is credible only if it is tested against devices that behave very differently from a finger. Each chapter takes a device, states how it would produce a trajectory, and identifies the question that the device raises for the recognizer, the difficulty measure or the curriculum.
+
+The common structure is as follows. Every device is wrapped in an input adapter (Requirement~\ref{req:adapter}) that emits the stroke events of Chapter~\ref{ch:input-abstraction}. The adapter must supply the three things that a pointer supplies without effort: a position that evolves over time, a way to begin a stroke, and a way to end one. Where a device cannot supply them directly, the adapter synthesizes them from a control, such as a key or a button, and documents the synthesis. Because normalization resamples by arc length, differences in speed between devices do not enter the recognizer, but differences in the accuracy and the smoothness of the path do, and they are the subject of the cross-device study of Chapter~\ref{ch:cross-device}.
+
+\chapter{Keyboard-Controlled Drawing}\label{ch:keyboard-drawing}
+
+\section{A cursor moved by keys}
+
+A player who cannot or does not wish to use a pointer can draw with the keyboard. The adapter maintains a virtual cursor whose position is changed by held keys. Two key sets are provided: the arrow keys, and the Vim-style movement keys $h$, $j$, $k$ and $l$ for left, down, up and right, which are familiar to many keyboard-oriented users. A separate key, by default the space bar, acts as the pen: pressing it begins a stroke at the current cursor position, and releasing it ends the stroke. Moving without the pen held repositions the cursor without drawing, so that a gesture can be begun anywhere on the playfield.
+
+\section{Simultaneous directions and acceleration}
+
+Diagonal movement requires that two direction keys can be held at once, and the adapter tracks the state of every key and does not rely on key repeat events, whose rate and delay are set by the operating system and differ between machines.\evD{} The velocity of the cursor is the vector sum of the unit vectors of the held direction keys, normalized so that a diagonal is not faster than an axis-aligned movement. Acceleration is configurable. With a constant speed the cursor moves at $v_0$ in logical units per second. With acceleration the speed grows with the time $\tau$ for which a direction has been held, $v(\tau)=\min(v_{\max},\,v_0+a\tau)$, and returns to $v_0$ when all direction keys are released, which allows long travel to be quick and short, careful movements to be slow. The cursor position is updated at a fixed rate, with a default of 120 samples per second, independently of the display, so that the sample density is uniform and the trajectory is a faithful record of the path.
+
+\section{Consequences for recognition and difficulty}
+
+A keyboard-driven trajectory has special geometry. Its segments are straight between changes of the held keys, its directions are quantized to eight when only the four keys are used, and its curves are approximated by staircases of segments. A circle is drawn as a sequence of alternations between directions, and the effort of producing a smooth circle is large. The arc-length resampling and the smoothing of the pipeline remove much of the staircase, but a recognizer tuned on finger strokes has a tolerance that may be wrong for this device, which makes the cost of the gestures on this device a different function from the cost with a finger. The conclusion is that the difficulty measure is device-dependent, $C_{\text{device}}(G)$, and the weights of Chapter~\ref{ch:complexity} are fitted per device class (Hypothesis~\ref{hyp:device-cost}). The curriculum may also include a vocabulary of gestures designed for the device, since a polyline with few direction changes is easy to draw with keys and a smooth curve is not.
+
+\chapter{Etch A Sketch Controls}\label{ch:etch}
+
+\section{Independent axes}
+
+The Etch A Sketch is a drawing toy in which two rotary knobs control a stylus, one the horizontal position and the other the vertical, so that every line is the product of two coordinated rotations. It is a useful model for a class of inputs in which the two coordinates are controlled independently, and it appears in the project for two reasons. Such an input is easy to implement on any device with two analog controls, and it has a distinctive motor profile that tests the claim of device independence.
+
+In an implementation with virtual knobs, the player rotates two on-screen dials, each by dragging in a circle, and the angle $\theta_x$ of one dial gives the horizontal position $x=x_0+k_x\theta_x$, and the angle $\theta_y$ of the other gives the vertical position $y=y_0+k_y\theta_y$. With physical controllers the two dials are two controls with a continuous range, such as the two sticks of a gamepad in position mode, two rotary encoders, or two sliders. The pen is up or down according to a button, with a convention to be fixed by the first prototype.
+
+\section{Motor profile}
+
+Under this control the horizontal and vertical lines are the easiest shapes, since each requires the turning of one dial, and the diagonal is harder, since it requires both dials to turn together at a matched rate. A circle requires the two dials to turn sinusoidally with a quarter-period phase difference, $\theta_x\propto\cos\omega t$ and $\theta_y\propto\sin\omega t$, which is a difficult coordination, and a figure-eight requires a two-to-one frequency ratio between the dials. The ordering of difficulty is therefore different from the ordering for a finger, in which the circle is easier than the diagonal zigzag of many segments. The same vocabulary, drawn with the same recognizer, has a different cost, and the measure of the cost for this device is the main output of the study.
+
+\begin{hypothesis}[Device-dependent cost]\label{hyp:device-cost}
+The rank order of gesture difficulty differs significantly between a finger on a touchscreen, a keyboard-driven cursor and a two-dial controller, so that a difficulty model fitted on one device predicts the order of difficulty on another substantially less well than a model fitted on the device itself.\evH
+\end{hypothesis}
+
+\chapter{Joysticks and Gamepads}\label{ch:gamepads}
+
+\section{Position and rate control}
+
+An analog stick maps a displacement of the stick to either the position of the cursor or its velocity. In position control, the stick position, scaled to the playfield, is the cursor position, so that the stick behaves like a small pointing surface. In rate control, the stick displacement sets the velocity of the cursor, so that releasing the stick stops the cursor and a long movement requires holding the stick for some time. The distinction is a familiar one in the study of input devices, and the two modes have different strengths: position control is direct and fast for short, absolute movements, while rate control gives access to a large area with a small device and is used by joysticks on consoles and by pointing sticks on laptops.\evD{} The gamepad adapter provides both, and the choice is a setting with rate control as the default because it matches the common experience of gamepad users.
+
+\section{Interface and calibration}
+
+The browser exposes gamepads through a polled interface and not an event stream, so the adapter reads the state of the connected device on each simulation step and produces samples at the simulation rate, which is a uniform and convenient sampling.\evD{} Analog sticks have a dead zone, because a stick at rest does not report exactly zero, and the adapter applies a radial dead zone with a small default radius and a rescaling of the remaining range, since a dead zone that is applied to each axis independently distorts the diagonal. A calibration step records the rest position and the maximum displacement of each stick. A designated button begins and ends a stroke, preserving appropriate control over the initiation and completion of the gesture, so that the stroke is delimited by an intention and not inferred from the stick position, which would make every movement a stroke.
+
+\chapter{Alternative Pointing Devices}\label{ch:pointing-devices}
+
+Several other devices produce planar positions, and the pointer abstraction accommodates them with differences of detail. A \emph{trackball} produces relative motion by the rotation of a ball, and gives smooth, scalable movement with the hand at rest; its acceleration curves are set by the operating system and make the physical distance of the movement a poor predictor of the cursor distance, which the arc-length normalization discards. A \emph{touchpad} produces relative motion by default and may be placed in a mode with absolute coordinates; its tracking is smooth but its sampling is controlled by the driver, and some drivers apply smoothing and prediction that cannot be turned off. A \emph{stylus} produces absolute positions with higher resolution than a finger, together with pressure and tilt, and its hover state offers a sample sequence before contact that can be recorded and used to detect the intention to begin a stroke. A \emph{mouse} has a sampling rate that ranges from 125 Hz for basic devices to 1000 Hz or more for gaming devices, and delivers many more samples than the display consumes, which the coalesced events interface of the pointer adapter recovers. Each device can be recorded by the research tools (Chapter~\ref{ch:dataset}) with its identity, so that the effects of the device on recognition can be measured and not assumed.
+
+The extended channels of the sample (Chapter~\ref{ch:gesture-representation}) become useful with a stylus. Pressure may be used to delimit a stroke more accurately than a contact threshold, to distinguish deliberate strokes from incidental contact, and to define a graded quantity that a later curriculum could exploit, such as emphasis on a corner. The specification records the channel and leaves its use to future work.
+
+\chapter{Eye Tracking}\label{ch:eye-tracking}
+
+\section{The difficulty of gaze as a pointer}
+
+An eye tracker provides an estimate of the point at which the user is looking, and gaze offers an input method for users who cannot use their hands. It is also the most difficult device in this part. The eye does not move smoothly: it holds still in fixations lasting a few hundred milliseconds and jumps between them in saccades, so that a trace of the gaze point is a sequence of clusters joined by rapid leaps and not a drawn line. Estimates of the gaze point are noisy and biased, with typical errors from half a degree of visual angle for dedicated hardware to larger values for a webcam, and sampling rates range from the 30 Hz of a camera to hundreds of hertz for dedicated trackers. The eye also looks at what attracts attention and not only at what it is told to draw, which is the Midas touch problem: a system in which everything that is looked at is acted upon cannot distinguish looking from commanding \cite{jacob1990}.\evD{}
+
+\section{Delimiting strokes}
+
+The adapter must supply the start and end of a stroke by a mechanism other than a button. The options are dwell activation, in which a fixation of longer than a threshold at a start region begins a stroke; an explicit blink or a wink, which is detectable by some trackers; a switch operated by any available body movement; and a smooth-pursuit design, in which the user follows a moving target, because the eye's pursuit of a moving object produces a smooth trace that the system can match to the target's motion and that can be distinguished from ordinary looking \cite{vidal2013}.\evD{} The first implementation in this direction would use dwell and switch activation, which are the simplest, and would record its pursuit variants for research.
+
+\section{Gestures from fixations}
+
+Because gaze is fixated, the natural representation of a gaze gesture is a polyline whose vertices are the successive fixation points and not a continuous curve. The geometric feature recognizers of Chapter~\ref{ch:geometric-recognition} are suited to this: a gesture is a sequence of landmarks with their positions, and the recognizer compares the sequence with the landmark sequences of the library, with a tolerance that matches the accuracy of the tracker. The curriculum for gaze would consist of gestures with few vertices and generous tolerances, such as lines and corners, and would reach the word shapes only when the tracker is accurate enough to discriminate the keys. Gaze data is sensitive, because it reveals attention and in some conditions identity, so the research use of any gaze data is subject to a stricter consent procedure than that of strokes (Chapter~\ref{ch:dataset}).
+
+\chapter{Assistive Input Systems}\label{ch:assistive}
+
+Some users can operate only one or two switches, which may be pressed by a hand, a head movement, a breath or a muscle. Input by switch is usually by scanning: the interface highlights options in sequence, and the user selects the highlighted option by pressing the switch. A gesture game for switch users cannot be a drawing game in the continuous sense. It can nevertheless use the same vocabulary and recognizer by changing the manner in which a gesture is composed. In one scheme the player composes a gesture from primitives chosen by scanning, each primitive being a direction and a length, and the sequence is rendered as a trajectory which is passed to the recognizer like any other. In another, the player selects among balloons directly by scanning and the game provides the shape association as a visual game of matching, so that the curriculum of shapes remains available without the drawing.
+
+The scope of this chapter is deliberately limited. The specification records the intention that the neutral trajectory interface not preclude such devices and that every function of the game be reachable by a control that a switch can operate, and it does not commit to a design. The design of assistive input is a task that requires the participation of the people who would use it, and the specification therefore defers it to a consultative process once the first milestones are complete.\evS
+
+\chapter{Cross-Device Recognition}\label{ch:cross-device}
+
+\section{The question}
+
+The central question of the part is whether a common gesture vocabulary can remain useful across fundamentally different input mechanisms. The question has a practical side, in that a player who changes from a phone to a laptop should not have to learn again, and a research side, in that it tests whether the vocabulary is a property of the shapes or of the hand that draws them.
+
+\section{Measures}
+
+Let $\mathrm{acc}(A\to B)$ denote the recognition accuracy on strokes from device $B$ for a recognizer trained or calibrated on device $A$, and let $\mathrm{acc}(B\to B)$ be the accuracy of the matched case. The \emph{cross-device gap} is $\Delta(A,B)=\mathrm{acc}(B\to B)-\mathrm{acc}(A\to B)$, and a vocabulary is \emph{portable} between the devices if $\Delta$ is below a stated tolerance for all gestures. The gap decomposes into two contributions that the design can address differently. The first is a shift in the geometry of the strokes, so that the same gesture is drawn with different tolerance or proportions, and it can be addressed by per-device tolerance parameters and, where there is enough data, by per-device templates. The second is a shift in the difficulty, so that a gesture that is easy on one device is not on another (Hypothesis~\ref{hyp:device-cost}), and it cannot be addressed by the recognizer, only by the curriculum, which has to choose different gestures for different devices.
+
+\begin{hypothesis}[A portable core vocabulary]\label{hyp:portable}
+There exists a subset of the initial vocabulary, containing at least half of its gestures, whose cross-device gap between touch and each of the keyboard-driven and gamepad devices is below five percentage points after per-device calibration of the tolerance alone.\evH
+\end{hypothesis}
+
+\begin{requirement}[Device metadata]\label{req:device-metadata}
+Every recorded stroke \must{} identify the input adapter and its version, the device kind, and any per-device calibration in force, so that the cross-device analysis can be performed from the records alone.\evS
+\end{requirement}

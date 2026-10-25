@@ -1,0 +1,81 @@
+This part specifies how the game looks, moves, sounds and feels in the hand. The requirements are modest in the first milestone and deliberately concrete, because presentation is where the principle of immediate feedback (Principle~\ref{pr:feedback}) is either honored or lost.
+
+\chapter{Visual Design}\label{ch:visual-design}
+
+\section{A restrained visual language}
+
+The visual design aims at legibility under the conditions of play: a small screen, a moving target, a finger that hides part of the picture, and a player whose attention is divided between the descending balloons and the stroke being drawn. The design is therefore restrained. There are few colors, with one hue per role and not per gesture, there is no decorative motion, and the balloons carry high-contrast glyphs on plain fills. The color of a balloon is not a code for its gesture; gestures are told apart by their shapes, since color would give a free cue that disappears when the game moves toward words.
+
+\section{Legibility under overlap}
+
+The playfield will frequently show several balloons and a stroke at once, and the stroke will often pass over balloons. Three devices keep the picture comprehensible. The ink is drawn in a layer above the balloons with a thin contrasting outline, so that it is visible on any fill. The glyph of each balloon is drawn with a halo, a wider stroke in the fill color beneath the glyph, so that the glyph remains legible when ink crosses it. The balloons are not allowed to overlap one another at spawn, and the spawner enforces a minimum separation. In the dense case, in which several balloons are close to the failure line, the lowest balloon, which is the next to be chosen by Requirement~\ref{req:target}, is marked with a small, quiet indicator so that the player knows which of identical balloons will be hit.
+
+\section{Contrast and sizing}
+
+The design follows the contrast success criteria of the Web Content Accessibility Guidelines \cite{wcag22}:\evD{} text, including score and lives, has a contrast ratio of at least $4.5{:}1$ against its background, and graphical objects that carry meaning, including glyphs and the failure line, at least $3{:}1$. Balloon glyphs have a minimum size of 12 percent of the playfield width, which on a phone of 360 CSS pixels is about 43 pixels and which keeps simple glyphs legible at arm's length. A high-contrast theme, in which fills are replaced by outlines on a black or white field, is a setting of the first release.
+
+\begin{requirement}[Redundant encoding]\label{req:redundant}
+No information \must{} be conveyed by color alone. Outcomes, balloon urgency and the identity of a gesture \must{} each be conveyed also by shape, position, motion or text.\evS
+\end{requirement}
+
+\chapter{Animation and Feedback}\label{ch:animation}
+
+\section{Motion of balloons}
+
+Balloons move at the speed defined in Chapter~\ref{ch:balloons}, and their position is updated every simulation step and rendered by interpolation between steps so that motion is smooth at any display rate. There is no easing on the descent, since constant speed is what makes the time remaining readable. A balloon that is close to the failure line is shown with a subtle change that does not rely on color, such as a slow pulse in its outline, to signal urgency.
+
+\section{Popping, ambiguity and failure}
+
+The three outcomes of Requirement~\ref{req:outcomes} are given distinct motion. A pop is a brief expansion of the balloon and a burst of small fragments, lasting about 250 milliseconds, followed by a short score indicator rising from the position of the balloon. An ambiguous outcome produces a brief horizontal shake of each candidate balloon and a thin ring around it, lasting about 300 milliseconds, with the stroke fading rather than dissolving. A rejection dissolves the ink along its length from the end to the start over about 200 milliseconds, with no motion of the balloons. An ambiguous stroke should not read as a failure without explanation, and the specification does not settle how much explanation fits inside the arcade rhythm. The first prototype is the instrument for finding out: it tries the candidate highlight alone, the highlight with the nearer candidate marked, and a short text or glyph hint available on request, and it records which of these players understand without slowing down. Until that is measured the minimal highlight of this section is the default, and any richer feedback is an option that never blocks input.\evH{} These durations are design targets, and the specification asks that all three can be told apart in a screen recording at one quarter speed, which is a practical test that the differences are in the motion and not in the color.\evS
+
+\section{Transitions}
+
+Transitions between levels are short, 600 milliseconds or less, and consist of a change in the status strip and a brief announcement of the new gesture family, with the reference trajectory of any new gesture shown beside its glyph. Play is not paused for the transition unless the player has asked for a slower pace, so that the arcade rhythm is not broken.
+
+\section{Reduced motion and flashing}
+
+When the browser reports the user preference for reduced motion, through the corresponding media query, the game replaces the shake, the fragments and the pulse by static indications, such as an outline change and a brief icon, which preserve the distinction between outcomes without movement.\evD{} No element flashes more than three times in any one-second period, in accordance with the corresponding guideline \cite{wcag22}.\evD{}
+
+\chapter{Audio}\label{ch:audio}
+
+Audio provides a second channel for the outcomes and for progression, and it is optional. The sounds are short, a quarter of a second or less, and synthesized in the browser with the Web Audio interface and not loaded from files, which keeps the package small and the sounds consistent across devices. A rising two-note figure marks a pop, a low single note an ambiguity, a brief soft noise a rejection, a falling figure the loss of a life, and a short ascending run the passage to a new level. The pitch of the pop may rise with the streak, which gives an audible sense of momentum without adding a score display.
+
+Browsers do not allow audio to start until the user has interacted with the page, so the audio context is created or resumed on the first touch of the game. On devices that support it, a short vibration may accompany the outcomes; the interface for this is not available in every browser, and in particular is not available on iOS Safari at the time of writing, so haptics are an enhancement and never the only signal.\evD{}
+
+\begin{requirement}[Audio is optional and redundant]\label{req:audio}
+All audio \must{} be switchable, the game \must{} be fully playable with the sound off, and every outcome communicated by sound \must{} also be communicated visually.\evS
+\end{requirement}
+
+\chapter{Touchscreen Ergonomics}\label{ch:ergonomics}
+
+\section{Occlusion}
+
+The finger that draws a stroke covers the part of the screen under and just beyond it, and the player cannot see the ink immediately under the fingertip. For a game whose target is on screen while drawing, this has two consequences. The balloons that matter must not be hidden by the drawing hand, which argues for a layout in which balloons descend in the upper two thirds of the screen and the stroke is drawn mostly in the lower third, and the design therefore invites strokes to be made in the lower part of the playfield, although it does not require it, and the surface remains the whole playfield. The ink should be drawn with a short trailing glow that extends behind the fingertip, so that the shape being drawn is visible even when the tip is covered.
+
+\section{Screen size, handedness and gesture area}
+
+The physical size of a gesture depends on the screen. A gesture of fixed logical size is physically larger on a tablet than on a phone, and the relationship between physical size and accuracy is not monotone: very small gestures suffer from the noise of the finger relative to the shape, and very large ones from the effort of covering distance. A starting target is that a typical gesture occupy between 15 and 40 millimeters, and the recognizer's tolerance and the minimum stroke (Chapter~\ref{ch:execution}) are set in physical terms through the device's reported pixel density where this is reliable.\evH{} Handedness affects occlusion, since a right-handed player's hand covers the area to the right and below the fingertip, and a setting mirrors the placement of the status strip and of any hint display to keep them clear of the hand. Tablets introduce palm contact, and the first implementation ignores additional pointers once a stroke has begun, which provides a basic rejection of the palm.
+
+\section{Edges and system gestures}
+
+Mobile operating systems reserve the screen edges for navigation, and a stroke that begins at the edge may be taken by the system and cancelled. The specification therefore uses margins at the left and right edges as non-drawing regions (Chapter~\ref{ch:playfield}) and handles cancellation events by discarding the stroke without penalty. The same applies when the browser interface intervenes, as when the address bar appears or the user interface of the system is summoned.
+
+\section{Scale and recognition accuracy}
+
+The relationship between the scale of a gesture and the accuracy of its recognition is a measurable property of the system. The jitter of the sampling and the wobble of the hand have approximately fixed magnitude in physical units, so that the relative noise in a normalized gesture falls as the gesture grows. The dependence is measured in the research program by recording strokes at instructed scales (Chapter~\ref{ch:human-variation}), and it determines the recommended size of the drawing area on each device class.
+
+\chapter{Accessibility}\label{ch:accessibility}
+
+\section{Baseline requirements}
+
+The initial release establishes a baseline and does not attempt to support every future input device. The baseline consists of five adjustable properties and a commitment. \emph{Timing} is adjustable by a speed scale from one quarter to full speed, applied to the descent speed and the spawn rate together, and by an optional untimed practice mode, because time pressure is often the main barrier to participation for players with motor or cognitive impairments. \emph{Contrast} is adjustable through the high-contrast theme. \emph{Target size} is adjustable: the glyph size and the minimum stroke can be enlarged, and any interactive control has a minimum target size of 24 by 24 CSS pixels, which is the minimum of the corresponding success criterion \cite{wcag22}.\evD{} \emph{Reduced motion} is a setting that follows the system preference by default. \emph{Alternative control} is represented in the first release by the pointer abstraction, which already accepts a mouse and a stylus, and by the commitment to the keyboard-driven drawing of Chapter~\ref{ch:keyboard-drawing}.
+
+The commitment is that the recognition engine and the game never assume a touchscreen. That includes the requirement that every function reachable by a gesture is also reachable by a control, so that a player who cannot draw a stroke can still pause, restart, change settings and export data.
+
+\section{Pause and stop}
+
+Moving content that lasts more than five seconds and starts automatically must be able to be paused, stopped or hidden, which for a game means that a pause control is always available and is reachable by keyboard.\evD{} Pausing stops the simulation and the clock, so that no life can be lost during a pause, and the game state is preserved if the page is hidden, as when the player switches applications.
+
+\begin{requirement}[Accessibility baseline]\label{req:a11y}
+The first release \must{} meet the contrast ratios of Chapter~\ref{ch:visual-design} and \must{} provide a speed scale, a high-contrast theme, adjustable glyph and control sizes, a reduced-motion mode, a pause control operable without a pointer, and redundancy of outcome signals (Requirements~\ref{req:redundant} and~\ref{req:audio}).\evS
+\end{requirement}

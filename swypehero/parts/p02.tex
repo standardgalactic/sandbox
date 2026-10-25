@@ -1,0 +1,201 @@
+\chapter{The Playfield}\label{ch:playfield}
+
+\section{Layout}
+
+The playfield is a two-dimensional rectangular region that fills the browser viewport, designed first for a phone held in portrait orientation. Balloons enter from a spawn band along the top edge and descend toward a failure line near the bottom edge. A balloon is a filled shape with a recognizable geometric symbol drawn on its face. Above the balloons, the player's strokes are drawn as ink on a transparent drawing surface that covers the whole playfield. A narrow status strip at the top shows the score, the remaining lives and the current streak; it is part of the layout and does not intercept strokes except in its small control area.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=0.052cm,y=-0.052cm,font=\small]
+  \draw[rounded corners=6pt,line width=0.8pt,fill=gray!6] (0,0) rectangle (200,300);
+  \draw[fill=gray!18,draw=none] (0,0) rectangle (200,22);
+  \node[anchor=west,font=\scriptsize\sffamily] at (6,11) {score 1240};
+  \node[anchor=east,font=\scriptsize\sffamily] at (194,11) {lives 3};
+  \draw[dashed,gray!70] (0,34) -- (200,34);
+  \node[anchor=west,font=\tiny\sffamily,gray!70!black] at (4,29) {spawn band};
+  % balloons
+  \foreach \x/\y/\c in {44/70/blue!55,150/122/red!55,92/192/green!50!black!60}{
+    \draw[fill=\c,draw=black!60,line width=0.5pt] (\x,\y) ellipse (20 and 25);
+    \draw[black!60,line width=0.5pt] (\x,\y+25) -- (\x-2,\y+38) -- (\x+2,\y+44);
+  }
+  % glyphs
+  \draw[white,line width=1.2pt,line cap=round,line join=round] (34,66) -- (44,78) -- (56,60);
+  \draw[white,line width=1.2pt] (150,122) circle (9);
+  \draw[white,line width=1.2pt,line cap=round,line join=round] (82,198) -- (92,184) -- (92,200) -- (102,186);
+  % ink
+  \draw[orange!85!black,line width=2.2pt,line cap=round,line join=round,rounded corners=3pt]
+     (104,246) .. controls (112,232) and (128,232) .. (132,244) .. controls (136,258) and (116,262) .. (112,250);
+  \fill[orange!85!black] (112,250) circle (3);
+  % failure line
+  \draw[red!70!black,line width=0.9pt] (0,262) -- (200,262);
+  \node[anchor=west,font=\tiny\sffamily,red!70!black] at (4,270) {failure line};
+  \draw[<->,>=Stealth,gray!70!black] (214,0) -- (214,300);
+  \node[rotate=90,font=\scriptsize,gray!70!black] at (224,150) {$H_p$};
+  \draw[<->,>=Stealth,gray!70!black] (0,314) -- (200,314);
+  \node[font=\scriptsize,gray!70!black] at (100,324) {$W_p = 1000$};
+\end{tikzpicture}
+\caption{Schematic playfield in portrait orientation. Balloons carry glyphs and descend from the spawn band toward the failure line; the player's stroke (orange) is drawn on a transparent surface covering the whole field. The logical width is fixed and the height $H_p$ follows the viewport aspect ratio.}
+\label{fig:playfield}
+\end{figure}
+
+\section{Logical coordinates}
+
+All simulation and recognition code operates in logical units, which are independent of the pixel size and the pixel density of the screen. The width of the playfield is fixed at $W_p=1000$ logical units. The height $H_p$ is determined by the aspect ratio of the viewport, subject to the bounds $1.2W_p\le H_p\le2.4W_p$, and a letterbox or pillarbox fills the remainder when the viewport lies outside those bounds. The failure line is placed at $y=H_p-m_f$ with $m_f=0.12H_p$, leaving a margin at the bottom for the resting hand and for system gestures. The spawn band occupies $0\le y\le m_s$ with $m_s=0.08H_p$ below the status strip.\evS{} A transform between device pixels and logical units is computed once per layout change and applied in both directions; it is the only place in the program where device pixel ratio is visible.
+
+\begin{requirement}[Logical units]\label{req:logical}
+Simulation, scoring and recognition \must{} be expressed only in logical units. Rendering \must{} be the only stage that depends on device pixel dimensions.\evS
+\end{requirement}
+
+\section{The drawing surface}
+
+The surface that receives strokes covers the entire playfield, including the areas occupied by balloons and the status strip other than its control area. This follows Principle~\ref{pr:overhead}: the player draws, and the game decides which balloon the stroke concerns. The surface must not scroll, zoom or select text in response to touches, which in a browser is accomplished by declaring that the touch action of the element is none and by handling pointer events directly (Chapter~\ref{ch:input-abstraction}). A margin of about 24 logical units along the left and right edges is not treated as a drawing region, because mobile systems reserve the screen edge for navigation gestures and a stroke that begins in that margin may be taken by the system.\evS
+
+\section{Background and score display}
+
+The background is a quiet, low-contrast field that does not compete with the balloons or the ink, and it is specified in Chapter~\ref{ch:visual-design}. The score, lives and streak are shown in the status strip in a fixed typeface at a size legible at arm's length, and a visual change at a level transition is brief. Nothing in the display is permitted to move or flash in a way that would draw the eye away from the descending balloons.
+
+\chapter{Balloon Behavior}\label{ch:balloons}
+
+\section{State and motion}
+
+A balloon is a record with an identifier, a gesture identifier, a horizontal position, a vertical position, a descent speed, a radius, and a spawn time. Its horizontal position is fixed at spawn and chosen so that balloons do not overlap at birth; its vertical position decreases the distance to the failure line at a rate given by the descent speed. Horizontal drift is not part of the first implementation, because it adds visual noise without adding to the gesture-learning problem.
+
+The descent speed is a function of elapsed play time and of the level. Let $t$ be the time since the start of the current level, and let $v_0$ be the initial speed, $a$ the acceleration and $v_{\max}$ the cap. Then
+\[
+v(t)=\min\bigl(v_{\max},\,v_0+a\,t\bigr),
+\]
+with $v_0=60$, $a=0.8$ and $v_{\max}=140$ logical units per second as starting values to be calibrated.\evS{} Under these values, on a typical phone aspect ratio of about $16{:}9$ (so $H_p\approx1780$), a balloon takes roughly 10 seconds to cross the field at the speed cap and roughly 24 seconds at the initial speed, which gives a beginner ample time to draw and a practiced player room to spare.
+
+\section{Spawning}
+
+Balloons are generated by a spawner that draws the next spawn time from a distribution with a mean interval $\bar s$ that decreases slowly with the level, and that selects each balloon's gesture from the current \emph{gesture pool}, the set of gestures eligible at the player's stage in the curriculum (Chapter~\ref{ch:intro-curriculum}). The interval is jittered, uniformly in $[0.7\bar s,1.3\bar s]$ in the first implementation, so that arrivals are not so regular that the player settles into a rhythm unrelated to the shapes. An upper bound $B_{\max}$ on the number of simultaneous balloons is set by the level, beginning at two.
+
+\begin{requirement}[Seeded spawning]\label{req:spawn}
+The spawner \must{} draw all of its randomness from a seeded pseudorandom generator whose seed is recorded with the session, so that a session can be replayed exactly from the seed and the recorded input (Chapter~\ref{ch:game-loop}).\evS
+\end{requirement}
+
+\section{Difficulty and position}
+
+The pressure on the player at a given instant depends on how close the lowest balloon is to the failure line and on how complex the gesture it carries. A balloon near the line that carries a simple gesture is a manageable pressure; a high balloon that carries a complex gesture is not yet pressure at all. The relationship is formalized with a time budget. For a balloon $b$ at height $y_b$ with descent speed $v$, the time remaining is $\tau_b=(y_f-y_b)/v$ where $y_f$ is the failure line. If the gesture has estimated execution time $\hat T(g)$ (Chapter~\ref{ch:compound}), the \emph{slack} is $\tau_b-\hat T(g)$, and the spawner is constrained so that, for the player's estimated skill, the slack of a newly spawned balloon is positive with high probability. This makes the speed parameters a consequence of the gesture set and not a free dial that a designer must set blindly.
+
+\section{Outcomes}
+
+When a balloon is hit, it is destroyed, its score is awarded (Chapter~\ref{ch:scoring}) and the player's streak is incremented. When the player completes a stroke that is recognized as a gesture displayed by no balloon, nothing is destroyed, and the stroke is reported as a miss; a miss ends the streak, and in survival mode carries no further penalty. When a balloon reaches the failure line, it is removed, a life is lost, the streak ends, and the lost gesture is recorded in the player's history as a failure for the purposes of adaptive difficulty (Chapter~\ref{ch:adaptive-difficulty}). The asymmetry, that wrong strokes cost only the streak while missed balloons cost lives, is intentional. It keeps exploration cheap, which matters for learning, while preserving the pressure of the descent.\evS
+
+\section{Duplicate gestures}
+
+Several balloons may display the same gesture. A single stroke recognized as that gesture destroys exactly one of them, and the rule for choosing which is: the balloon nearest the failure line among those displaying the recognized gesture, with ties broken by earlier spawn time. This rule is predictable, it favors the most urgent target, and it rewards no attention to balloon position that the player has not already invested. A later mode may allow a stroke to destroy all balloons of a gesture, as a power-up or as a consequence of a streak, but the default is single destruction.
+
+\begin{requirement}[Target selection]\label{req:target}
+When a stroke is accepted as gesture $g$, the game \must{} destroy the balloon displaying $g$ whose vertical position is lowest on the screen, breaking ties by earliest spawn time, and \must{} destroy no other balloon.\evS
+\end{requirement}
+
+\section{Candidate set restriction}
+
+A related design choice concerns the recognizer. The recognizer may be asked to classify a stroke against the whole library or only against the gestures currently displayed by living balloons. Restricting the candidate set raises accuracy, because fewer classes compete, and it permits gestures that are very close in the full library to share a game. It also changes what the player learns, since the stroke is checked against what is on screen and not against the player's recall. The specification adopts the restricted candidate set as the default for survival mode and the full library for practice mode, and records the candidate set with every recognition result so that the effect can be measured (Chapter~\ref{ch:recognition-evaluation}).\evS
+
+\chapter{Gesture Execution}\label{ch:execution}
+
+\section{The gesture lifecycle}
+
+A gesture begins when the pointer becomes active, continues while the pointer moves, and ends when the pointer is released or the interaction is cancelled. In terms of browser pointer events these are \texttt{pointerdown}, \texttt{pointermove} and \texttt{pointerup} or \texttt{pointercancel}. A stroke is therefore a sequence of timestamped samples delimited by two events, and the representation is given in Chapter~\ref{ch:gesture-representation}. The game maintains a small state machine with four states.
+
+In the \emph{idle} state no pointer is active. A pointer-down event in the drawing surface, outside any control area, starts a stroke and moves to the \emph{drawing} state, in which each movement appends a sample and extends the visible ink. Releasing the pointer moves to the \emph{resolving} state, in which the recognizer runs on the completed stroke and returns an outcome. The \emph{feedback} state then displays the outcome for a short, fixed time before returning to idle, and during this time a new stroke may already begin, so that feedback never blocks input. A cancel event discards the stroke without recognition and returns to idle. Only the first pointer is tracked in the first implementation; additional simultaneous pointers are ignored.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[node distance=2.4cm,>=Stealth,every node/.style={font=\small},
+  state/.style={draw,rounded corners=3pt,minimum width=2.1cm,minimum height=0.9cm,fill=gray!8}]
+  \node[state] (idle) {idle};
+  \node[state,right=of idle] (drawing) {drawing};
+  \node[state,right=of drawing] (resolving) {resolving};
+  \node[state,below=1.6cm of drawing] (feedback) {feedback};
+  \draw[->] (idle) -- node[above,font=\scriptsize]{down} (drawing);
+  \draw[->] (drawing) -- node[above,font=\scriptsize]{up} (resolving);
+  \draw[->] (resolving) |- node[below right,font=\scriptsize,pos=0.2]{outcome} (feedback);
+  \draw[->] (feedback) -| node[below left,font=\scriptsize,pos=0.2]{timeout} (idle);
+  \draw[->] (drawing) to[bend right=55] node[above,font=\scriptsize]{cancel} (idle);
+  \draw[->,dashed] (drawing) to[loop above] node[above,font=\scriptsize]{move / early commit} (drawing);
+\end{tikzpicture}
+\caption{States of the stroke lifecycle. A new stroke may begin during the feedback state, so feedback never blocks input.}
+\label{fig:lifecycle}
+\end{figure}
+
+\section{Minimum stroke}
+
+A touch that does not move far enough is a tap, not a gesture. A stroke \must{} be treated as a candidate gesture only if its path length exceeds a minimum $\ell_{\min}$ and its extent exceeds a minimum $S_{\min}$, with starting values $\ell_{\min}=40$ and $S_{\min}=30$ logical units.\evS{} Shorter strokes are discarded without any feedback other than the ink fading, because penalizing an accidental touch would be both unfair and discouraging.
+
+\section{Recognition on release and during the stroke}
+
+The default is that recognition occurs on release. It is simple, deterministic and equivalent to how the recognizer is evaluated in the benchmark (Chapter~\ref{ch:recognition-evaluation}). Chapter~\ref{ch:partial-recognition} investigates the alternative in which a sufficiently confident partial stroke is accepted before it ends. The early-commit variant changes the interaction in a visible way, because the stroke is cut short, and it changes the training in a less visible one, because a player rewarded for early commits will learn to draw only as much as is needed. That is the behavior that experienced gesture typists report as a skill (Chapter~\ref{ch:abbreviation}), and it is also exactly the behavior that makes full-stroke measurements uninformative. The specification therefore defines early commit as an optional recognition mode that is disabled in the first milestone and is recorded in the session metadata when enabled.
+
+\section{Feedback and outcomes}
+
+The recognizer returns one of three outcomes, and the game presents them so that they cannot be confused. An \emph{accepted} outcome carries a gesture and a confidence and pops the corresponding balloon. An \emph{ambiguous} outcome means that the stroke was close to more than one candidate and the recognizer declines to choose; the candidate balloons are briefly highlighted and no balloon is destroyed. A \emph{rejected} outcome means that the stroke was not close to any candidate, or was malformed, and the ink dissolves. The distinction is essential for learning, since an ambiguous stroke tells the player that the shape was nearly right and perhaps merely too close to a neighbor, while a rejected stroke tells the player that the shape was wrong. Chapter~\ref{ch:confidence} defines the decision rule.
+
+\begin{requirement}[Distinct outcomes]\label{req:outcomes}
+The three outcomes \must{} be distinguishable without reliance on color alone, using differences of motion or shape in the feedback animation (Chapter~\ref{ch:animation}), and an equivalent non-visual signal \should{} be available (Chapter~\ref{ch:audio}).\evS
+\end{requirement}
+
+\section{Ink}
+
+The ink is drawn as the stroke proceeds, as a smooth line through the sampled points with a fixed width of about 6 logical units, in a color that contrasts with both balloons and background. Rendering is incremental, adding each new segment to the existing path without redrawing the entire stroke, which keeps the work per frame constant and the ink responsive on modest hardware.
+
+\chapter{Scoring and Progression}\label{ch:scoring}
+
+\section{Score components}
+
+The score for a destroyed balloon is the product of a base value, a speed factor and a streak multiplier, with an optional economy bonus. The base value $B(g)$ is a function of the gesture's complexity $C(g)$ from Chapter~\ref{ch:complexity}, so that a more demanding gesture is worth more, and it is defined by $B(g)=B_0\,(1+\beta\,C(g))$ with $B_0=100$ and $\beta=2$.\evS{} The speed factor rewards a prompt response and is defined by
+\[
+\sigma=1+\lambda\,\operatorname{clip}\!\Bigl(1-\tfrac{t_{\mathrm{resp}}}{t_{\mathrm{avail}}},\,0,\,1\Bigr),
+\]
+where $t_{\mathrm{resp}}$ is the time from the balloon's appearance to the pointer release that destroyed it, $t_{\mathrm{avail}}$ is the total time the balloon would take to reach the failure line, and $\lambda=0.5$. The streak multiplier is $m(k)=1+\min(k,k_{\max})/10$ for a streak of $k$ consecutive destroyed balloons with $k_{\max}=10$.
+
+\section{Not rewarding precision}
+
+A game that rewards geometric precision rewards the wrong skill. A player who traces a shape slowly and exactly achieves a high recognition score and a poor game result, while a player who produces the same recognized shape in one smooth, economical stroke is exactly the player the curriculum is meant to produce. The specification therefore forbids any term in the score that increases monotonically with the closeness of the stroke to the template, once the stroke is accepted.
+
+\begin{requirement}[Precision neutrality]\label{req:precision}
+The score of an accepted stroke \must{} be independent of the distance between the stroke and the template, except through the accept decision itself.\evS
+\end{requirement}
+
+An economy bonus that rewards drawing only what is needed is permitted, and is defined from path lengths and not from template distance. Let $\ell(G)$ be the path length of the accepted stroke and $\ell_{\mathrm{ref}}(g)$ the path length of the reference gesture. The economy factor is $\epsilon=\min(1,\ell_{\mathrm{ref}}(g)/\ell(G))$, and the bonus is $B_{\mathrm{econ}}=B(g)\,\kappa\,\epsilon$ with $\kappa=0.1$. A stroke that wanders is worth slightly less than one that goes directly, and a stroke shorter than the reference earns the full bonus.
+
+\section{Progression}
+
+Progression is the advance through the gesture pool, and it is driven by performance on gestures and not by score. A new gesture family is unlocked when the player's competence estimates on the current families (Chapter~\ref{ch:adaptive-difficulty}) exceed a mastery criterion, and the score is therefore a record and a source of play and not the control variable of the curriculum. This separates two things that games commonly conflate: the pleasure of a high score and the evidence of learning.
+
+\begin{requirement}[Replayable scoring]\label{req:replay-score}
+The score \must{} be a deterministic function of the recorded input events, the seed and the recognizer version, so that any recorded session can be re-scored.\evS
+\end{requirement}
+
+\chapter{Game Modes}\label{ch:modes}
+
+A game mode is a configuration of six elements: the spawner policy, the candidate set, the failure rule, the scoring rule, the adaptation policy and the logging policy. Making the mode a configuration, and not a separate code path, means that new modes can be added without changing the recognizer or the simulation, and that experiments can be defined as modes.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}lXXX@{}}
+\toprule
+Element & Survival & Practice & Progressive training \\
+\midrule
+Spawner & Seeded, level-driven & Single target, repeated or cycled & Selected by competence model \\
+Candidate set & On-screen gestures & Full library & On-screen gestures \\
+Failure rule & Lives, balloon reaches line & None & Lives, generous \\
+Scoring & Full & None, or accuracy only & Full, with mastery tracking \\
+Adaptation & Off by default & May update templates & Updates competence estimates \\
+Logging & Session record & Session record & Session record, learning curves \\
+\bottomrule
+\end{tabularx}
+\caption{The three modes of the first design, expressed as configurations.}
+\label{tab:modes}
+\end{table}
+
+\paragraph{Survival.} The basic mode is the arcade game as described in the preceding chapters. It ends when lives are exhausted. It is the mode in which enjoyment is tested and the only mode of the first implementation.
+
+\paragraph{Practice.} The practice mode removes time pressure. A target gesture is displayed with its reference trajectory, the player draws it, and the outcome is reported with the stroke overlaid on the reference. The label of the stroke is known, because the target was prompted, and this is the mode in which supervised personalization is safe (Chapter~\ref{ch:personalized-recognition}).
+
+\paragraph{Progressive training.} The training mode is survival with a pool selected by the competence model, so that the player meets gestures at the edge of their ability and is given lighter pressure while a new gesture is consolidated.
+
+\paragraph{Later modes.} The specification anticipates timed challenges with fixed durations, restricted gesture families for focused drills, competing targets in which several balloons carry confusable gestures, and personalized exercises generated from a player's own error history. None is part of the first implementation, which concentrates on a single polished survival mode so that the central loop can be judged before it is extended.\evS

@@ -1,0 +1,312 @@
+\contentsline {chapter}{Abstract}{ii}{chapter*.1}%
+\contentsline {chapter}{Motivation}{iii}{chapter*.2}%
+\contentsline {chapter}{Conventions of This Specification}{iv}{chapter*.3}%
+\contentsline {paragraph}{Normative language.}{iv}{section*.4}%
+\contentsline {paragraph}{Evidential status.}{iv}{section*.5}%
+\contentsline {paragraph}{Coordinates and units.}{iv}{section*.6}%
+\contentsline {paragraph}{Computed values.}{iv}{section*.7}%
+\contentsline {paragraph}{Notation.}{v}{section*.8}%
+\contentsline {paragraph}{Structure.}{v}{section*.9}%
+\contentsline {part}{I\hspace {1em}Concept and Design Philosophy}{1}{part.1}%
+\contentsline {chapter}{\numberline {1}Introduction and Project Objectives}{2}{chapter.1}%
+\contentsline {paragraph}{Scope and non-goals.}{3}{section*.11}%
+\contentsline {paragraph}{How the document is used.}{3}{section*.12}%
+\contentsline {chapter}{\numberline {2}Historical Background}{4}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Evidence classes}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Gesture typing}{4}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Behaviors attributed to Swype}{5}{section.2.3}%
+\contentsline {section}{\numberline {2.4}The consequence of discontinuing adaptive software}{5}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Magic Touch as a reference}{5}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Design Principles}{7}{chapter.3}%
+\contentsline {part}{II\hspace {1em}Core Gameplay}{9}{part.2}%
+\contentsline {chapter}{\numberline {4}The Playfield}{10}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Layout}{10}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Logical coordinates}{10}{section.4.2}%
+\contentsline {section}{\numberline {4.3}The drawing surface}{11}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Background and score display}{11}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Balloon Behavior}{13}{chapter.5}%
+\contentsline {section}{\numberline {5.1}State and motion}{13}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Spawning}{13}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Difficulty and position}{14}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Outcomes}{14}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Duplicate gestures}{14}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Candidate set restriction}{14}{section.5.6}%
+\contentsline {chapter}{\numberline {6}Gesture Execution}{16}{chapter.6}%
+\contentsline {section}{\numberline {6.1}The gesture lifecycle}{16}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Minimum stroke}{16}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Recognition on release and during the stroke}{16}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Feedback and outcomes}{17}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Ink}{17}{section.6.5}%
+\contentsline {chapter}{\numberline {7}Scoring and Progression}{19}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Score components}{19}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Not rewarding precision}{19}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Progression}{20}{section.7.3}%
+\contentsline {chapter}{\numberline {8}Game Modes}{21}{chapter.8}%
+\contentsline {paragraph}{Survival.}{21}{section*.13}%
+\contentsline {paragraph}{Practice.}{21}{section*.14}%
+\contentsline {paragraph}{Progressive training.}{21}{section*.15}%
+\contentsline {paragraph}{Later modes.}{21}{section*.16}%
+\contentsline {part}{III\hspace {1em}The Geometry of Gestures}{23}{part.3}%
+\contentsline {chapter}{\numberline {9}Gesture Representation}{25}{chapter.9}%
+\contentsline {section}{\numberline {9.1}The trajectory}{25}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Path and execution}{25}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Derived quantities}{26}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Raw and derived data}{26}{section.9.4}%
+\contentsline {chapter}{\numberline {10}Primitive Geometric Gestures}{27}{chapter.10}%
+\contentsline {section}{\numberline {10.1}The initial vocabulary}{27}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Geometric complexity and motor difficulty}{27}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Criteria for introductory targets}{28}{section.10.3}%
+\contentsline {chapter}{\numberline {11}Compound Gestures}{29}{chapter.11}%
+\contentsline {section}{\numberline {11.1}A small algebra of shapes}{29}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Visual and execution complexity}{29}{section.11.2}%
+\contentsline {chapter}{\numberline {12}Gesture Equivalence and Invariance}{31}{chapter.12}%
+\contentsline {section}{\numberline {12.1}Which transformations preserve identity}{31}{section.12.1}%
+\contentsline {section}{\numberline {12.2}Three notions of distance}{31}{section.12.2}%
+\contentsline {section}{\numberline {12.3}Examples of collision}{34}{section.12.3}%
+\contentsline {chapter}{\numberline {13}Curvature and Directional Information}{35}{chapter.13}%
+\contentsline {section}{\numberline {13.1}Features that survive noise}{35}{section.13.1}%
+\contentsline {section}{\numberline {13.2}Landmarks}{35}{section.13.2}%
+\contentsline {section}{\numberline {13.3}Informative portions}{35}{section.13.3}%
+\contentsline {chapter}{\numberline {14}Temporal Structure}{37}{chapter.14}%
+\contentsline {section}{\numberline {14.1}What time contributes}{37}{section.14.1}%
+\contentsline {section}{\numberline {14.2}Measures of execution}{37}{section.14.2}%
+\contentsline {section}{\numberline {14.3}Which temporal properties to ignore}{38}{section.14.3}%
+\contentsline {chapter}{\numberline {15}Gesture Complexity}{39}{chapter.15}%
+\contentsline {section}{\numberline {15.1}A multidimensional measure}{39}{section.15.1}%
+\contentsline {section}{\numberline {15.2}Computed example}{40}{section.15.2}%
+\contentsline {section}{\numberline {15.3}From intuition to data}{40}{section.15.3}%
+\contentsline {part}{IV\hspace {1em}Recognition Algorithms}{41}{part.4}%
+\contentsline {chapter}{\numberline {16}Input Normalization}{43}{chapter.16}%
+\contentsline {section}{\numberline {16.1}The pipeline}{43}{section.16.1}%
+\contentsline {section}{\numberline {16.2}Resampling}{43}{section.16.2}%
+\contentsline {section}{\numberline {16.3}Scale normalization}{44}{section.16.3}%
+\contentsline {section}{\numberline {16.4}Coordinate transformations}{44}{section.16.4}%
+\contentsline {chapter}{\numberline {17}Baseline Template Matching}{45}{chapter.17}%
+\contentsline {section}{\numberline {17.1}The recognizer}{45}{section.17.1}%
+\contentsline {section}{\numberline {17.2}Cost and reproducibility}{45}{section.17.2}%
+\contentsline {chapter}{\numberline {18}Dynamic Time Warping}{47}{chapter.18}%
+\contentsline {section}{\numberline {18.1}Elastic alignment}{47}{section.18.1}%
+\contentsline {section}{\numberline {18.2}Constraints and complexity}{48}{section.18.2}%
+\contentsline {section}{\numberline {18.3}When warping helps and when it does not}{48}{section.18.3}%
+\contentsline {chapter}{\numberline {19}Geometric Feature Recognition}{49}{chapter.19}%
+\contentsline {section}{\numberline {19.1}Recognizing by structure}{49}{section.19.1}%
+\contentsline {section}{\numberline {19.2}Comparison with pointwise matching}{49}{section.19.2}%
+\contentsline {chapter}{\numberline {20}Probabilistic Recognition}{50}{chapter.20}%
+\contentsline {section}{\numberline {20.1}From distances to probabilities}{50}{section.20.1}%
+\contentsline {section}{\numberline {20.2}Likelihood model}{50}{section.20.2}%
+\contentsline {section}{\numberline {20.3}Calibration}{51}{section.20.3}%
+\contentsline {chapter}{\numberline {21}Recognition Confidence}{52}{chapter.21}%
+\contentsline {section}{\numberline {21.1}The decision rule}{52}{section.21.1}%
+\contentsline {section}{\numberline {21.2}Active candidates and the full vocabulary}{53}{section.21.2}%
+\contentsline {section}{\numberline {21.3}Why an absolute gate is necessary}{53}{section.21.3}%
+\contentsline {section}{\numberline {21.4}Setting thresholds and reporting}{54}{section.21.4}%
+\contentsline {chapter}{\numberline {22}Partial Trajectory Recognition}{55}{chapter.22}%
+\contentsline {section}{\numberline {22.1}Recognizing before the stroke ends}{55}{section.22.1}%
+\contentsline {section}{\numberline {22.2}Prefix distance}{55}{section.22.2}%
+\contentsline {section}{\numberline {22.3}Commit rule}{55}{section.22.3}%
+\contentsline {section}{\numberline {22.4}A property of the library}{56}{section.22.4}%
+\contentsline {section}{\numberline {22.5}Effects on play and on learning}{57}{section.22.5}%
+\contentsline {chapter}{\numberline {23}Personalized Gesture Recognition}{58}{chapter.23}%
+\contentsline {section}{\numberline {23.1}Two things that can be learned}{58}{section.23.1}%
+\contentsline {section}{\numberline {23.2}Template adaptation}{58}{section.23.2}%
+\contentsline {section}{\numberline {23.3}Protection against accidental learning}{59}{section.23.3}%
+\contentsline {section}{\numberline {23.4}Prior adaptation}{60}{section.23.4}%
+\contentsline {chapter}{\numberline {24}Recognition Evaluation}{61}{chapter.24}%
+\contentsline {section}{\numberline {24.1}Measures}{61}{section.24.1}%
+\contentsline {section}{\numberline {24.2}Evaluation across users}{61}{section.24.2}%
+\contentsline {section}{\numberline {24.3}Benchmark datasets and procedures}{62}{section.24.3}%
+\contentsline {part}{V\hspace {1em}Learning and Difficulty Progression}{63}{part.5}%
+\contentsline {chapter}{\numberline {25}Motor Learning Foundations}{65}{chapter.25}%
+\contentsline {section}{\numberline {25.1}What is established}{65}{section.25.1}%
+\contentsline {section}{\numberline {25.2}Learning is not adaptation}{65}{section.25.2}%
+\contentsline {chapter}{\numberline {26}The Introductory Curriculum}{67}{chapter.26}%
+\contentsline {section}{\numberline {26.1}Principle}{67}{section.26.1}%
+\contentsline {section}{\numberline {26.2}Mastery}{67}{section.26.2}%
+\contentsline {section}{\numberline {26.3}Pacing}{67}{section.26.3}%
+\contentsline {chapter}{\numberline {27}Intermediate Gesture Families}{69}{chapter.27}%
+\contentsline {section}{\numberline {27.1}Compound curves and multiple turns}{69}{section.27.1}%
+\contentsline {section}{\numberline {27.2}Overlapping trajectories}{69}{section.27.2}%
+\contentsline {section}{\numberline {27.3}Increasingly similar shapes}{69}{section.27.3}%
+\contentsline {chapter}{\numberline {28}Advanced Gesture Families}{71}{chapter.28}%
+\contentsline {section}{\numberline {28.1}Exercises}{71}{section.28.1}%
+\contentsline {section}{\numberline {28.2}Dosage}{71}{section.28.2}%
+\contentsline {chapter}{\numberline {29}Adaptive Difficulty}{72}{chapter.29}%
+\contentsline {section}{\numberline {29.1}A competence model}{72}{section.29.1}%
+\contentsline {section}{\numberline {29.2}Selecting challenges}{72}{section.29.2}%
+\contentsline {section}{\numberline {29.3}Not a scalar}{73}{section.29.3}%
+\contentsline {chapter}{\numberline {30}Gesture Fluency}{74}{chapter.30}%
+\contentsline {section}{\numberline {30.1}Dimensions of fluency}{74}{section.30.1}%
+\contentsline {section}{\numberline {30.2}Fluency is not fidelity}{74}{section.30.2}%
+\contentsline {chapter}{\numberline {31}Abbreviation and Economical Movement}{76}{chapter.31}%
+\contentsline {section}{\numberline {31.1}What abbreviation is}{76}{section.31.1}%
+\contentsline {section}{\numberline {31.2}A formal frame}{76}{section.31.2}%
+\contentsline {section}{\numberline {31.3}Teaching abbreviation}{77}{section.31.3}%
+\contentsline {chapter}{\numberline {32}Retention and Transfer}{78}{chapter.32}%
+\contentsline {section}{\numberline {32.1}Retention}{78}{section.32.1}%
+\contentsline {section}{\numberline {32.2}Transfer}{78}{section.32.2}%
+\contentsline {section}{\numberline {32.3}Three skills that are not interchangeable}{79}{section.32.3}%
+\contentsline {part}{VI\hspace {1em}From Geometric Shapes to Words}{80}{part.6}%
+\contentsline {chapter}{\numberline {33}Keyboard Geometry}{82}{chapter.33}%
+\contentsline {section}{\numberline {33.1}Layouts as data}{82}{section.33.1}%
+\contentsline {section}{\numberline {33.2}The idealized word path}{82}{section.33.2}%
+\contentsline {section}{\numberline {33.3}Repeated letters and neighbors}{83}{section.33.3}%
+\contentsline {chapter}{\numberline {34}Word Shapes}{84}{chapter.34}%
+\contentsline {section}{\numberline {34.1}Geometric identity of a word}{84}{section.34.1}%
+\contentsline {section}{\numberline {34.2}Generating and classifying shapes automatically}{84}{section.34.2}%
+\contentsline {chapter}{\numberline {35}Word Difficulty}{86}{chapter.35}%
+\contentsline {section}{\numberline {35.1}Length is not geometric complexity}{86}{section.35.1}%
+\contentsline {section}{\numberline {35.2}A curriculum by trajectory difficulty}{86}{section.35.2}%
+\contentsline {chapter}{\numberline {36}Transitional Exercises}{88}{chapter.36}%
+\contentsline {chapter}{\numberline {37}Visible Keyboard Assistance}{90}{chapter.37}%
+\contentsline {section}{\numberline {37.1}Assistance levels}{90}{section.37.1}%
+\contentsline {section}{\numberline {37.2}Fading}{90}{section.37.2}%
+\contentsline {chapter}{\numberline {38}Vocabulary Learning}{91}{chapter.38}%
+\contentsline {section}{\numberline {38.1}Classes of words}{91}{section.38.1}%
+\contentsline {section}{\numberline {38.2}A transparent personal dictionary}{91}{section.38.2}%
+\contentsline {chapter}{\numberline {39}Word Ambiguity}{93}{chapter.39}%
+\contentsline {section}{\numberline {39.1}Geometric confusability}{93}{section.39.1}%
+\contentsline {section}{\numberline {39.2}Geometry and priors}{93}{section.39.2}%
+\contentsline {section}{\numberline {39.3}Training on ambiguity}{94}{section.39.3}%
+\contentsline {chapter}{\numberline {40}Sentence Composition}{95}{chapter.40}%
+\contentsline {section}{\numberline {40.1}From words to text}{95}{section.40.1}%
+\contentsline {section}{\numberline {40.2}Spaces, punctuation, capitalization and correction}{95}{section.40.2}%
+\contentsline {section}{\numberline {40.3}Word selection}{95}{section.40.3}%
+\contentsline {chapter}{\numberline {41}Typing Proficiency}{97}{chapter.41}%
+\contentsline {section}{\numberline {41.1}Speed and accuracy}{97}{section.41.1}%
+\contentsline {section}{\numberline {41.2}Measures specific to gesture entry}{97}{section.41.2}%
+\contentsline {section}{\numberline {41.3}Realistic tasks}{98}{section.41.3}%
+\contentsline {part}{VII\hspace {1em}Game Presentation and Interaction}{99}{part.7}%
+\contentsline {chapter}{\numberline {42}Visual Design}{101}{chapter.42}%
+\contentsline {section}{\numberline {42.1}A restrained visual language}{101}{section.42.1}%
+\contentsline {section}{\numberline {42.2}Legibility under overlap}{101}{section.42.2}%
+\contentsline {section}{\numberline {42.3}Contrast and sizing}{101}{section.42.3}%
+\contentsline {chapter}{\numberline {43}Animation and Feedback}{103}{chapter.43}%
+\contentsline {section}{\numberline {43.1}Motion of balloons}{103}{section.43.1}%
+\contentsline {section}{\numberline {43.2}Popping, ambiguity and failure}{103}{section.43.2}%
+\contentsline {section}{\numberline {43.3}Transitions}{103}{section.43.3}%
+\contentsline {section}{\numberline {43.4}Reduced motion and flashing}{104}{section.43.4}%
+\contentsline {chapter}{\numberline {44}Audio}{105}{chapter.44}%
+\contentsline {chapter}{\numberline {45}Touchscreen Ergonomics}{106}{chapter.45}%
+\contentsline {section}{\numberline {45.1}Occlusion}{106}{section.45.1}%
+\contentsline {section}{\numberline {45.2}Screen size, handedness and gesture area}{106}{section.45.2}%
+\contentsline {section}{\numberline {45.3}Edges and system gestures}{106}{section.45.3}%
+\contentsline {section}{\numberline {45.4}Scale and recognition accuracy}{107}{section.45.4}%
+\contentsline {chapter}{\numberline {46}Accessibility}{108}{chapter.46}%
+\contentsline {section}{\numberline {46.1}Baseline requirements}{108}{section.46.1}%
+\contentsline {section}{\numberline {46.2}Pause and stop}{108}{section.46.2}%
+\contentsline {part}{VIII\hspace {1em}Software Architecture}{109}{part.8}%
+\contentsline {chapter}{\numberline {47}Technology Selection}{111}{chapter.47}%
+\contentsline {section}{\numberline {47.1}Language and rendering}{111}{section.47.1}%
+\contentsline {section}{\numberline {47.2}Priorities}{111}{section.47.2}%
+\contentsline {section}{\numberline {47.3}Package structure}{111}{section.47.3}%
+\contentsline {chapter}{\numberline {48}Game Loop and Simulation}{113}{chapter.48}%
+\contentsline {section}{\numberline {48.1}Separation of stages}{113}{section.48.1}%
+\contentsline {section}{\numberline {48.2}Fixed timestep}{113}{section.48.2}%
+\contentsline {section}{\numberline {48.3}Determinism and replay}{114}{section.48.3}%
+\contentsline {chapter}{\numberline {49}Input Abstraction}{115}{chapter.49}%
+\contentsline {section}{\numberline {49.1}A neutral trajectory interface}{115}{section.49.1}%
+\contentsline {section}{\numberline {49.2}The pointer adapter}{116}{section.49.2}%
+\contentsline {chapter}{\numberline {50}Recognition Engine}{117}{chapter.50}%
+\contentsline {section}{\numberline {50.1}Modular interfaces}{117}{section.50.1}%
+\contentsline {section}{\numberline {50.2}What a result contains}{118}{section.50.2}%
+\contentsline {chapter}{\numberline {51}Gesture Library}{119}{chapter.51}%
+\contentsline {section}{\numberline {51.1}Contents}{119}{section.51.1}%
+\contentsline {section}{\numberline {51.2}Versioning}{119}{section.51.2}%
+\contentsline {chapter}{\numberline {52}Player Profiles}{121}{chapter.52}%
+\contentsline {chapter}{\numberline {53}Local Persistence}{122}{chapter.53}%
+\contentsline {section}{\numberline {53.1}Storage}{122}{section.53.1}%
+\contentsline {section}{\numberline {53.2}Export, import and deletion}{122}{section.53.2}%
+\contentsline {chapter}{\numberline {54}Performance}{123}{chapter.54}%
+\contentsline {section}{\numberline {54.1}Budgets}{123}{section.54.1}%
+\contentsline {section}{\numberline {54.2}Measurement}{123}{section.54.2}%
+\contentsline {chapter}{\numberline {55}Testing}{124}{chapter.55}%
+\contentsline {section}{\numberline {55.1}Levels of testing}{124}{section.55.1}%
+\contentsline {section}{\numberline {55.2}Properties}{124}{section.55.2}%
+\contentsline {section}{\numberline {55.3}Fixtures}{125}{section.55.3}%
+\contentsline {chapter}{\numberline {56}Deployment}{126}{chapter.56}%
+\contentsline {part}{IX\hspace {1em}Advanced Input Interfaces}{127}{part.9}%
+\contentsline {chapter}{\numberline {57}Keyboard-Controlled Drawing}{129}{chapter.57}%
+\contentsline {section}{\numberline {57.1}A cursor moved by keys}{129}{section.57.1}%
+\contentsline {section}{\numberline {57.2}Simultaneous directions and acceleration}{129}{section.57.2}%
+\contentsline {section}{\numberline {57.3}Consequences for recognition and difficulty}{129}{section.57.3}%
+\contentsline {chapter}{\numberline {58}Etch A Sketch Controls}{131}{chapter.58}%
+\contentsline {section}{\numberline {58.1}Independent axes}{131}{section.58.1}%
+\contentsline {section}{\numberline {58.2}Motor profile}{131}{section.58.2}%
+\contentsline {chapter}{\numberline {59}Joysticks and Gamepads}{132}{chapter.59}%
+\contentsline {section}{\numberline {59.1}Position and rate control}{132}{section.59.1}%
+\contentsline {section}{\numberline {59.2}Interface and calibration}{132}{section.59.2}%
+\contentsline {chapter}{\numberline {60}Alternative Pointing Devices}{133}{chapter.60}%
+\contentsline {chapter}{\numberline {61}Eye Tracking}{134}{chapter.61}%
+\contentsline {section}{\numberline {61.1}The difficulty of gaze as a pointer}{134}{section.61.1}%
+\contentsline {section}{\numberline {61.2}Delimiting strokes}{134}{section.61.2}%
+\contentsline {section}{\numberline {61.3}Gestures from fixations}{134}{section.61.3}%
+\contentsline {chapter}{\numberline {62}Assistive Input Systems}{136}{chapter.62}%
+\contentsline {chapter}{\numberline {63}Cross-Device Recognition}{137}{chapter.63}%
+\contentsline {section}{\numberline {63.1}The question}{137}{section.63.1}%
+\contentsline {section}{\numberline {63.2}Measures}{137}{section.63.2}%
+\contentsline {part}{X\hspace {1em}Experimental Research Program}{138}{part.10}%
+\contentsline {chapter}{\numberline {64}Gesture Dataset Construction}{140}{chapter.64}%
+\contentsline {section}{\numberline {64.1}Consent and minimization}{140}{section.64.1}%
+\contentsline {section}{\numberline {64.2}Gesture data is biometric}{140}{section.64.2}%
+\contentsline {section}{\numberline {64.3}Oversight}{141}{section.64.3}%
+\contentsline {chapter}{\numberline {65}Human Variation}{142}{chapter.65}%
+\contentsline {chapter}{\numberline {66}Learning Curves}{143}{chapter.66}%
+\contentsline {section}{\numberline {66.1}Measurement}{143}{section.66.1}%
+\contentsline {section}{\numberline {66.2}Models}{143}{section.66.2}%
+\contentsline {section}{\numberline {66.3}The control that matters}{143}{section.66.3}%
+\contentsline {section}{\numberline {66.4}Attrition}{144}{section.66.4}%
+\contentsline {chapter}{\numberline {67}Human Adaptation versus Model Adaptation}{145}{chapter.67}%
+\contentsline {section}{\numberline {67.1}The decomposition}{145}{section.67.1}%
+\contentsline {section}{\numberline {67.2}Replay and its limits}{145}{section.67.2}%
+\contentsline {chapter}{\numberline {68}Recognition under Degraded Information}{147}{chapter.68}%
+\contentsline {chapter}{\numberline {69}Competing Recognizers}{148}{chapter.69}%
+\contentsline {chapter}{\numberline {70}Historical Swype Comparison}{149}{chapter.70}%
+\contentsline {section}{\numberline {70.1}Why compare}{149}{section.70.1}%
+\contentsline {section}{\numberline {70.2}Feasibility and method}{149}{section.70.2}%
+\contentsline {section}{\numberline {70.3}Limits of inference}{149}{section.70.3}%
+\contentsline {chapter}{\numberline {71}Reproducibility and Open Datasets}{151}{chapter.71}%
+\contentsline {section}{\numberline {71.1}Artifacts}{151}{section.71.1}%
+\contentsline {section}{\numberline {71.2}Documenting data}{151}{section.71.2}%
+\contentsline {section}{\numberline {71.3}Privacy-aware release}{151}{section.71.3}%
+\contentsline {part}{XI\hspace {1em}Future Applications}{153}{part.11}%
+\contentsline {chapter}{\numberline {72}Standalone Gesture Keyboard}{155}{chapter.72}%
+\contentsline {section}{\numberline {72.1}From engine to keyboard}{155}{section.72.1}%
+\contentsline {section}{\numberline {72.2}Platform constraints}{155}{section.72.2}%
+\contentsline {chapter}{\numberline {73}Gesture Command Languages}{156}{chapter.73}%
+\contentsline {chapter}{\numberline {74}Personalized Motor Vocabularies}{157}{chapter.74}%
+\contentsline {chapter}{\numberline {75}Input-Independent Interaction}{158}{chapter.75}%
+\contentsline {part}{XII\hspace {1em}Implementation Roadmap}{159}{part.12}%
+\contentsline {chapter}{\numberline {76}Milestones}{161}{chapter.76}%
+\contentsline {chapter}{\numberline {77}Scope of the First Implementation}{163}{chapter.77}%
+\contentsline {section}{\numberline {77.1}Three architectural commitments}{163}{section.77.1}%
+\contentsline {section}{\numberline {77.2}The coherent progression}{163}{section.77.2}%
+\contentsline {part}{XIII\hspace {1em}Appendices}{165}{part.13}%
+\contentsline {chapter}{\numberline {A}Notation and Symbols}{166}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Gesture Library Schema}{168}{appendix.B}%
+\contentsline {paragraph}{Loader obligations.}{169}{section*.27}%
+\contentsline {paragraph}{Exchange of personal vocabularies.}{169}{section*.28}%
+\contentsline {chapter}{\numberline {C}Reference Algorithms}{170}{appendix.C}%
+\contentsline {chapter}{\numberline {D}The Simulation Step}{173}{appendix.D}%
+\contentsline {chapter}{\numberline {E}Coordinate Normalization Procedures}{174}{appendix.E}%
+\contentsline {section}{\numberline {E.1}Device to logical coordinates}{174}{section.E.1}%
+\contentsline {section}{\numberline {E.2}Normalized form}{174}{section.E.2}%
+\contentsline {section}{\numberline {E.3}Keyboard coordinates}{174}{section.E.3}%
+\contentsline {chapter}{\numberline {F}Difficulty Metrics}{175}{appendix.F}%
+\contentsline {chapter}{\numberline {G}Input Adapter Contracts}{176}{appendix.G}%
+\contentsline {chapter}{\numberline {H}Test Fixtures}{177}{appendix.H}%
+\contentsline {section}{\numberline {H.1}Format}{177}{section.H.1}%
+\contentsline {section}{\numberline {H.2}Edge-case fixtures}{177}{section.H.2}%
+\contentsline {section}{\numberline {H.3}A worked normalization}{177}{section.H.3}%
+\contentsline {chapter}{\numberline {I}Browser Compatibility Requirements}{180}{appendix.I}%
+\contentsline {chapter}{\numberline {J}Experimental Protocols}{181}{appendix.J}%
+\contentsline {paragraph}{P1, comparison of recognizers.}{181}{section*.29}%
+\contentsline {paragraph}{P2, learning curves.}{181}{section*.30}%
+\contentsline {paragraph}{P3, human versus model adaptation.}{181}{section*.31}%
+\contentsline {paragraph}{P4, degraded information.}{182}{section*.32}%
+\contentsline {paragraph}{P5, cross-device transfer.}{182}{section*.33}%
+\contentsline {paragraph}{P6, historical comparison.}{182}{section*.34}%
+\contentsline {paragraph}{P7, geometric curriculum versus direct word practice.}{182}{section*.35}%
+\contentsline {paragraph}{P8, human performance on surviving installations.}{182}{section*.36}%
+\contentsline {chapter}{\numberline {K}Record of Historical Claims}{183}{appendix.K}%
+\contentsline {paragraph}{Bibliography audit status.}{183}{section*.37}%
+\contentsline {chapter}{Bibliography}{185}{appendix*.38}%

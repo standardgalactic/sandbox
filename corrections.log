@@ -359,3 +359,325 @@ Elapsed time         : 43s
 ================================================================
 Run complete at 2026-10-24 15:58:14
 ================================================================
+
+
+
+================================================================
+Flyxion correction run - 2026-10-25 04:12:11
+Backup snapshot: backup_20261025_041211
+================================================================
+
+[name/concept] ./Why_Memory_Is_A_Reconstructive_Illusion.txt
+  L644: kept as-is [c]: The reconstruction is a mathematically perfect blend of the ingredients, but historically, it is a complete fiction.
+
+[name/concept] ./The_Hidden_Geometry_of_Gesture_Typing.txt
+  L482: kept as-is [c]: The cognitive friction is much higher.
+  L863: kept as-is [c]: the bounded adaptation of the separation floor, the brutal cognitive friction of fading visual
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.srt
+  L707: But to make this game actually playable, I mean, to make it feel good in the hand, Flexion introduces a critical design pillar.
+  L3459: of Flaxion's specification.
+  (2 line(s) changed)
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.txt
+  L29: Our source material for this deep dive is a wonderfully dense, incredibly fascinating independent essay from October 2026 by an author named Flexion.
+  L32: And what Flexion is doing here is deeply analyzing a massive, groundbreaking 2026 climate study published by a team of researchers led by Olson.
+  L102: And Flixion makes it clear that this isn't just a neat theoretical model on a chalkboard.
+  L134: And as Flaction argues throughout the essay, relying too heavily on that compressed narrative is exactly what blinds us to the truth of what happens when the regularity fails.
+  L172: Fleixion mentions they ran all of this data through something called the B-Cron algorithm to build their timeline.
+  L258: and it is a point that Flexion explicitly unpacks in the essay.
+  L278: Flixion is very careful to emphasize that the validity of this correction relies on external corroboration.
+  L291: But the whole reason Flixion wrote this essay is to look at the moments
+  L304: Flixion categorizes them systematically,
+  L320: Flixion notes that during these terminations,
+  L349: It is not, because flaxium points to a third highly counterintuitive category.
+  L412: leads flaxcine to address a massive physics paradox
+  L426: Flaxcine calls this the zero-sum fallacy.
+  L431: Flaxcine brings out the actual atmospheric moisture budget equation,
+  L449: But, and this is the crux of Flygon's argument,
+  L491: Flaxen is arguing that the dipole, the elegant alternating seesaw,
+  L563: Flykshin also deeply analyzes the Pacific connection, doesn't he?
+  L626: This realization brings us to one of the most intellectually satisfying parts of Flyoxin's essay.
+  L627: Flyoxin doesn't just describe this interplay conceptually.
+  L631: Flyoxin proposes that to truly understand the proxy record,
+  L638: Flyoxin defines the difference mode, which we will call D, with a simple equation.
+  L645: Then Flyoxin defines the common mode, which we will call C.
+  L707: Phlyzygian is warning us about.
+  L749: Felixian handles this question with an incredible degree of mathematical rigor,
+  L756: But Felixian demands strict dynamical precision.
+  L757: Let's walk through all three of Flyoxion's explanations.
+  L815: Flexion uses something called a cubic model of bifurcation
+  L937: But Flexion
+  L973: But is Flexion
+  L986: Flexion is forcing us
+  L989: Flexion argues
+  L1050: Flaxian is warning
+  L1095: Flaxen identifies a
+  L1167: Flaxen talks about the
+  L1236: FlyAction is essentially
+  L1244: Which is precisely why FlyAction
+  L1331: So, Flaxian argues that you cannot just
+  L1362: But Flaxon points out a glaring issue.
+  L1396: Flaxine's thesis really drives this home, and
+  (39 line(s) changed)
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.json
+  L1: [JSON content omitted]
+  (1 line(s) changed)
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.tsv
+  L30: 115260	124980	Our source material for this deep dive is a wonderfully dense, incredibly fascinating independent essay from October 2026 by an author named Flexion.
+  L33: 133160	142400	And what Flexion is doing here is deeply analyzing a massive, groundbreaking 2026 climate study published by a team of researchers led by Olson.
+  L103: 417220	421720	And Flixion makes it clear that this isn't just a neat theoretical model on a chalkboard.
+  L135: 577000	585700	And as Flaction argues throughout the essay, relying too heavily on that compressed narrative is exactly what blinds us to the truth of what happens when the regularity fails.
+  L173: 750780	755640	Fleixion mentions they ran all of this data through something called the B-Cron algorithm to build their timeline.
+  L259: 1115520	1119300	and it is a point that Flexion explicitly unpacks in the essay.
+  L279: 1178340	1184600	Flixion is very careful to emphasize that the validity of this correction relies on external corroboration.
+  L292: 1226640	1229780	But the whole reason Flixion wrote this essay is to look at the moments
+  L305: 1269600	1271560	Flixion categorizes them systematically,
+  L321: 1317900	1320060	Flixion notes that during these terminations,
+  L350: 1396220	1400600	It is not, because flaxium points to a third highly counterintuitive category.
+  L413: 1585900	1589380	leads flaxcine to address a massive physics paradox
+  L427: 1631600	1634360	Flaxcine calls this the zero-sum fallacy.
+  L432: 1652000	1655160	Flaxcine brings out the actual atmospheric moisture budget equation,
+  L450: 1718980	1722780	But, and this is the crux of Flygon's argument,
+  L492: 1855160	1858800	Flaxen is arguing that the dipole, the elegant alternating seesaw,
+  L564: 2157460	2161080	Flykshin also deeply analyzes the Pacific connection, doesn't he?
+  L627: 2398840	2403700	This realization brings us to one of the most intellectually satisfying parts of Flyoxin's essay.
+  L628: 2404480	2407140	Flyoxin doesn't just describe this interplay conceptually.
+  L632: 2422920	2426040	Flyoxin proposes that to truly understand the proxy record,
+  L639: 2461600	2465800	Flyoxin defines the difference mode, which we will call D, with a simple equation.
+  L646: 2487040	2490800	Then Flyoxin defines the common mode, which we will call C.
+  L708: 2696100	2697860	Phlyzygian is warning us about.
+  L750: 2816320	2819840	Felixian handles this question with an incredible degree of mathematical rigor,
+  L757: 2836000	2838400	But Felixian demands strict dynamical precision.
+  L758: 2838500	2841480	Let's walk through all three of Flyoxion's explanations.
+  L816: 2976240	2980460	Flexion uses something called a cubic model of bifurcation
+  L938: 3180960	3181780	But Flexion
+  L974: 3218220	3219280	But is Flexion
+  L987: 3232260	3233240	Flexion is forcing us
+  L990: 3235640	3236320	Flexion argues
+  L1051: 3296960	3297760	Flaxian is warning
+  L1096: 3345580	3346600	Flaxen identifies a
+  L1168: 3441280	3442340	Flaxen talks about the
+  L1237: 3539780	3540760	FlyAction is essentially
+  L1245: 3551920	3553640	Which is precisely why FlyAction
+  L1332: 3705960	3708100	So, Flaxian argues that you cannot just
+  L1363: 3773780	3775760	But Flaxon points out a glaring issue.
+  L1397: 3853500	3855920	Flaxine's thesis really drives this home, and
+  (39 line(s) changed)
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.json
+  L1: [JSON content omitted]
+  (1 line(s) changed)
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.srt
+  L115: Our source material for this deep dive is a wonderfully dense, incredibly fascinating independent essay from October 2026 by an author named Flexion.
+  L127: And what Flexion is doing here is deeply analyzing a massive, groundbreaking 2026 climate study published by a team of researchers led by Olson.
+  L407: And Flixion makes it clear that this isn't just a neat theoretical model on a chalkboard.
+  L535: And as Flaction argues throughout the essay, relying too heavily on that compressed narrative is exactly what blinds us to the truth of what happens when the regularity fails.
+  L687: Fleixion mentions they ran all of this data through something called the B-Cron algorithm to build their timeline.
+  L1031: and it is a point that Flexion explicitly unpacks in the essay.
+  L1111: Flixion is very careful to emphasize that the validity of this correction relies on external corroboration.
+  L1163: But the whole reason Flixion wrote this essay is to look at the moments
+  L1215: Flixion categorizes them systematically,
+  L1279: Flixion notes that during these terminations,
+  L1395: It is not, because flaxium points to a third highly counterintuitive category.
+  L1647: leads flaxcine to address a massive physics paradox
+  L1703: Flaxcine calls this the zero-sum fallacy.
+  L1723: Flaxcine brings out the actual atmospheric moisture budget equation,
+  L1795: But, and this is the crux of Flygon's argument,
+  L1963: Flaxen is arguing that the dipole, the elegant alternating seesaw,
+  L2251: Flykshin also deeply analyzes the Pacific connection, doesn't he?
+  L2503: This realization brings us to one of the most intellectually satisfying parts of Flyoxin's essay.
+  L2507: Flyoxin doesn't just describe this interplay conceptually.
+  L2523: Flyoxin proposes that to truly understand the proxy record,
+  L2551: Flyoxin defines the difference mode, which we will call D, with a simple equation.
+  L2579: Then Flyoxin defines the common mode, which we will call C.
+  L2827: Phlyzygian is warning us about.
+  L2995: Felixian handles this question with an incredible degree of mathematical rigor,
+  L3023: But Felixian demands strict dynamical precision.
+  L3027: Let's walk through all three of Flyoxion's explanations.
+  L3259: Flexion uses something called a cubic model of bifurcation
+  L3747: But Flexion
+  L3891: But is Flexion
+  L3943: Flexion is forcing us
+  L3955: Flexion argues
+  L4199: Flaxian is warning
+  L4379: Flaxen identifies a
+  L4667: Flaxen talks about the
+  L4943: FlyAction is essentially
+  L4975: Which is precisely why FlyAction
+  L5323: So, Flaxian argues that you cannot just
+  L5447: But Flaxon points out a glaring issue.
+  L5583: Flaxine's thesis really drives this home, and
+  (39 line(s) changed)
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.vtt
+  L532: But to make this game actually playable, I mean, to make it feel good in the hand, Flexion introduces a critical design pillar.
+  L2596: of Flaxion's specification.
+  (2 line(s) changed)
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.tsv
+  L178: 628140	634480	But to make this game actually playable, I mean, to make it feel good in the hand, Flexion introduces a critical design pillar.
+  L866: 3157440	3158820	of Flaxion's specification.
+  (2 line(s) changed)
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.vtt
+  L88: Our source material for this deep dive is a wonderfully dense, incredibly fascinating independent essay from October 2026 by an author named Flexion.
+  L97: And what Flexion is doing here is deeply analyzing a massive, groundbreaking 2026 climate study published by a team of researchers led by Olson.
+  L307: And Flixion makes it clear that this isn't just a neat theoretical model on a chalkboard.
+  L403: And as Flaction argues throughout the essay, relying too heavily on that compressed narrative is exactly what blinds us to the truth of what happens when the regularity fails.
+  L517: Fleixion mentions they ran all of this data through something called the B-Cron algorithm to build their timeline.
+  L775: and it is a point that Flexion explicitly unpacks in the essay.
+  L835: Flixion is very careful to emphasize that the validity of this correction relies on external corroboration.
+  L874: But the whole reason Flixion wrote this essay is to look at the moments
+  L913: Flixion categorizes them systematically,
+  L961: Flixion notes that during these terminations,
+  L1048: It is not, because flaxium points to a third highly counterintuitive category.
+  L1237: leads flaxcine to address a massive physics paradox
+  L1279: Flaxcine calls this the zero-sum fallacy.
+  L1294: Flaxcine brings out the actual atmospheric moisture budget equation,
+  L1348: But, and this is the crux of Flygon's argument,
+  L1474: Flaxen is arguing that the dipole, the elegant alternating seesaw,
+  L1690: Flykshin also deeply analyzes the Pacific connection, doesn't he?
+  L1879: This realization brings us to one of the most intellectually satisfying parts of Flyoxin's essay.
+  L1882: Flyoxin doesn't just describe this interplay conceptually.
+  L1894: Flyoxin proposes that to truly understand the proxy record,
+  L1915: Flyoxin defines the difference mode, which we will call D, with a simple equation.
+  L1936: Then Flyoxin defines the common mode, which we will call C.
+  L2122: Phlyzygian is warning us about.
+  L2248: Felixian handles this question with an incredible degree of mathematical rigor,
+  L2269: But Felixian demands strict dynamical precision.
+  L2272: Let's walk through all three of Flyoxion's explanations.
+  L2446: Flexion uses something called a cubic model of bifurcation
+  L2812: But Flexion
+  L2920: But is Flexion
+  L2959: Flexion is forcing us
+  L2968: Flexion argues
+  L3151: Flaxian is warning
+  L3286: Flaxen identifies a
+  L3502: Flaxen talks about the
+  L3709: FlyAction is essentially
+  L3733: Which is precisely why FlyAction
+  L3994: So, Flaxian argues that you cannot just
+  L4087: But Flaxon points out a glaring issue.
+  L4189: Flaxine's thesis really drives this home, and
+  (39 line(s) changed)
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.txt
+  L177: But to make this game actually playable, I mean, to make it feel good in the hand, Flexion introduces a critical design pillar.
+  L865: of Flaxion's specification.
+  (2 line(s) changed)
+
+==== Candidate Variants (aggregated, 3 unique) ====
+     24 flying
+      6 flylic
+      6 flexin
+
+==== Summary ====
+Files scanned        : 21
+Files updated        : 10
+Files unchanged      : 11
+Unique candidates    : 3
+Elapsed time         : 97s
+
+================================================================
+Run complete at 2026-10-25 04:13:48
+================================================================
+
+================================================================
+Flyxion correction run - 2026-10-25 04:18:02
+Backup snapshot: backup_20261025_041801
+================================================================
+
+[name/concept] ./Why_Memory_Is_A_Reconstructive_Illusion.txt
+  L644: kept as-is [c]: The reconstruction is a mathematically perfect blend of the ingredients, but historically, it is a complete fiction.
+
+[name/concept] ./The_Hidden_Geometry_of_Gesture_Typing.txt
+  L482: kept as-is [c]: The cognitive friction is much higher.
+  L863: kept as-is [c]: the bounded adaptation of the separation floor, the brutal cognitive friction of fading visual
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.txt
+  L663: Based on Flexin's decomposition, the actual observed northern rainfall, Xn,
+  L1468: It is a sobering thought, and it strongly reinforces Flylic Sun's demand
+  (2 line(s) changed)
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.json
+  L1: [JSON content omitted]
+  (1 line(s) changed)
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.tsv
+  L664: 2560000	2565060	Based on Flexin's decomposition, the actual observed northern rainfall, Xn,
+  L1469: 4030600	4035160	It is a sobering thought, and it strongly reinforces Flylic Sun's demand
+  (2 line(s) changed)
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.srt
+  L2651: Based on Flexin's decomposition, the actual observed northern rainfall, Xn,
+  L5871: It is a sobering thought, and it strongly reinforces Flylic Sun's demand
+  (2 line(s) changed)
+
+[substitution] ./Why_the_Global_Monsoon_Seesaw_Breaks.vtt
+  L1990: Based on Flexin's decomposition, the actual observed northern rainfall, Xn,
+  L4405: It is a sobering thought, and it strongly reinforces Flylic Sun's demand
+  (2 line(s) changed)
+
+==== Candidate Variants (aggregated, 1 unique) ====
+     24 flying
+
+==== Summary ====
+Files scanned        : 21
+Files updated        : 5
+Files unchanged      : 16
+Unique candidates    : 1
+Elapsed time         : 102s
+
+================================================================
+Run complete at 2026-10-25 04:19:43
+================================================================
+
+================================================================
+Flyxion correction run - 2026-10-25 05:00:30
+Backup snapshot: backup_20261025_050030
+================================================================
+
+[name/concept] ./Why_Memory_Is_A_Reconstructive_Illusion.txt
+  L644: kept as-is [c]: The reconstruction is a mathematically perfect blend of the ingredients, but historically, it is a complete fiction.
+
+[name/concept] ./The_Hidden_Geometry_of_Gesture_Typing.txt
+  L482: kept as-is [c]: The cognitive friction is much higher.
+  L863: kept as-is [c]: the bounded adaptation of the separation floor, the brutal cognitive friction of fading visual
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.srt
+  L159: It's titled swipehero-specification.pdf. We're looking at version 0.2, dated October 2026. And it's authored by an independent researcher known as Flychristian.
+  (1 line(s) changed)
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.json
+  L1: [JSON content omitted]
+  (1 line(s) changed)
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.vtt
+  L121: It's titled swipehero-specification.pdf. We're looking at version 0.2, dated October 2026. And it's authored by an independent researcher known as Flychristian.
+  (1 line(s) changed)
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.tsv
+  L41: 156420	168180	It's titled swipehero-specification.pdf. We're looking at version 0.2, dated October 2026. And it's authored by an independent researcher known as Flychristian.
+  (1 line(s) changed)
+
+[substitution] ./The_Hidden_Geometry_of_Gesture_Typing.txt
+  L40: It's titled swipehero-specification.pdf. We're looking at version 0.2, dated October 2026. And it's authored by an independent researcher known as Flychristian.
+  (1 line(s) changed)
+
+==== Candidate Variants (aggregated, 1 unique) ====
+     24 flying
+
+==== Summary ====
+Files scanned        : 21
+Files updated        : 5
+Files unchanged      : 16
+Unique candidates    : 1
+Elapsed time         : 100s
+
+================================================================
+Run complete at 2026-10-25 05:02:10
+================================================================

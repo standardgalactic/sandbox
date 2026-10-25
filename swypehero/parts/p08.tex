@@ -1,0 +1,237 @@
+This part specifies how the game is built. Its organizing idea is a strict separation between four layers: input, which turns a device into trajectories; recognition, which turns trajectories into decisions; simulation, which turns decisions and time into game state; and presentation, which turns state into pixels and sound. Each layer communicates with the next through a small, versioned, serializable interface, which is what makes replay, testing, comparison of recognizers and the later addition of devices possible.
+
+\chapter{Technology Selection}\label{ch:technology}
+
+\section{Language and rendering}
+
+The implementation is a browser application written in TypeScript. The language brings static types to the interfaces that matter most, in particular the trajectory and the recognition result, and it compiles to JavaScript that runs without a plugin on every target. Rendering uses the Canvas 2D interface, which is sufficient for the flat shapes and strokes of the game, has predictable performance on mobile devices, and has a simple and well-understood model of drawing. The alternatives were considered. Scalable vector graphics in the document tree suit static diagrams but add per-element overhead for dozens of moving balloons and a fast-growing stroke. WebGL offers more throughput than the game needs, at the price of complexity and of context-loss handling that is not warranted by the visual design of Part~\ref{part:presentation}. The choice can be revisited if profiling shows a need, and the architecture isolates rendering behind an interface so that the change would not touch simulation or recognition.\evS
+
+\section{Priorities}
+
+Four properties order the choices. \emph{Predictable input handling} favors the pointer events interface over separate mouse and touch handlers, as detailed in Chapter~\ref{ch:input-abstraction}. \emph{Low latency} favors work that is incremental and does not allocate in the frame loop. \emph{Offline capability} favors a static application with all assets bundled and a service worker that caches them (Chapter~\ref{ch:deployment}). \emph{Portability} favors the absence of runtime dependencies in the core packages and the use of widely supported features, with the compatibility list of Appendix~\ref{app:compat}.
+
+\section{Package structure}
+
+The code base is divided into packages whose dependencies point in one direction. The \emph{core} package contains the gesture representation, normalization, recognizers, library and scoring-independent mathematics; it has no dependency on the browser and runs under a command-line runtime for testing and for the evaluation harness. The \emph{sim} package contains the game simulation and depends on the core. The \emph{input} package contains adapters for devices and depends on the browser. The \emph{ui} package contains rendering, audio and settings and depends on all of the preceding. The \emph{lab} package contains the evaluation harness and the experiment tooling and depends on the core. The direction of the dependencies is the second architectural commitment in executable form: the recognizer cannot know about the game because it is below it.
+
+\chapter{Game Loop and Simulation}\label{ch:game-loop}
+
+\section{Separation of stages}
+
+The program is organized around a loop that separates five concerns: sampling input, advancing the simulation, recognizing gestures, scoring, and rendering. Input events arrive asynchronously from the browser and are appended, with their timestamps, to a queue; they are not processed in the event handler beyond that. The simulation advances in fixed steps. Recognition runs when a stroke ends or, in early-commit mode, on each new sample. Scoring runs when recognition produces an outcome. Rendering runs once per display frame and reads the state without changing it.
+
+\section{Fixed timestep}
+
+The simulation uses a fixed step of $\Delta=1/60$ second, accumulating real time and advancing the state in whole steps. This makes the simulation independent of the display rate, so that a 120 Hz display does not run the game faster, and it makes the evolution of the state a function of the step count and the inputs alone. The rendering interpolates between the previous and the current state by the fraction of a step left in the accumulator.
+
+\begin{lstlisting}[language=Pseudo,caption={The main loop (pseudocode).},label={lst:loop}]
+accumulator = 0
+previous = clock()
+each display frame:
+    current = clock()
+    frame = min(current - previous, MAX_FRAME)   // guard against long stalls
+    previous = current
+    accumulator = accumulator + frame
+    while accumulator >= STEP:
+        events = queue.takeUpTo(simTime + STEP)  // by event timestamp
+        state = step(state, events, STEP)        // includes recognition, scoring
+        simTime = simTime + STEP
+        accumulator = accumulator - STEP
+    render(state, accumulator / STEP)
+\end{lstlisting}
+
+\section{Determinism and replay}
+
+Deterministic behavior is a requirement because it turns a recorded session into a test and into an experimental instrument. The simulation uses no source of nondeterminism. It reads no wall clock, since time is the step counter times $\Delta$, and it takes randomness only from a seeded generator of which a small and well-known example is the following.
+
+\begin{lstlisting}[language=TypeScript,caption={A small seeded generator (mulberry32).},label={lst:prng}]
+export function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+\end{lstlisting}
+
+A session record consists of the seed, the configuration (mode, library version, recognizer version, pipeline version, parameters) and the timestamped input events, and replaying it through the same code reproduces the same state at every step. Because floating-point evaluation of elementary functions may differ across engines (Chapter~\ref{ch:template-matching}), the replay guarantee holds on one engine and is checked to a tolerance across engines. The simulation's own arithmetic is restricted to addition, subtraction, multiplication and comparison, which are exactly specified for double-precision numbers, and recognition, which uses trigonometric functions, is the stage at which a divergence is tolerated and monitored.
+
+\begin{requirement}[Replayable sessions]\label{req:replay}
+A session record \must{} contain every input needed to reproduce the session, \must{} be sufficient to reproduce the sequence of game states exactly on the same engine, and the simulation \mustnot{} read the wall clock or any source of randomness other than the seeded generator.\evS
+\end{requirement}
+
+\chapter{Input Abstraction}\label{ch:input-abstraction}
+
+\section{A neutral trajectory interface}
+
+The input layer converts the events of a device into a stream of stroke events with a common shape, so that nothing downstream depends on the device. A stroke event has a kind, which is one of begin, sample, end and cancel, a stroke identifier, a position in logical coordinates, a timestamp from a monotonic clock, and an optional bag of extended channels. The adapters of Part~\ref{part:advanced} all produce this stream, and the recognizer receives only the accumulated trajectory.
+
+\begin{lstlisting}[language=TypeScript,caption={The neutral input interface.},label={lst:input}]
+export type PointerKind = "touch" | "mouse" | "pen" | "keyboard" | "gamepad" | "gaze" | "other";
+
+export interface Sample {
+  x: number; y: number; t: number;            // logical units, milliseconds
+  pressure?: number; width?: number; height?: number; tilt?: [number, number];
+}
+
+export interface StrokeEvent {
+  kind: "begin" | "sample" | "end" | "cancel";
+  strokeId: number;
+  sample: Sample;
+}
+
+export interface InputAdapter {
+  readonly id: string;
+  readonly version: string;
+  readonly kind: PointerKind;
+  start(target: HTMLElement, sink: (e: StrokeEvent) => void): void;
+  stop(): void;
+}
+\end{lstlisting}
+
+\section{The pointer adapter}
+
+The first implementation supports touch, mouse and pen through a single adapter built on the pointer events interface of the browser, which delivers a unified stream for all pointing devices.\evD{} The adapter sets the touch action of the drawing element to none, so that the browser does not scroll or zoom in response to the stroke, and it captures the pointer on the begin event so that the stroke continues even if the pointer leaves the element. It records the pointer type and ignores events from a second simultaneous pointer. Many browsers deliver pointer events at the display rate, which on a 60 Hz screen discards the extra samples that touch controllers produce at a higher rate. The interface can return the coalesced events that make up one delivered event, and the adapter uses them to recover the full sample stream; the browser may also offer predicted events, which are used only for drawing the ink slightly ahead of the finger and never for recognition, since a prediction is not an observation.\evD{} The timestamps of the events come from the high-resolution clock of the browser, not from the system date, and are converted to milliseconds from the start of the stroke when stored.
+
+\begin{requirement}[Adapter contract]\label{req:adapter}
+An input adapter \must{} emit events in non-decreasing timestamp order, \must{} emit exactly one end or cancel per begin, \must{} convert coordinates to logical units, \must{} record the device characteristics needed to interpret the samples, and \mustnot{} perform any smoothing or resampling.\evS
+\end{requirement}
+
+The last clause keeps the raw gesture raw (Requirement~\ref{req:raw}): smoothing belongs to the normalization pipeline, where it is named, versioned and replaceable.
+
+\chapter{Recognition Engine}\label{ch:recognition-engine}
+
+\section{Modular interfaces}
+
+The recognition engine is a composition of stages with explicit interfaces: preprocessing, candidate generation, scoring, confidence estimation and personalization. Each stage can be replaced independently, which is what permits the competing-recognizer experiments of Chapter~\ref{ch:competing-recognizers}.
+
+\begin{lstlisting}[language=TypeScript,caption={Recognition interfaces.},label={lst:recognizer}]
+export interface Preprocessor {
+  readonly id: string; readonly version: string;
+  apply(raw: Sample[]): Sample[];                 // pure
+}
+
+export interface Scorer {
+  readonly id: string; readonly version: string;
+  score(stroke: Sample[], candidates: Template[]): Score[];   // distance per template
+}
+
+export interface Score { gestureId: string; templateId: string; distance: number; }
+
+export type Outcome =
+  | { kind: "accepted"; gestureId: string; confidence: number }
+  | { kind: "ambiguous"; candidates: { gestureId: string; posterior: number }[] }
+  | { kind: "rejected"; reason: "too_short" | "too_far" | "malformed" | "no_candidates" };
+
+export interface RecognitionResult {
+  outcome: Outcome;
+  ranking: { gestureId: string; distance: number; posterior: number }[];
+  posteriorWinner: string | null;    // g*: may differ from the nearest candidate
+  nearest: string | null;            // g_nn
+  priorOverride: boolean;
+  candidateSet: string[];
+  scope: "active" | "vocabulary";
+  recognizer: { id: string; version: string };
+  pipeline: { id: string; version: string };
+  library: { id: string; version: string };
+}
+
+export interface Recognizer {
+  readonly id: string; readonly version: string;
+  recognize(raw: Sample[], candidates: string[]): RecognitionResult;
+}
+\end{lstlisting}
+
+\section{What a result contains}
+
+A recognition result is a self-describing record. It contains the outcome, the full ranking with distances and posteriors, the candidate set that was considered, and the identity and version of the recognizer, the pipeline and the library. The contents are specified so that a result can be explained and, with the raw gesture, reproduced, without consulting the code that produced it. This is what makes a gameplay session a dataset: the pair of raw gesture and result is the unit of analysis in Part~\ref{part:research}.
+
+\begin{requirement}[Self-describing results]\label{req:self-describing}
+Every recognition result \must{} identify the recognizer, pipeline and library versions that produced it, \must{} list the candidate set and its scope, and \must{} include the ranking from which the outcome was derived, with the posterior winner and the nearest candidate named separately.\evS
+\end{requirement}
+
+\chapter{Gesture Library}\label{ch:gesture-library}
+
+\section{Contents}
+
+The gesture library is a versioned data file, separate from the code, containing for each gesture a stable identifier, one or more reference trajectories, the invariance configuration, difficulty metadata and recognition constraints, together with the library's own name, version and the identifiers of the pipeline and the layout it was built under. Keeping the library as data allows it to be extended without a release of the program, to be replaced by a personalized version, and to be validated by the rules of Requirement~\ref{req:library-validity} when it is loaded. The schema is given in Appendix~\ref{app:schema}; an entry has the following form.
+
+\begin{lstlisting}[language=JSONx,caption={A library entry (abbreviated). The component values for the circle are computed from Definition~\ref{def:components} with the default constants; the ambiguity term and the total depend on the rest of the library.},label={lst:entry}]
+{
+  "id": "circle.cw",
+  "family": "circle",
+  "description": "Closed circle drawn clockwise",
+  "templates": [{ "id": "circle.cw/0", "points": [[0.5,0.0],[0.4975,0.0498], "..."] }],
+  "invariance": { "translate": true, "scale": [0.4, 2.5], "rotate": null,
+                  "reflect": false, "reverse": false, "startShift": true },
+  "difficulty": { "version": "w1", "L": 0.550, "T": 0.500, "X": 0.0, "R": 0.0, "A": "...", "C": "..." },
+  "constraints": { "minLength": 160, "closed": true }
+}
+\end{lstlisting}
+
+\section{Versioning}
+
+The library follows semantic versioning with a specification of what constitutes each kind of change. A change to a template or to an invariance is a change of recognition behavior and is a minor version at least; a change to the schema is a major version; a correction of a description is a patch. Because skill and personalization are tied to a library (Chapter~\ref{ch:retention}), a profile records the library version under which each observation was made and a migration function is provided between versions.
+
+\chapter{Player Profiles}\label{ch:profiles}
+
+A player profile is a record of what the game knows about the player. Its parts are separated by their purpose. The \emph{progression record} holds the curriculum stage, the set of mastered gestures and the unlocked modes. The \emph{preferences} hold accessibility settings, audio, handedness, layout and any assistance defaults. The \emph{competence model} holds the posterior over the competence vector of Chapter~\ref{ch:adaptive-difficulty} and the per-gesture statistics from which it is derived. The \emph{personal dictionary} (Chapter~\ref{ch:vocabulary}) holds the vocabulary and its weights. The \emph{personalized templates} hold the user's adapted library $\Lib_u$ and the history of updates (Chapter~\ref{ch:personalized-recognition}). Each part carries its own version and can be exported, reset or deleted independently.
+
+A profile is local. It is identified by a random identifier generated on the device and not by an account, and it contains no personal data beyond what the player enters. Transfer between devices is by explicit export and import of the profile files (Chapter~\ref{ch:persistence}). If the player consents to the contribution of data to research (Chapter~\ref{ch:dataset}), a separate pseudonymous participant identifier is created for that purpose and is not linkable to the profile identifier by the research data alone.
+
+\begin{requirement}[Profile ownership]\label{req:profile-ownership}
+Every part of a profile \must{} be exportable in a documented format, \must{} be deletable by the player, and \must{} be usable without any network connection or account.\evS
+\end{requirement}
+
+\chapter{Local Persistence}\label{ch:persistence}
+
+\section{Storage}
+
+Profiles and training data are stored in the browser on the device of the player. Small values such as settings fit the simple key-value storage of the browser. Larger and structured data, including recorded strokes and session histories, use the transactional object store of the browser (IndexedDB), which has far higher limits and supports indexed queries. Data held in browser storage is subject to eviction under storage pressure, and the specification asks for persistent storage with the corresponding request to the browser; the browser may refuse, and the application must behave sensibly in that case.\evD{} Some browsers also limit the lifetime of script-writable storage for sites that the user does not visit or interact with regularly, and apply exceptions to applications that have been installed to the home screen, so that installation as a web application is recommended to players who intend to build a long-term profile.\evD{}
+
+Because browser storage can be lost, and because the motivation of the project is the preservation of the player's investment, the application encourages export. It displays the date of the last export, prompts for an export at intervals, and writes a complete profile as a single file in an open format that can be re-imported on any device.
+
+\section{Export, import and deletion}
+
+An export is a JSON document with a manifest listing its parts, their versions, the library and pipeline versions, and a checksum for each part. An import validates the manifest, rejects parts whose major versions it cannot migrate, and reports what it will replace before replacing it. Deletion is complete and immediate: deleting a part removes it from storage, from any caches, and from the next export, and a final control deletes the entire profile and all recorded strokes. The data stored for research, if the player has consented to it (Chapter~\ref{ch:dataset}), is stored under the same controls and is deleted by the same action.
+
+\begin{requirement}[Complete deletion]\label{req:deletion}
+A deletion request \must{} remove the targeted data from every store, cache and queue of the application on the device, and \must{} remove from any research upload queue any data not yet uploaded.\evS
+\end{requirement}
+
+\chapter{Performance}\label{ch:performance}
+
+\section{Budgets}
+
+Performance targets are stated as budgets and measured against a reference device class. A frame at 60 Hz has a budget of 16.7 milliseconds, and the application's own work, including simulation steps, rendering and input handling, is limited to 8 milliseconds at the ninety-fifth percentile on a reference mid-range phone of the preceding five years. The visible latency of the ink, from the pointer event to the pixel update, is limited to one frame beyond the display pipeline. A recognition on release, for the first-milestone library, is limited to 10 milliseconds at the ninety-fifth percentile, and a recognition against a lexicon of tens of thousands of words, in the later word milestones, to 50 milliseconds. Memory use during play is limited to 100 megabytes of heap, and the compressed size of the application's code and data for the first milestone to 300 kilobytes. All of these are design decisions and starting points.\evS
+
+\section{Measurement}
+
+Timing uses the high-resolution clock of the browser. Browsers reduce the resolution of this clock, for security reasons, to a figure that may be as coarse as a tenth of a millisecond or worse, and the benchmark therefore repeats operations in batches and reports per-operation values computed from the batch time.\evD{} The benchmark procedure is as follows. After a warm-up that is long enough for the engine to compile the code, each operation is run in at least thirty batches, and the median, the ninety-fifth percentile and the interquartile range are reported. Measurements are taken on the reference device with the application in its production build, with the browser in a fresh profile and the device at a stable temperature, since throttling under heat changes the results. The result of each benchmark is a file that records the device, the browser version, the build identifier and the figures, and the files are retained so that regressions are visible.
+
+\chapter{Testing}\label{ch:testing}
+
+\section{Levels of testing}
+
+Four levels of testing are specified. \emph{Unit tests} check the pure functions of the core package against hand-computed values, including the derived quantities of Chapter~\ref{ch:gesture-representation} and each stage of the normalization pipeline. \emph{Property-based tests} state invariants that must hold for all inputs of a class and check them on generated cases with a library for property-based testing. \emph{Recorded-gesture regression tests} run recorded strokes through the recognizer and compare the outcomes and distances with stored expectations. \emph{Integration tests} replay recorded sessions through the full simulation and compare the final state, and a hash of the state at fixed steps, with stored values.
+
+\section{Properties}
+
+Property-based testing is especially suited to the geometry. The resampling of any stroke with positive length returns exactly $N$ points, the first and last of which equal the first and last of the stroke. The path length of the resampled stroke is at most the path length of the original, and approaches it as $N$ grows. Normalization is idempotent: normalizing a normalized stroke leaves it unchanged within tolerance. The distance $d$ is symmetric and zero for identical inputs, and $d_H$ is a pseudometric under a common group (Proposition~\ref{prop:pseudometric}). The matching cost $c_g$ is tested for what it is, directional, and the confusability $\kappa$ is tested for symmetry and for being zero on identical templates, with no triangle inequality asserted. The symmetric DTW distance never exceeds the pointwise distance of equal-length sequences when the diagonal lies in the band. The decision rule returns a defined outcome for an empty candidate set, a single candidate and tied posteriors. Translating or uniformly scaling a stroke does not change its normalized form. A stroke that is a template, perturbed by noise below a bound, is recognized as that template. The result of the baseline recognizer is unchanged when the timestamps of a stroke are altered monotonically (Requirement~\ref{req:time-invariance}). These properties are the executable form of the specifications of Part~\ref{part:geometry}.
+
+\section{Fixtures}
+
+A regression fixture is a recorded stroke together with the expected outcome, the expected distances to a tolerance, and the margin by which the decision clears each of its thresholds. A fixture with a small margin is marked fragile, because a harmless difference in arithmetic could flip its outcome, and fragile fixtures are reviewed and not simply updated. Appendix~\ref{app:fixtures} gives the format and the edge-case fixtures that every reference algorithm must have: degenerate strokes, empty and singleton candidate sets, ties, repeated points and conflicting invariance settings.
+
+\chapter{Deployment}\label{ch:deployment}
+
+The application is a static site. All of its files are served from static hosting with no server-side logic, which makes it inexpensive to host, simple to mirror, and independent of any service whose discontinuation could strand its users, which is the situation the project aims to avoid. The application is built as a progressive web application: a web app manifest describes its name, icons and display mode so that it can be installed on the home screen of a phone, and a service worker precaches the application shell, the library and the assets, so that the game runs with no connection after the first visit. Updates are delivered by a versioned cache. A new version is downloaded in the background and activated at the next start, with a notice, so that a session in progress is never changed beneath the player.
+
+Versioning is semantic and applies separately to the application, the library, the pipeline and the recognizers, since each has its own compatibility consequences for profiles and recorded data (Chapter~\ref{ch:retention}). A release procedure runs the full test suite and the benchmark, compares the benchmark with the previous release, builds a reproducible production build, and publishes it with a changelog that states whether recognition behavior has changed. The application loads no third-party scripts, collects no telemetry by default, and sets a content security policy that forbids loading code from other origins; research data collection is opt-in and uses a documented endpoint described in Chapter~\ref{ch:dataset}.
+
+\begin{requirement}[Offline and self-contained]\label{req:offline}
+After its first load, the application \must{} run without network access, \must{} load no third-party code, and \mustnot{} transmit any data unless the player has opted in to research participation.\evS
+\end{requirement}

@@ -1,0 +1,91 @@
+\chapter{Introduction and Project Objectives}\label{ch:intro}
+
+Swype Hero is a game in which balloons descend a screen and each carries a geometric symbol. The player destroys a balloon by drawing, anywhere on the screen, the shape that its symbol depicts. A recognized shape pops the matching balloon and scores; a balloon that reaches the bottom of the screen costs the player a life. The premise is deliberately close to that of Magic Touch: Wizard for Hire, a mobile game in which enemies are defeated by tracing the glyphs they display, and that game is the reference for the real-time feel of gesture-driven arcade play. Swype Hero differs from it in emphasis. Where a conventional gesture-arcade game uses a fixed and modest set of glyphs as a means of generating action, Swype Hero treats the glyph set as the subject matter. The vocabulary grows by design, the geometric complexity of the targets is measured and sequenced, and the long-range destination of the sequence is the trajectory that a word traces across a keyboard.
+
+That destination explains why the project is a game and not an exercise program. A typing tutor in the usual sense takes a conventional drill, such as typing a displayed word, and attaches rewards to it. The approach taken here runs in the other direction. The activity that the player performs from the first minute is drawing continuous movements under time pressure and receiving immediate judgment, and the movements are chosen so that they gradually become the movements that gesture typing requires. By the time words appear as targets, the player has already rehearsed the component skills: starting and ending a stroke deliberately, turning sharply, drawing arcs and loops, abbreviating, and recovering from a misjudged stroke. The tutor is thus a consequence of the curriculum and not an overlay on top of the game.
+
+Two requirements follow, and they conflict in useful ways. The first is that the initial application must be independently enjoyable. A player who has no interest in gesture recognition research, and who never learns that the game is part of one, should find it responsive, readable and fair, and should want to play again. The second is that the application must be a trustworthy research instrument, which demands that every input be preserved in raw form, that every recognizer decision be reproducible, and that every adaptive behavior be switchable and attributable. The specification resolves the tension by keeping the research apparatus beneath the game: data collection is optional and consent-based, adaptation is explicit, and nothing about the research changes what the player sees unless a mode says so.
+
+\begin{requirement}[Independence of enjoyment]\label{req:enjoyment}
+The first playable release \must{} be usable without account creation, network access after installation, or participation in any data collection. All research functions \must{} be opt-in.\evS
+\end{requirement}
+
+\paragraph{Scope and non-goals.} The specification covers the game, the recognition engine, the curriculum, the progression from shapes to words, the browser architecture, later input devices, and the research program. It does not specify a commercial product, a monetization scheme, a social or competitive service, or a system-wide keyboard for mobile operating systems, although Chapter~\ref{ch:standalone-keyboard} states what such a keyboard would require. It does not claim that the curriculum improves typing speed. That is a hypothesis, stated as such in Part~\ref{part:research}, and the game is designed to produce the evidence that would confirm or refute it.
+
+\paragraph{How the document is used.} The document is intended to be developed incrementally. Part~\ref{part:roadmap} orders the work into milestones, and the first milestone, a playable prototype with a small gesture vocabulary and a transparent recognizer, is the immediate engineering target. Later parts record design intent early so that the first implementation does not foreclose it, in particular the separation of raw input from interpreted gestures and the separation of recognition from game logic.
+
+\chapter{Historical Background}\label{ch:history}
+
+\section{Evidence classes}
+
+This chapter and Appendix~\ref{app:swype-record} concern a history in which documented mechanisms, reported behavior and plain speculation are easily confused, particularly for a product whose internals were proprietary and whose users formed strong impressions of how it worked. The tags defined in the Conventions are therefore applied with some care. A claim tagged \evD{} can be traced to a paper, a patent, a manual or other primary document. A claim tagged \evO{} describes what long-term users report about observed behavior and is retained because it motivates design and experiment, not because it is established. A claim tagged \evH{} is something the project proposes to measure.
+
+\section{Gesture typing}
+
+Continuous gesture typing, in which a single stroke across a keyboard indicates a word, has a documented research lineage. Zhai and Kristensson described shorthand writing on a stylus keyboard, in which a word is entered by sliding a stylus across the letters of the word, and described the resulting stroke pattern for a word as its shorthand form \cite{zhai2003shorthand}.\evD{} Their SHARK2 system \cite{kristensson2004shark2}\evD{} recognized such strokes by comparing a user's stroke with templates generated automatically from the letters of each word in a large lexicon. SHARK2 compared strokes along two channels, one that was invariant to location and scale and measured shape, and one that used absolute position on the keyboard, and it combined the geometric evidence with a language model. A later review described the word-gesture keyboard as a paradigm that supports a gradual transition from visually guided tracing to recall of learned shapes \cite{zhai2012wordgesture}.\evD{} That transition, from tracing to recall, is exactly what Part~\ref{part:words} seeks to train.
+
+Commercial gesture keyboards followed. ShapeWriter was a commercial descendant of the IBM research line. Swype, created by Cliff Kushler and Randy Marsden, became widely known on Android devices around 2010, was acquired by Nuance Communications in 2011, and was discontinued by Nuance in 2018.\evD{} Gesture typing was subsequently built into other keyboards, among them SwiftKey Flow and the glide typing feature of Gboard, so that the interaction survives in current products. What did not obviously survive was the specific behavior of Swype, which is the subject of the project's historical interest. The dates here are given at the resolution of a year, and Appendix~\ref{app:swype-record} lists what remains to be verified against primary sources before any of this chapter is cited as historical evidence.
+
+\section{Behaviors attributed to Swype}
+
+Experienced users of Swype and of other gesture keyboards report a set of behaviors that go beyond the published algorithms. They report that a stroke need not be completed for the intended word to be selected, so that a long word could be recognized when only its distinctive early portion had been drawn; that deliberate exaggeration, such as a swoop toward a distant letter or a sharply drawn corner on a letter that the language model might otherwise skip, increased the reliability of recognition; that the dictionary learned the user's vocabulary, so that words typed once became easier to produce; and that the keyboard offered gesture shortcuts for editing operations such as deleting a word or changing case.\evO{} Each of these is plausible from the known mechanisms. Early selection is consistent with the use of a language model and a prefix-consistent search. Exaggeration is consistent with templates whose corners are made salient by a sharp turn. Vocabulary learning is a documented feature of predictive keyboards generally. The point is that none is documented in detail for Swype, and each is therefore treated here as an observation that motivates a design (Chapters~\ref{ch:partial-recognition}, \ref{ch:abbreviation} and \ref{ch:personalized-recognition}) and an experiment (Chapter~\ref{ch:swype-comparison}).
+
+\section{The consequence of discontinuing adaptive software}
+
+An adaptive input method accumulates two kinds of state, and the difference between them matters for the design that follows. One is the personalization held in the software: the learned dictionary, the adjusted statistics of the user's strokes, the shortcuts. The other is the skill held in the user: the practiced movements, the chosen abbreviations, the sense of how far a swoop must go. The first lives in the application and, in the usual case, cannot be exported. When the application is discontinued, replaced by a differently behaving successor, or simply updated, the first kind of state is lost or invalidated, and the second kind is devalued because it was calibrated to a particular recognizer. The user is then required to learn again. The design response of this project is to make both kinds of state explicit and portable: personalization is stored in user-readable and user-owned form (Chapters~\ref{ch:profiles} and~\ref{ch:persistence}), the recognizer is versioned and its version recorded with every decision (Chapter~\ref{ch:recognition-engine}), and the claim that skill transfers across recognizers is itself an experimental question (Chapter~\ref{ch:retention}).
+
+\section{Magic Touch as a reference}
+
+Magic Touch is relevant to this project for one narrow reason: it shows that quickly drawn glyphs can sustain real-time arcade play on a touchscreen without a separate selection step. The present specification adopts that observation and not the surrounding design. In particular it does not adopt the glyph set, the visual theme, the enemy structure or the progression of that game, and it does not treat the game as a template. The glyph vocabulary of Swype Hero is derived from first principles in Part~\ref{part:geometry}, and the visual language is specified in Part~\ref{part:presentation}.
+
+\chapter{Design Principles}\label{ch:principles}
+
+The project is governed by six principles. They are stated here in prose with the reasoning that supports them, and later chapters refer to them by number.
+
+\begin{principle}[Immediate feedback]\label{pr:feedback}
+The player sees the stroke respond to the finger within one display frame, and sees a decisive outcome shortly after the stroke ends. Feedback is never withheld to preserve the integrity of an experiment.
+\end{principle}
+
+A drawing game fails if the ink lags the finger, and a learning game fails if the player cannot tell why a stroke was rejected. The principle therefore covers two time scales: the ink, which must follow the pointer without perceptible delay, and the outcome, which must be communicated clearly and quickly enough to affect the next stroke. Chapter~\ref{ch:execution} specifies three distinguishable outcomes so that a failure of the stroke can be told apart from a failure of the recognizer.
+
+\begin{principle}[Progressive difficulty]\label{pr:progression}
+Difficulty increases chiefly by introducing new geometric features, and only secondarily by increasing speed, density or precision demands.
+\end{principle}
+
+Speed is the cheapest source of difficulty in an arcade game and the least informative for learning. A player who is hurried is forced to repeat what they already know, whereas a player who meets a new feature, such as a sharp reversal or a self-crossing, must construct a new movement. The curriculum of Part~\ref{part:learning} accordingly orders gestures by their features and uses time pressure only to consolidate.
+
+\begin{principle}[Meaningful motor learning]\label{pr:motor}
+Practice in the game is intended to produce movement skill that persists and transfers, and the measurements of the game are designed to detect whether it does.
+\end{principle}
+
+\begin{principle}[Low interaction overhead]\label{pr:overhead}
+A stroke is the only action required to attack a balloon. There is no selection step, no mode switch and no confirmation.
+\end{principle}
+
+The drawing surface covers the playfield, so the player never needs to aim at a balloon before drawing. This is a deliberate design choice, because the typing skill the game prepares for is also a one-stroke action without prior selection of a target.
+
+\begin{principle}[Device independence]\label{pr:independence}
+The recognition algorithm depends on a trajectory and on nothing about how the trajectory was produced.
+\end{principle}
+
+The same recognizer is meant eventually to accept strokes from a finger, a mouse, a keyboard-driven cursor, an analog stick or a gaze tracker. That is feasible only if the interface between input and recognition is a neutral trajectory representation (Chapter~\ref{ch:gesture-representation}) and if any adjustment for a device is expressed as an explicit, inspectable parameter and never as a hidden special case.
+
+\begin{principle}[Accommodation without erosion]\label{pr:accommodation}
+The recognizer should come to accept the movements a player has learned, but must retain the distinctions between gestures that the game depends on.
+\end{principle}
+
+The last principle contains the project's central tension. A recognizer that insists on a single ideal trajectory forces the player to keep reproducing it with indefinite precision, which is neither fun nor representative of how skilled gesture typists actually behave. A recognizer that adapts without limit, however, converges on whatever the player does, and in the limit accepts almost any stroke as almost any gesture, which removes the learning problem and ruins the game. The resolution adopted is to bound adaptation by a distinguishability constraint.
+
+\begin{definition}[Separation and floor]\label{def:separation}
+Let $\Lib=\{T_1,\dots,T_K\}$ be a gesture library whose gestures declare allowed sets of transformations (Chapter~\ref{ch:invariance}), with confusability distance $\kappa$. The \emph{separation} of the library is
+\[
+\operatorname{sep}(\Lib)=\min_{g_i\ne g_j}\kappa(T_i,T_j),
+\]
+the minimum being over templates of distinct gestures. A \emph{separation floor} is a constant $\delta_{\min}>0$, in normalized-stroke units, chosen so that gestures at confusability distance $\delta_{\min}$ are reliably told apart by players and by the baseline recognizer.
+\end{definition}
+
+\begin{requirement}[Distinguishability under personalization]\label{req:floor}
+After any personalization update, the personalized library $\Lib_u$ \must{} satisfy $\operatorname{sep}(\Lib_u)\ge\delta_{\min}$. An update that would violate the floor \must{} be rejected or scaled back along the update direction until the floor holds (Chapter~\ref{ch:personalized-recognition}).\evS{} The value of $\delta_{\min}$ is a calibration constant\evC{} and the requirement is testable once it is supplied.
+\end{requirement}
+
+The constant $\delta_{\min}$ is calibrated empirically (Chapters~\ref{ch:recognition-evaluation} and~\ref{ch:competing-recognizers}), and the mechanism that enforces the requirement is given in Chapter~\ref{ch:personalized-recognition}.

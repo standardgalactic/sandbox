@@ -1,0 +1,401 @@
+\chapter{Notation and Symbols}\label{app:notation}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$G=\{(x_i,y_i,t_i)\}_{i=1}^{N}$ & A gesture: planar samples with timestamps (Chapter~\ref{ch:gesture-representation}) \\
+$\ell(G)$, $s_i$ & Total path length; cumulative arc length at sample $i$ \\
+$\theta_i$, $\tau_i$, $\kappa_i$ & Heading, turning angle and discrete curvature \\
+$v_i$ & Instantaneous speed \\
+$T$, $T_{g,m}$ & A template; the $m$th template of gesture $g$ \\
+$\Lib$, $\Lib_u$ & The gesture library; the personalized library of user $u$ \\
+$N$ & Number of points after resampling (default $64$) \\
+$d$ & Base distance: mean pointwise Euclidean distance between normalized sequences \\
+$d_H$ & Quotient pseudometric under a common isometry group $H$ (Proposition~\ref{prop:pseudometric}) \\
+$\mathcal S_g$, $c_g(G,T)$ & Allowed transformation set of gesture $g$; directional matching cost of a stroke against a template of $g$ \\
+$\kappa(T_i,T_j)$ & Symmetric confusability distance between templates of distinct gestures \\
+$\delta_{\min}$ & Separation floor (Definition~\ref{def:separation}) \\
+$\operatorname{sep}(\Lib)$ & Minimum pairwise $\kappa$ over templates of distinct gestures \\
+$g^{\ast}$, $g_{\mathrm{nn}}$ & Posterior winner; geometrically nearest candidate (Definition~\ref{def:decision}) \\
+$\hat G$, $T^0$ & Stroke aligned to the canonical template; canonical template of a slot \\
+$C(G)$ & Complexity (Definition~\ref{def:components}) with components $L,T,X,R,A$ \\
+$\hat T(g)$ & Predicted execution time of gesture $g$ \\
+$P(w\mid G)$ & Posterior of target $w$ given gesture $G$ \\
+$\lambda$ & Weight of the prior in the posterior \\
+$\tau_{\mathrm{acc}},\mu,d_{\max}$ & Acceptance threshold, margin and absolute distance gate \\
+$\eta$, $\rho_{\mathrm{drift}}$ & Template adaptation rate; drift radius \\
+$\operatorname{EUF}(T)$ & Earliest unambiguous fraction (Chapter~\ref{ch:partial-recognition}) \\
+$d_{\mathrm{loc}}$ & Location-channel distance between word paths, in key widths \\
+$W_p,H_p$ & Logical width and height of the playfield \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section*{Constants that await calibration}
+
+Requirements that depend on a constant tagged \evC{} are testable only relative to a supplied value. The constant, the distance to which it applies, its unit, and the procedure that fixes it are listed so that each can be implemented as a parameter now and set from data later.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}lllX@{}}
+\toprule
+Constant & Applies to & Unit & Fixing procedure \\
+\midrule
+$\delta_{\min}$ & $\kappa$ & normalized-stroke & Smallest $\kappa$ at which players and the baseline separate two gestures with a stated error (P1) \\
+$d_{\max}$ & $d_{g^\ast}$ & normalized-stroke & Ninety-fifth percentile of genuine strokes in the calibration set \\
+$\tau_{\mathrm{acc}},\mu,p_{\min}$ & posterior & probability & Risk--coverage curve at a fixed ambiguity rate (P1) \\
+$\sigma_w$, $\Theta$ & likelihood, softmax & normalized-stroke; none & Maximum likelihood per gesture; temperature on held-out data \\
+$d_{\mathrm{learn}},d_{\mathrm{new}}$ & $c_g$ & normalized-stroke & Quantiles of genuine strokes of each gesture \\
+$\rho_{\mathrm{drift}}$, $\eta$ & $d$ in canonical frame & normalized-stroke; none & Largest drift that preserves the floor on recorded libraries (P3) \\
+Band half-width $w$ & DTW & samples & Tuned on training folds (Chapter~\ref{ch:competing-recognizers}) \\
+$s_0$, weights of $C$ & complexity & normalized-stroke; none & Fit to predicted execution time (Chapter~\ref{ch:learning-curves}) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\chapter{Gesture Library Schema}\label{app:schema}
+
+The library is a JSON document whose structure is given below as TypeScript declarations, which serve as the normative description, followed by the requirements that a loader must enforce. All numbers are IEEE double-precision values in the units stated. Template points are stored already normalized by the pipeline named in the library header.
+
+\begin{lstlisting}[language=TypeScript,caption={Normative schema of a gesture library.},label={lst:schema}]
+export interface GestureLibrary {
+  schema: "swypehero.library/1";
+  id: string;                       // e.g. "core-shapes"
+  version: string;                  // semantic version
+  pipeline: { id: string; version: string; points: number };   // normalization used
+  layout?: { id: string; version: string };                    // for word libraries
+  separationFloor: number;          // delta_min under which the library was validated
+  gestures: GestureEntry[];
+}
+
+export interface GestureEntry {
+  id: string;                       // stable identifier, unique in the library
+  family: string;
+  description: string;
+  templates: { id: string; points: [number, number][] }[];     // length = pipeline.points
+  invariance: Invariance;
+  difficulty?: { version: string; L: number; T: number; X: number; R: number; A: number; C: number };
+  constraints?: { minLength?: number; maxLength?: number; closed?: boolean };
+  meaning?: { kind: "symbol" | "word" | "command"; value: string };
+}
+
+export interface Invariance {
+  translate: boolean;
+  scale: [number, number] | null;   // allowed ratio range, null = exact size
+  rotate: [number, number] | null;  // allowed radians, null = none
+  reflect: boolean;
+  reverse: boolean;
+  startShift: boolean;              // cyclic start-point shift, closed shapes only
+}
+\end{lstlisting}
+
+\paragraph{Loader obligations.} A loader \must{} check that each template has exactly the number of points declared in the pipeline header; that identifiers are unique; that each gesture has at least one template; that the scale and rotation ranges are well formed; that the library satisfies Requirement~\ref{req:library-validity} at its declared separation floor; and that a closed-shape flag is accompanied by a start-shift invariance only when the template is closed to within a stated tolerance. A loader \must{} refuse a library whose major schema version it does not support, and \should{} report every violation and not only the first.
+
+\paragraph{Exchange of personal vocabularies.} A personal vocabulary is a library whose entries carry a \texttt{meaning} and whose header names the library from which it was derived. Together with a conformance set (Appendix~\ref{app:fixtures}), it is the unit of exchange between implementations (Chapter~\ref{ch:personalized-vocabularies}).
+
+\chapter{Reference Algorithms}\label{app:algorithms}
+
+The algorithms below are reference definitions. An implementation may be organized differently, provided it computes the same values within the tolerance of Requirement~\ref{req:baseline-determinism}.
+
+\begin{lstlisting}[language=Pseudo,caption={Arc-length resampling and normalization.},label={lst:resample}]
+function resample(P, N):                  // P: points with len(P) >= 2, N >= 2
+    cum[0] = 0
+    for i = 1 to len(P) - 1:
+        cum[i] = cum[i-1] + dist(P[i-1], P[i])
+    total = cum[len(P) - 1]
+    if total == 0: fail("zero length")
+    j = 0
+    for k = 0 to N - 1:
+        s = total * k / (N - 1)
+        while j < len(P) - 2 and cum[j+1] < s: j = j + 1
+        seg = cum[j+1] - cum[j]
+        u = 0 if seg == 0 else (s - cum[j]) / seg
+        Q[k] = P[j] + u * (P[j+1] - P[j])
+    return Q
+
+function normalize(raw, N):
+    P = condition(raw)                    // drop repeated positions, non-increasing times
+    P = smooth(P)                         // named filter, may be identity
+    if pathLength(P) < L_MIN or extent(P) < S_MIN: fail("too small")
+    Q = resample(P, N)
+    S = max(width(Q), height(Q))
+    c = centroid(Q)
+    return [ (q - c) / S for q in Q ]
+\end{lstlisting}
+
+\begin{lstlisting}[language=Pseudo,caption={Template matching under an invariance group.},label={lst:match}]
+function score(G, library, candidates):           // G normalized
+    result = []
+    for g in candidates:
+        best = infinity
+        for T in library[g].templates:
+            for s in allowed(library[g].allowedSet, G, T):  // angle clamped to the declared interval,
+                                                           // flips, reversal, shifts, as the candidate allows
+                best = min(best, meanPointDistance(s(G), T))   // matching cost c_g(G, T)
+        append (g, best) to result
+    sort result by distance, ties by library order
+    return result
+\end{lstlisting}
+
+\begin{lstlisting}[language=Pseudo,caption={Band-constrained dynamic time warping.},label={lst:dtw}]
+function dtw(a, b, w):                    // Sakoe-Chiba band of half-width w
+    n = len(a); m = len(b); w = max(w, abs(n - m))
+    D[0][0] = 0; all other D = infinity
+    for i = 1 to n:
+        for j = max(1, i - w) to min(m, i + w):
+            c = dist(a[i], b[j])
+            // symmetric weights: path weights sum to exactly n + m
+            D[i][j] = min(D[i-1][j] + c, D[i][j-1] + c, D[i-1][j-1] + 2 * c)
+    return D[n][m] / (n + m)               // weighted average cost along the optimal path
+\end{lstlisting}
+
+\begin{lstlisting}[language=Pseudo,caption={Posterior and decision rule (Definition~\ref{def:decision}).},label={lst:decide}]
+function decide(dist, prior, P):          // dist[g]: matching distance of each candidate g
+    if candidates is empty: return Rejected("no_candidates")
+    for each g: logL[g] = -n_eff * log(sigma[g]) - dist[g]^2 / (2 * sigma[g]^2)
+                logp[g] = logL[g] + lambda * log(prior[g])
+    p = softmax(logp / Theta)             // Theta: calibration temperature
+    // posterior winner; ties by smaller distance, then library order
+    gstar = argmax over g of (p[g], -dist[g], -libraryIndex[g])
+    gnn   = argmin over g of (dist[g], libraryIndex[g])
+    p2 = 0 if only one candidate else max{ p[g] : g != gstar }
+    if dist[gstar] > D_MAX:               return Rejected("too_far", nearest = gnn)
+    if p[gstar] >= TAU_ACC and p[gstar] - p2 >= MU:
+        return Accepted(gstar, p[gstar], priorOverride = (gstar != gnn))
+    return Ambiguous({ g : p[g] >= P_MIN })
+\end{lstlisting}
+
+\begin{lstlisting}[language=Pseudo,caption={Early commit on a stroke prefix.},label={lst:commit}]
+function onSample(stroke, library, candidates, state):
+    if arcLength(stroke) < L_PREFIX_MIN: return Continue
+    scores = prefixScores(stroke, library, candidates)     // open-end alignment
+    r = decide(scores, prior, P)
+    if r is Accepted(g) and g == state.lead and p >= TAU_EARLY and margin >= MU_EARLY:
+        state.run = state.run + 1
+    else:
+        state.run = 0; state.lead = leader(scores)
+    // fraction of the committed gesture's TEMPLATE consumed; the intended length is unobservable
+    if state.run >= H: return Commit(g, fraction = arcLength(stroke) / templateLength(g))
+    return Continue
+\end{lstlisting}
+
+\begin{lstlisting}[language=Pseudo,caption={Bounded template update (Chapter~\ref{ch:personalized-recognition}).},label={lst:update}]
+function update(T, T0, G, allowedSet, eta, rho, library, delta_min):
+    Ghat = alignTo(T0, G, allowedSet)               // fixed canonical frame: attains c_g(G, T0)
+    T1 = (1 - eta) * T + eta * Ghat                 // pointwise interpolation, same N
+    r = meanPointDistance(T1, T0)                   // plain distance, no minimization
+    if r > rho: T1 = T0 + (rho / r) * (T1 - T0)     // exact: the distance is a norm in this frame
+    lam = 1
+    while lam >= 1/64:                              // floor is an independent check on kappa
+        Tc = T + lam * (T1 - T)                     // T and T1 are in the ball, so is Tc
+        if floorHolds(library with T replaced by Tc, delta_min): return Tc
+        lam = lam / 2
+    return T                                        // reject the update
+\end{lstlisting}
+
+\chapter{The Simulation Step}\label{app:loop}
+
+The main loop is given in Listing~\ref{lst:loop}. The step function advances the state by one fixed interval, and is a pure function of the state, the events and the generator.
+
+\begin{lstlisting}[language=Pseudo,caption={One simulation step.},label={lst:step}]
+function step(state, events, dt):
+    state.time = state.time + dt
+    for e in events:
+        if e.kind == "begin":  state.stroke = newStroke(e)
+        if e.kind == "sample": state.stroke.append(e.sample)
+        if e.kind == "cancel": state.stroke = none
+        if e.kind == "end":
+            state.stroke.append(e.sample)
+            result = recognizer.recognize(state.stroke.raw, candidatesOf(state))
+            state = applyOutcome(state, result)          // pop, ambiguity, rejection; score; streak
+            log(state.stroke.raw, result)
+            state.stroke = none
+    for b in state.balloons: b.y = b.y + speed(state, b) * dt
+    for b in state.balloons where b.y >= state.failureLine:
+        remove b; state.lives = state.lives - 1; state.streak = 0; recordMiss(b)
+    if state.time >= state.nextSpawn and count(state.balloons) < state.maxBalloons:
+        state = spawn(state, state.rng)                  // seeded generator only
+    if state.lives == 0: state.phase = "over"
+    return state
+\end{lstlisting}
+
+\chapter{Coordinate Normalization Procedures}\label{app:coordinates}
+
+\section{Device to logical coordinates}
+
+Let the drawing element have its top-left corner at $(o_x,o_y)$ in CSS pixels relative to the viewport and a width of $w_{\mathrm{css}}$ CSS pixels. A pointer event with client coordinates $(c_x,c_y)$ is converted to logical coordinates by
+\[
+x=(c_x-o_x)\,\frac{W_p}{w_{\mathrm{css}}},\qquad y=(c_y-o_y)\,\frac{W_p}{w_{\mathrm{css}}}.
+\]
+The same factor is used on both axes, so that logical units are square, and $H_p=h_{\mathrm{css}}W_p/w_{\mathrm{css}}$. The element's offset and size are read when the layout changes and not on every event. The device pixel ratio is used only to size the backing store of the canvas.
+
+\section{Normalized form}
+
+For a conditioned stroke $P$ of positive length resampled to $Q=(q_1,\dots,q_N)$, the normalized stroke is $\hat q_k=(q_k-\bar q)/S$ with $\bar q=\tfrac1N\sum_kq_k$ and $S=\max(w,h)$, where $w$ and $h$ are the width and height of the bounding box of $Q$. The normalized stroke has centroid at the origin and the larger side of its bounding box of length one. Rotation, if enabled, is applied afterward, by the angle that minimizes the distance to the template (Chapter~\ref{ch:invariance}) or by the indicative angle of the stroke, the angle from the centroid to its first point, where the invariance configuration asks for a canonical orientation.
+
+\section{Keyboard coordinates}
+
+For word trajectories, logical coordinates inside the keyboard region are converted to key widths by a fixed affine map from the displayed keyboard rectangle. For a keyboard rectangle with origin $(k_x,k_y)$ and width $w_k$ in logical units, with $u=w_k/10$ the key width for a ten-key row, the point $(x,y)$ maps to $\bigl((x-k_x)/u,\ (y-k_y)/u\bigr)$. The location-channel distance of Chapter~\ref{ch:word-ambiguity} is computed in these coordinates, without further normalization of translation or scale.
+
+\chapter{Difficulty Metrics}\label{app:difficulty}
+
+The complexity measure is defined in Definition~\ref{def:components}. The table below collects the default constants, which are design decisions and are versioned with the library through the identifier of the weight set (the field \texttt{difficulty.version} of Listing~\ref{lst:schema}).
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}Xll@{}}
+\toprule
+Quantity & Symbol & Default \\
+\midrule
+Half-value constants & $c_L,c_T,c_X,c_R$ & $1,\ 1,\ 1,\ 2$ \\
+Ambiguity scale & $s_0$ & $\delta_{\min}$ \\
+Weights: length, turning, crossing, reversal, ambiguity & $\alpha,\beta,\gamma,\delta,\eta$ & $0.20,\ 0.25,\ 0.15,\ 0.15,\ 0.25$ \\
+Reversal threshold & (none) & $150^\circ$ \\
+Base score & $B_0,\beta$ & $100,\ 2$ \\
+Speed bonus & $\lambda$ & $0.5$ \\
+Economy bonus & $\kappa$ & $0.1$ \\
+Streak cap & $k_{\max}$ & $10$ \\
+Target success band & (none) & $[0.6,\ 0.9]$ \\
+Mastery & (none) & fifth percentile of $\pi_g\ge0.75$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\chapter{Input Adapter Contracts}\label{app:adapters}
+
+An adapter is the only code that touches a device. Its obligations are those of Requirement~\ref{req:adapter}, and are restated here as a checklist of what a conformance test verifies. The adapter must produce, for each stroke, exactly one begin event followed by zero or more sample events and exactly one end or cancel event, with non-decreasing timestamps. The first sample of a stroke is carried by the begin event and the last by the end event. Coordinates are logical. The adapter identifies itself and its version and declares the device kind and the nominal sample rate. When the device does not supply a natural begin and end, the adapter documents the control it synthesizes them from. When two strokes would overlap, as with multiple pointers, the adapter delivers the first and ignores the others until it ends. An adapter performs no filtering that cannot be reconstructed from the raw samples, and any such filtering is declared in its version string and is subject to Requirement~\ref{req:raw}.
+
+A conformance test drives an adapter with a scripted device, a sequence of device events with known timing, and compares the emitted stroke events with the expected sequence. The scripted devices of the first milestone are a pointer script with and without coalesced events, and a keyboard script with held and released keys in both orders.
+
+\chapter{Test Fixtures}\label{app:fixtures}
+
+\section{Format}
+
+A fixture is a JSON object with a name, the identifiers of the pipeline, library and recognizer, the raw samples, the candidate set, and the expected results with their tolerances.
+
+\begin{lstlisting}[language=JSONx,caption={A regression fixture (the five-point test profile of the worked example below).},label={lst:fixture}]
+{
+  "name": "corner.l/worked-example",
+  "pipeline": "baseline/1+n5", "library": "test-shapes/1.0.0", "recognizer": "template/1",
+  "samples": [[0,0,0],[0,100,400],[100,100,800]],
+  "candidates": ["corner.l", "line.v"],
+  "expect": { "distance": { "corner.l": 0.0, "line.v": 0.404625 },
+              "tolerance": 1e-6, "fragile": false }
+}
+\end{lstlisting}
+
+\section{Edge-case fixtures}
+
+Every reference algorithm of Appendix~\ref{app:algorithms} has fixtures in each of the classes below: degenerate strokes, empty and singleton candidate sets, ties, repeated points, and conflicting invariance settings. The values are produced by \texttt{tools/fixtures\_check.py}, which implements the algorithms independently of the prose, and the hand-checkable ones are derived in the table.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+Class & Setup & Expected \\
+\midrule
+Empty candidates & $\mathcal C=\varnothing$ & Rejected, reason \texttt{no\_candidates} \\
+Single candidate, near & $\mathcal C=\{A\}$, $d_A=0.10\le d_{\max}=0.30$ & Accepted, $p^\ast=1$; the gate alone decides \\
+Single candidate, far & $\mathcal C=\{A\}$, $d_A=0.40>d_{\max}$ & Rejected, \texttt{too\_far} \\
+Posterior tie & $A,B$ with $d_A=d_B=0.10$, equal priors & Ambiguous $\{A,B\}$; margin $0<\mu$ \\
+Prior override & $d_A=0.10$, $d_B=0.12$, priors $0.1$, $0.9$, $\sigma=0.1$, $\lambda=1$, $\Theta=1$ & $p_A=0.1216$, $p_B=0.8784$; $g^\ast=B\ne g_{\mathrm{nn}}=A$; Accepted$(B)$ with the override flag \\
+No override & as above with equal priors & $p_A=0.5548$, $p_B=0.4452$; Ambiguous $\{A,B\}$ \\
+Zero-length stroke & all samples at one point & Rejected before scoring, \texttt{malformed} \\
+Repeated points, non-increasing times & the worked example with each point duplicated & Same normalized points and distance as the worked example \\
+DTW by hand & $a=((0,0),(2,0))$, $b=((0,0),(1,0),(2,0))$ & $D(2,3)=1$, distance $1/5=0.2$; path weights $2+1+2=5=n+m$ \\
+DTW below pointwise & any equal-length pair with the diagonal in the band & $\operatorname{dtw}\le d$ \\
+Conflicting invariances & \texttt{line.h} allows rotation, \texttt{line.v} does not & $c_{\mathrm{line.h}}(v,h)=0$, $c_{\mathrm{line.v}}(h,v)=0.4243$ ($N=5$); $\kappa=0$; library rejected at load \\
+Drift retraction & $T^0$ the vertical line, $\hat G$ shifted by $0.2$, $\eta=0.5$, $\rho=0.05$ & Drift $0.1$ before, exactly $0.05$ after retraction \\
+Floor violation & an update whose every step down to $1/64$ violates the floor & Template returned unchanged \\
+\bottomrule
+\end{tabularx}
+\caption{Edge-case fixtures. Values to four places; tolerance $10^{-6}$.}
+\label{tab:edge-fixtures}
+\end{table}
+
+\section{A worked normalization}
+
+The following example can be checked by hand and is part of the unit tests. The stroke runs from $(0,0)$ down to $(0,100)$ and then right to $(100,100)$, a right-angled L of two equal sides. Its path length is $200$. Resampled to $N=5$ points at arc lengths $0,50,100,150,200$, the points are $(0,0)$, $(0,50)$, $(0,100)$, $(50,100)$ and $(100,100)$. The bounding box is $100\times100$, so $S=100$ and the scaled points are $(0,0)$, $(0,0.5)$, $(0,1)$, $(0.5,1)$, $(1,1)$. The centroid is $(0.3,0.7)$, and the normalized points are
+\[
+(-0.3,-0.7),\ (-0.3,-0.2),\ (-0.3,0.3),\ (0.2,0.3),\ (0.7,0.3).
+\]
+Normalizing the same stroke drawn at twice the size, or at a different position, gives the same five points, which is the content of the scale and translation properties of Chapter~\ref{ch:testing}. Against the vertical line, whose normalized five-point template is $(0,-0.5),(0,-0.25),(0,0),(0,0.25),(0,0.5)$, the pointwise distances are $0.3606$, $0.3041$, $0.4243$, $0.2062$ and $0.7280$, and their mean, the distance $d$ of Chapter~\ref{ch:template-matching}, is $0.4046$, the value recorded in the fixture above.
+
+\chapter{Browser Compatibility Requirements}\label{app:compat}
+
+The implementation depends on the browser features below. All are supported by current releases of the major engines at the time of writing, with the variations noted. The specification lists the features and the intended behavior when one is missing, and does not list version numbers, which change faster than this document.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+Feature & Used for & If unavailable \\
+\midrule
+Pointer Events with capture & Unified touch, mouse and pen input & Not supported: the game does not start and says so \\
+Coalesced pointer events & Full sample rate from touch controllers & Fall back to delivered events; sample rate falls to display rate \\
+\texttt{touch-action: none} & Prevent scroll and zoom while drawing & Required \\
+Canvas 2D, \texttt{requestAnimationFrame} & Rendering and loop & Required \\
+High-resolution clock & Timestamps and benchmarks & Fall back to millisecond clock with a warning \\
+IndexedDB & Profiles and recorded strokes & Fall back to simple storage with a size limit \\
+Persistent storage request & Resist eviction & Continue; prompt for export more often \\
+Service workers and manifest & Offline play and installation & Play online only \\
+Web Audio & Synthesized sound & Silent play, with visual signals \\
+Gamepad interface & Gamepad adapter & Adapter unavailable \\
+Reduced-motion media query & Respect user preference & Provide the setting manually \\
+Vibration interface & Optional haptics & Omit haptics \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\chapter{Experimental Protocols}\label{app:protocols}
+
+The protocols below are summaries from which full, versioned protocols are written before data collection, and each is registered, with its analysis plan, before the data are seen.
+
+\paragraph{P1, comparison of recognizers.} Strokes from at least thirty participants, each drawing every gesture of the library at least twenty times in practice mode with prompted targets, are collected on at least two device classes. The strokes are split by participant into folds. Every recognizer is tuned on training folds and evaluated on the held-out fold with the measures of Chapter~\ref{ch:recognition-evaluation}. The primary outcome is the false-accept rate at a fixed ambiguity rate, and the secondary outcomes are accuracy, latency and calibration error. Intervals are cluster bootstrap intervals over participants.
+
+\paragraph{P2, learning curves.} Participants play for at least four weeks with a frozen recognizer in the training mode. A probe of twenty standardized presentations is given at the start and at fixed intervals. The outcomes are the parameters of the curve families of Chapter~\ref{ch:learning-curves} fitted by hierarchical models, with the last-activity record used for the attrition analysis.
+
+\paragraph{P3, human versus model adaptation.} A crossover is unsuitable as the primary design, because motor learning cannot be reset between periods: skill acquired in the first period carries into the second, so period and carryover effects are confounded with the arm. The primary design is therefore parallel. Participants are randomized to a frozen arm or an adaptive arm for the whole study, stratified by baseline probe performance and device class, and the primary comparison is the difference in the change of success rate on the standardized probes. A crossover is permitted only as a secondary, exploratory design, with a washout period whose adequacy is checked by a return of the baseline probe, a model with explicit period and sequence terms, and a pre-specified rule for discarding the second period if carryover is detected. Changing familiarity with the gesture set is handled by a fixed probe set that is held out of play, and the replay decomposition of Chapter~\ref{ch:human-vs-model} is computed for each participant as a secondary analysis, with the closed-loop limitation reported.
+
+\paragraph{P4, degraded information.} Recorded strokes from P1 are degraded by the operations of Chapter~\ref{ch:degraded} and re-scored by each recognizer, giving curves of accuracy against retained fraction and the critical fraction for each recognizer and operation.
+
+\paragraph{P5, cross-device transfer.} Participants practice on one device class and are tested on another, with a control group that practices on the test device, giving the transfer ratio of Chapter~\ref{ch:retention} and the cross-device gap of Chapter~\ref{ch:cross-device}.
+
+\paragraph{P6, historical comparison.} A harness generates strokes from word paths with controlled perturbations and presents them to the historical software and to the new recognizers, giving acceptance curves (Chapter~\ref{ch:swype-comparison}). The protocol is a software-behavior experiment and nothing more: it measures how one version of the software responds to controlled perturbations, and it says nothing about how experienced users actually stroked. Human performance on surviving installations is a separate study (P8), undertaken only where such installations can be lawfully run, with its own participants, consent and analysis plan.
+
+\paragraph{P7, geometric curriculum versus direct word practice.} The central educational hypothesis is that the geometric curriculum contributes something beyond practice time. Participants are randomized to one of three arms of equal prescribed practice time: the geometric curriculum of Parts~\ref{part:learning} and~\ref{part:words}, direct practice of word gestures on the keyboard with matched difficulty and the same game wrapper, and a no-gesture control that plays the game with a non-gesture input. The primary outcome is gesture-typing speed and accuracy on a fixed set of unseen words, tested on the keyboard without any guide, at the end and after a retention interval; the secondary outcomes are the three separate skills of reproducing a visible trajectory, recalling a learned trajectory without a guide, and generating the trajectory of a newly presented word. The geometric arm is said to help only if it outperforms the direct-practice arm at equal time; an advantage over the no-gesture control alone is not evidence for the curriculum.
+
+\paragraph{P8, human performance on surviving installations.} An optional study of experienced users on lawfully obtained historical software, separate from P6, measuring their acceptance curves and speed on natural, unperturbed word lists. It is not required by any milestone.
+
+\chapter{Record of Historical Claims}\label{app:swype-record}
+
+This appendix separates what is documented about gesture keyboards and Swype from what is reported and from what is hypothesized, as the Conventions require. It is a working record: entries marked as needing verification are to be checked against primary sources before they are used in any publication. The patents held by the developers of Swype and ShapeWriter, and the surviving implementations, have not been analyzed in this version and are listed as open tasks.
+
+\paragraph{Bibliography audit status.} In version 0.2 two entries were checked against an institutional record of the publication: Kristensson and Zhai (CHI 2007), for which the page range was added, and Zhai and Kristensson (CHI 2003), whose existing details were confirmed. The remaining entries, the historical dates in the table below and the patent details have not been audited against primary sources, and the audit is a precondition of any publication.
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{3.5cm}@{}}
+\toprule
+Claim & Status & Basis & To verify \\
+\midrule
+\endhead
+
+Shorthand writing on a stylus keyboard; SHARK2 recognition with shape and location channels and a language model & \evD & Published papers \cite{zhai2003shorthand,kristensson2004shark2} & Confirm details of channel integration against the paper \\
+The word-gesture keyboard as a paradigm supporting transition from tracing to recall & \evD & Published review \cite{zhai2012wordgesture} & Quote the exact formulation if cited \\
+Swype created by Kushler and Marsden; wide Android availability around 2010 & \evD & Public histories & Primary announcements and dates \\
+Acquisition by Nuance in 2011; discontinuation in 2018 & \evD & Public announcements & Exact dates and scope (platforms) of discontinuation \\
+Recognition before a stroke is complete & \evO & Reports of long-term users & Measurement on surviving installations (P6) \\
+Exaggerated corners and swoops improve recognition & \evO & Reports of long-term users & Measurement (P6) and mechanism (Chapter~\ref{ch:abbreviation}) \\
+Learned personal vocabulary improves recognition of added words & \evO & Reports; general feature of predictive keyboards & Measurement on surviving installations (P6) \\
+Gesture shortcuts for editing operations & \evO & Reports of long-term users & Inventory of the shortcuts in the last releases \\
+Patents and internal algorithms & None & Not analyzed & Patent search and review \\
+\bottomrule
+\end{longtable}}

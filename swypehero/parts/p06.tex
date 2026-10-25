@@ -1,0 +1,151 @@
+This part is the central transition of the project, from an arcade game about shapes to a tutor for typing. Its method is to make the shapes of words a continuation of the shapes already learned: a word is a path on a keyboard, a path has the geometric properties developed in Part~\ref{part:geometry}, and the same recognizers, complexity measures and curriculum principles apply. What is new is the keyboard, which fixes the coordinates, and the language, which supplies the prior.
+
+\chapter{Keyboard Geometry}\label{ch:keyboard-geometry}
+
+\section{Layouts as data}
+
+A keyboard layout is a table that assigns to each character a key center and a key size in a common coordinate system. The unit of length is the width of a key. The default layout is the QWERTY layout as it appears on a phone in portrait orientation, which has three rows of ten, nine and seven keys, each row centered, so that the rows are offset by $0$, $0.5$ and $1.5$ key widths relative to the first. Key $j$ in row $r$ then has center $\bigl(o_r+j+\tfrac12,\ r\,\pi_{\mathrm{row}}+\tfrac12\bigr)$ where $o_r$ is the row offset and $\pi_{\mathrm{row}}$ is the vertical pitch between rows, taken as $1.3$ key widths to reflect the greater height of phone keys. A physical keyboard has different offsets, in which the second row is shifted by a quarter of a key and the third by three quarters, and the layout is a parameter of the system and not a constant. Alternative layouts, such as AZERTY, QWERTZ and Dvorak, are further tables, and the property of Chapter~\ref{ch:word-ambiguity} that geometric confusability depends on the layout is a reason to keep layouts as data.
+
+\begin{requirement}[Layouts as data]\label{req:layouts}
+A layout \must{} be specified by a data file giving, for each character, the key center and size in key widths, and \must{} be identified by a name and version recorded with every word trajectory and recognition result.\evS
+\end{requirement}
+
+\section{The idealized word path}
+
+The \emph{idealized path} of a word $w=c_1c_2\dots c_n$ is the polyline through the centers of the keys of its letters in order. Consecutive repeated letters correspond to the same key and contribute a single vertex, so that the path of \textit{hello} has four vertices, at \textit{h}, \textit{e}, \textit{l} and \textit{o}, and the path of \textit{pizza} has four, at \textit{p}, \textit{i}, \textit{z} and \textit{a}. A word consisting of a single key, such as \textit{a}, is a point and not a path, and is entered by a tap. The straight segments of the polyline pass over keys that the writer does not intend, and this is the central ambiguity of gesture typing: a stroke from \textit{o} to \textit{r} passes over \textit{u}, and the geometry alone cannot say whether \textit{u} was meant. The lexicon and the language model resolve it, as the \textit{or} and \textit{our} entry of Table~\ref{tab:closest-pairs} shows.
+
+\section{Repeated letters and neighbors}
+
+Repeated letters have several possible conventions. The default is to collapse them and to rely on the lexicon to recover the double letter. An alternative, useful in teaching, is a deliberate small loop or a brief dwell at the key to signal repetition, and the dwell uses the temporal information that Chapter~\ref{ch:temporal} otherwise excludes. Neighboring keys cause a second class of ambiguity, because a stroke aimed at one key may land within the area of its neighbor. Writers' errors in aiming are modeled by a Gaussian distribution around the key center, with a standard deviation of about a third of a key width as a starting value to be estimated from data,\evH{} which is used in two ways: to generate synthetic strokes for testing, and to define the tolerance of the location channel in the probabilistic recognizer.
+
+\chapter{Word Shapes}\label{ch:word-shapes}
+
+\section{Geometric identity of a word}
+
+Every word has a shape in two senses. Its \emph{located path} is the idealized path in the coordinates of the keyboard, which is what a recognizer that uses absolute position compares with the stroke. Its \emph{free shape} is the path after normalization for translation and scale, which is what a player sees as the form of the word independent of where it is drawn. The two correspond to the two channels of the SHARK2 recognizer, a location channel and a shape channel,\evD{} and a gesture-typing system can use either or both. Because the keyboard is displayed, the location channel is available in a typing tutor and gives much stronger discrimination; the free shape is the representation used in the early transitional exercises of Chapter~\ref{ch:transitional}, where the keyboard is not yet shown.
+
+Word shapes are readily described informally. The word \textit{magic} has a trajectory that doubles back on itself with a crossing, which makes it feel like a pretzel, and \textit{lizard} winds in a continuous curve from the lower left to the upper right and back. The informal description captures something real but should be checked against the computation. Figure~\ref{fig:word-paths} gives the idealized paths, and Table~\ref{tab:word-metrics} the measures. For \textit{magic} the computation gives one proper self-crossing and two near-reversals, consistent with the intuition of a doubling-back shape. For \textit{lizard} it gives no self-crossing and no near-reversal, but a total turning of just over one full turn, so that the winding is real while the form is not knotted. The informal descriptions are therefore supported in the first case and refined in the second, which is the benefit of treating them as hypotheses about geometry and not as definitions.
+
+\input{gen/fig_word_paths.tex}
+
+\section{Generating and classifying shapes automatically}
+
+The specification requires that word shapes be computed, not drawn by hand. Given a layout and a lexicon, the generator produces for each word the idealized path, the resampled located path with $N$ points, the free shape, and a descriptor containing the quantities of Definition~\ref{def:components}. The classifier assigns each word to a shape class from the descriptor. A coarse and useful taxonomy follows from the descriptor: \emph{linear} words, whose total turning is below half a turn and which have no reversal, such as \textit{pizza}; \emph{arched} words, which turn smoothly in one sense, such as \textit{lizard}; \emph{zigzag} words, which have two or more near-reversals, such as \textit{banana}; and \emph{knotted} words, which have at least one self-crossing, such as \textit{magic} and \textit{keyboard}. The classes are a reporting convenience for the curriculum and for the choice of examples, and they are not an input to the recognizer.
+
+\begin{requirement}[Reproducible shape generation]\label{req:shape-generation}
+The word-shape generator \must{} be deterministic, \must{} take the layout and the lexicon as explicit inputs, and \must{} emit descriptors tagged with the layout version, the lexicon version and the generator version.\evS
+\end{requirement}
+
+\chapter{Word Difficulty}\label{ch:word-difficulty}
+
+\section{Length is not geometric complexity}
+
+A curriculum for words that ordered them by the number of letters would follow the convention of conventional typing instruction and would misrepresent the task. The geometry of the stroke depends on where the letters lie and not on how many there are. Table~\ref{tab:word-metrics} shows the effect: \textit{pizza} and \textit{magic} both have five letters, yet the path of \textit{magic} is nearly twice as long ($18.30$ against $9.72$ key widths) and turns more than three times as much (1.02 turns against 0.29). Two six-letter words, \textit{lizard} and \textit{banana}, differ in path length by a factor of more than two, and \textit{banana} contains four near-reversals while \textit{lizard} contains none. A seven-letter word, \textit{minimum}, has four self-crossings and five near-reversals, while the seven-letter \textit{gesture} has one crossing and one near-reversal.
+
+The pattern is general in the convenience sample of the project. For the \lexN{} words of the sample described in Chapter~\ref{ch:word-ambiguity}, the Pearson correlation between the number of letters and the path length is $r=\rLettersL$, with total turning $r=\rLettersT$, and with the number of self-crossings $r=\rLettersX$. Length in letters is a fair predictor of how much turning a word demands and a weak one of whether the path crosses itself, and in every case it leaves a large part of the variance unexplained. The sample is a hand-chosen list of common words and not a frequency-weighted corpus, so the coefficients describe that sample and are reported as an illustration of the point and not as an estimate for English.
+
+\input{gen/tab_word_metrics.tex}
+
+\section{A curriculum by trajectory difficulty}
+
+The difficulty of a word has two parts. The \emph{production difficulty} is the predicted execution complexity of its path, from the same model as for shapes (Chapter~\ref{ch:complexity}): length, turning, crossings and reversals, computed in key widths so that it is comparable between words on one layout. The \emph{discrimination difficulty} is the ambiguity term, which for a word depends on the lexicon in use, since a word with many geometric neighbors is harder to get recognized and requires more careful drawing. A word's combined difficulty is
+\[
+C(w)=\alpha L(w)+\beta T(w)+\gamma X(w)+\delta R(w)+\eta A_{\Lambda}(w),
+\]
+with $A_\Lambda$ computed against the active lexicon $\Lambda$. The word curriculum introduces words in increasing order of $C(w)$ within frequency bands, so that a player first meets common words with simple paths and later meets rare words and complex paths, and the ordering is recomputed whenever the lexicon changes. Frequency enters as a second axis, not as a component of $C$: a word that is common is useful to learn early even if it is geometrically hard, and a word that is simple but rare is useful later. The player-facing sequence is a compromise controlled by the competence model (Chapter~\ref{ch:adaptive-difficulty}).
+
+\chapter{Transitional Exercises}\label{ch:transitional}
+
+The transition from shapes to words is the most delicate step of the curriculum, and it is designed in stages, each of which changes one thing. The stages move the player from tracing, through recall, toward generation, the three skills distinguished in Chapter~\ref{ch:retention}, and only the last stages exercise the mapping from spelling to movement on which gesture typing depends. Whether the earlier stages contribute to that mapping, or only to the motor fluency of drawing, is what the comparison with direct word practice (protocol P7) is designed to show, and the design here makes no claim that it does.
+
+In the first stage the player is shown a \emph{word-derived shape}, the free shape of a word drawn as an abstract glyph with no keyboard and no letters. The task is the one the player already knows: draw the glyph. The shapes are chosen from the advanced families of Chapter~\ref{ch:advanced} and drawn from real words, so that the geometry is that of words, but nothing about spelling is revealed. The player is learning the movements.
+
+In the second stage a faint keyboard appears behind the glyph, positioned so that the shape lies over the letters it traverses. The shape is still presented as a shape. Players who are inclined to notice, notice that it passes through letters, and the stage depends on that noticing being spontaneous.
+
+In the third stage, the keys that the path of the glyph traverses are highlighted in order as the player draws, so that the letters of the word are revealed by the motion. The word has not been displayed, and the player may read it from the highlighted keys as they would read a word from the movement of a pen.
+
+In the fourth stage the word is displayed as text, and the glyph is removed, with the keyboard and an optional reference trajectory remaining (Chapter~\ref{ch:keyboard-assistance}). The player draws the word. The shape and the spelling are now associated, since the same movement has been paired with both.
+
+In the final stage the word is given by a cue that does not display the spelling, such as a short definition, a picture or a sentence with a gap, and the keyboard is shown without the reference trajectory. The player must recall the spelling and produce the movement. Retrieval practice of this kind is among the most reliable ways to consolidate learning.\evD{}
+
+The stages are not a fixed sequence for every word. A word advances through them at the rate of the player's competence on it, so that a player may be at the final stage for common words and at the first for new ones within a single session. Each word carries its stage in the profile (Chapter~\ref{ch:profiles}), and the game selects balloons accordingly. A player may skip stages if the competence model shows that they are not needed.\evS
+
+\chapter{Visible Keyboard Assistance}\label{ch:keyboard-assistance}
+
+\section{Assistance levels}
+
+The player's use of a keyboard overlay is graded, and the grades are defined so that assistance can be withdrawn smoothly. At the highest level the keyboard is displayed with the complete reference trajectory of the target word drawn over it. At the next level the keyboard is displayed with only the first and last keys marked. At the next, the keyboard is displayed without any marks. At the next, the keyboard is hidden but the playfield retains the layout, so that the player must draw in the remembered positions. At the lowest, there is no overlay and the layout is neither displayed nor remembered by the interface, which is the condition of a skilled user of a gesture keyboard who types in a notes application with no feedback. A hint, in the form of a brief display of the reference trajectory, remains available on request at a small cost in score.
+
+\section{Fading}
+
+Assistance is reduced according to performance on each word. The reasoning follows the guidance hypothesis of motor learning (Chapter~\ref{ch:motor-learning}): assistance that is always available becomes a crutch, and what is learned under guidance may not be retained when the guidance is removed.\evD{} The rule of the first design reduces the assistance level of a word by one after each run of $k$ successes at the current level and increases it by one after $m$ consecutive failures, with $k=5$ and $m=3$ as starting values, and the quantity is stored per word. The effect of fading is itself an experiment: Hypothesis~\ref{hyp:fading} compares groups with a fixed assistance level and a performance-driven fade.
+
+\begin{hypothesis}[Performance-driven fading improves retention]\label{hyp:fading}
+Players whose assistance is reduced according to their performance show better retention of word trajectories after a one-week interval without assistance than players with a constant level of assistance, at equal practice time.\evH
+\end{hypothesis}
+
+\chapter{Vocabulary Learning}\label{ch:vocabulary}
+
+\section{Classes of words}
+
+The vocabulary is organized in classes that correspond to different purposes. \emph{Common words} are the several thousand most frequent words, which make up the greater part of ordinary text and whose paths are practiced first. \emph{Uncommon words} are infrequent but standard words, and they are where discrimination and the weakness of strong priors are most visible. \emph{Proper nouns} such as names of people and places are often absent from a default lexicon and are exactly the entries a user needs to add. \emph{Technical vocabulary} includes abbreviations, identifiers and specialized terms for a domain. \emph{User-defined entries} are words the user adds, including words that are not words of any language but are used regularly, such as handles, codes and shorthand.
+
+\section{A transparent personal dictionary}
+
+The personal dictionary is a plain list the user can read and change. Each entry has a word, a weight that expresses how likely the user is to write it, the date it was added, the source of the entry (imported, typed, or learned from use) and an optional note. The list is stored in a documented tabular text format with one entry per line and tab-separated fields, with a header naming the fields, and it can be imported, exported, edited and deleted in bulk. Nothing is learned that does not appear in the list, and no entry in the list is hidden. The aim is the opposite of a keyboard whose learned vocabulary is a black box and is lost on uninstalling it, which is the situation described in Chapter~\ref{ch:history}.
+
+\begin{requirement}[Personal dictionary transparency]\label{req:dictionary}
+The personal dictionary \must{} be fully visible to the user, \must{} support import and export in a documented plain-text format, \must{} support editing and deletion of any entry, and deletion of an entry \must{} remove every statistic, template and count derived from it.\evS
+\end{requirement}
+
+Bulk import accepts word lists with optional weights from text files, and it validates every entry against the layout, so that entries containing characters the layout does not provide are reported and not silently dropped. A newly added word is associated with a located path computed by the generator of Chapter~\ref{ch:word-shapes} and is available for training as a balloon target after a configurable number of exposures.
+
+\chapter{Word Ambiguity}\label{ch:word-ambiguity}
+
+\section{Geometric confusability}
+
+Two words are geometrically confusable when their idealized paths are close. For this chapter the distance is the location-channel distance $d_{\mathrm{loc}}$, the mean Euclidean distance in key widths between the 32-point arc-length resamplings of the two paths, which is a practical measure of how well a stroke aimed at one word can also be read as the other. The \emph{confusability graph} of a lexicon has the words as vertices and an edge between two words whose $d_{\mathrm{loc}}$ is below a threshold $\varepsilon$. The degree of a word in this graph is its number of geometric neighbors, and it is the quantity that enters the ambiguity term of the word difficulty (Chapter~\ref{ch:word-difficulty}).
+
+The convenience sample of \lexN{} common words gives a concrete picture. Table~\ref{tab:closest-pairs} lists the ten closest pairs. The closest, \textit{or} and \textit{our}, are at zero distance: the three keys \textit{o}, \textit{u} and \textit{r} lie on one line of the top row, so the path of \textit{or} passes over \textit{u} and is the same polyline as the path of \textit{our}. No geometric evidence can separate them, and the choice is made entirely by the language model and the context. The next pairs, such as \textit{the} and \textit{three}, \textit{might} and \textit{night}, and \textit{horse} and \textit{house}, differ by one letter whose key lies close to the path of the other word, and they are familiar sources of error to users of gesture keyboards. The sample is small and its pairs are not exhaustive, since the larger the lexicon the more near neighbors appear, and the full analysis is a task for the lexicon of the research program.
+
+\input{gen/tab_closest_pairs.tex}
+
+\section{Geometry and priors}
+
+The resolution of an ambiguous stroke combines the geometric likelihood with a prior from the language, as in Chapter~\ref{ch:probabilistic}. Let $P(w\mid c)$ be the probability of word $w$ in context $c$ of preceding words, estimated by a unigram frequency or an $n$-gram model, with a neural language model as a later option. The posterior is $P(w\mid G,c)\propto P(G\mid w)\,P(w\mid c)^{\lambda}$. The balance, set by $\lambda$, is a design variable with a familiar failure mode: if the prior dominates, a frequent word overrides a clear geometric match for a rare word, and the user who has drawn the rare word with care sees the common one inserted. If the likelihood dominates, noise in a stroke produces odd words that the context would have excluded. The right value depends on the vocabulary and the user, and the personal prior $P_u$ (Chapter~\ref{ch:personalized-recognition}) shifts it for words the user writes often. The entropy of the posterior, $-\sum_w P(w\mid G,c)\log P(w\mid G,c)$, is a convenient summary of the ambiguity of a stroke and is what the interface uses to decide whether to present alternatives.
+
+\section{Training on ambiguity}
+
+An ambiguous pair is a teaching opportunity. A player who learns that \textit{the} and \textit{three} are close learns also how far to extend the stroke to indicate the second. The tutor generates \emph{contrast sets} from the confusability graph, balloons that carry words with neighbors in the same set, and reports which of the two the stroke favored, in the same manner as the contrast pairs among shapes (Chapter~\ref{ch:intermediate}).
+
+\chapter{Sentence Composition}\label{ch:sentences}
+
+\section{From words to text}
+
+Real typing consists of sequences of words with spaces and punctuation, and the tutor extends the single-word exercises in two steps. First, a sentence is presented as an ordered chain of word balloons, drawn from a phrase set, and the player produces the words in order, with the space inserted automatically after each word as gesture keyboards conventionally do. Second, the player copies or composes a sentence in a text area with no balloons, under the control of the same recognizer, and the interface reports the text entered and the corrections made.
+
+\section{Spaces, punctuation, capitalization and correction}
+
+Several decisions fix the semantics of text entry. A word is committed when the stroke is released, or at an early commit if the mode is enabled (Chapter~\ref{ch:partial-recognition}), and the space is appended on commit. Punctuation is entered by tapping the punctuation keys, and a trailing punctuation mark removes the automatically inserted space before it. Capitalization is automatic at the start of a sentence, and a later extension provides a gesture to capitalize a word (Chapter~\ref{ch:command-languages}). Correction is the most important of these, because errors will occur and the cost of recovering from them determines the practical speed. Three correction modes are provided: deletion of the last word by a backspace gesture or key, replacement of the last word by an alternative suggested by the recognizer, and character-level editing of the text. The tutor measures how many gestures a correction costs and reports it as part of proficiency.
+
+\section{Word selection}
+
+When the posterior over words is not sharply peaked, the interface offers the next most likely words in a strip, and the player may select an alternative by tapping it. The use of the strip is the practical counterpart of the \textsc{Ambiguous} outcome of the arcade game, and the training treats it as a skill: selecting an alternative promptly is faster than redrawing, and the strip is a component of realistic typing.
+
+\chapter{Typing Proficiency}\label{ch:typing-proficiency}
+
+\section{Speed and accuracy}
+
+The standard measure of text entry speed is words per minute, with a word defined as five characters including spaces, so that for a transcribed phrase of $\abs{S}$ characters entered in $T$ seconds the speed is $\mathrm{WPM}=\dfrac{(\abs{S}-1)/T\cdot 60}{5}$, where the first character is excluded because the timing starts at its entry \cite{soukoreff2003}.\evD{} Accuracy is reported by the total error rate, which combines the errors left in the final text and the errors that were made and corrected,
+\[
+\mathrm{TER}=\mathrm{CER}+\mathrm{UER}=\frac{\mathrm{INF}}{\mathrm{C}+\mathrm{INF}+\mathrm{IF}}+\frac{\mathrm{IF}}{\mathrm{C}+\mathrm{INF}+\mathrm{IF}},
+\]
+where $\mathrm{C}$ counts correct characters in the transcribed text, $\mathrm{INF}$ counts incorrect characters that were corrected, and $\mathrm{IF}$ counts incorrect characters that were not \cite{soukoreff2003}.\evD{} The two components are reported separately, because a fast user who leaves errors uncorrected and a careful user who corrects them all have different profiles that a single rate would hide.
+
+\section{Measures specific to gesture entry}
+
+The measures of conventional keyboards need adjusting for a gesture keyboard, in which one stroke produces a word. The \emph{gestures per character} is the number of strokes used divided by the number of characters in the final text, the analogue of keystrokes per character \cite{mackenzie2002}.\evD{} It is a measure of the efficiency of the interface and the language model together, since a perfect system would need one gesture per word and so a value of about one sixth for typical English. The \emph{correction cost} is the number of additional gestures and taps spent on correction per word. The \emph{gesture efficiency} of a stroke is the ratio of the ideal path length to the executed path length, capped at one, and it measures the economy of movement of Chapter~\ref{ch:abbreviation}. \emph{Sustained performance} is the speed and error rate in successive five-minute windows of a longer session, which shows fatigue and settling.
+
+\section{Realistic tasks}
+
+Proficiency is evaluated over tasks of increasing realism: the isolated word of a balloon, a chain of words from a phrase set, the transcription of short phrases, and free composition. The phrase set used for transcription follows the established set of phrases designed for text entry evaluation, which are memorable, representative of English letter frequencies, and contain no punctuation that would complicate measurement \cite{mackenzie2003}.\evD{} Composition tasks, in which the participant writes their own text, are included to capture the cost of thinking and of correction, which transcription removes. The reports of Chapter~\ref{ch:learning-curves} relate these measures to practice.

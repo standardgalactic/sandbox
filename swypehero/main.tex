@@ -1,0 +1,141 @@
+\documentclass[11pt,twoside,openany]{book}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[sc]{mathpazo}
+\linespread{1.05}
+\usepackage[letterpaper,inner=1.35in,outer=1.05in,top=1.15in,bottom=1.15in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array,tabularx,longtable}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning,shapes.geometric,fit,backgrounds}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+
+\setlength{\parindent}{1.4em}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+
+% ---------- theorem-like environments ----------
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{requirement}{Requirement}[chapter]
+\newtheorem{hypothesis}{Hypothesis}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{principle}{Principle}
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[chapter]
+
+% ---------- normative keywords and evidence tags ----------
+\newcommand{\must}{\textsc{must}}
+\newcommand{\mustnot}{\textsc{must not}}
+\newcommand{\should}{\textsc{should}}
+\newcommand{\shouldnot}{\textsc{should not}}
+\newcommand{\may}{\textsc{may}}
+\newcommand{\evD}{\textsuperscript{\textsf{\scriptsize[D]}}}
+\newcommand{\evO}{\textsuperscript{\textsf{\scriptsize[O]}}}
+\newcommand{\evH}{\textsuperscript{\textsf{\scriptsize[H]}}}
+\newcommand{\evS}{\textsuperscript{\textsf{\scriptsize[S]}}}
+\newcommand{\evC}{\textsuperscript{\textsf{\scriptsize[C]}}}
+
+% ---------- notation ----------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\abs}[1]{\lvert #1\rvert}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\Lib}{\Lambda}
+\newcommand{\Gest}{\mathcal{G}}
+
+% ---------- listings ----------
+\lstdefinelanguage{TypeScript}{
+  keywords={interface,type,const,let,function,return,if,else,for,while,export,import,readonly,number,string,boolean,null,undefined,enum,class,extends,implements,new,of,in,void,as},
+  sensitive=true, comment=[l]{//}, morecomment=[s]{/*}{*/}, morestring=[b]",morestring=[b]'}
+\lstdefinelanguage{Pseudo}{
+  keywords={function,return,if,then,else,for,while,do,end,each,in,to,until,and,or,not,set,append,break,continue,yield,emit},
+  sensitive=true, comment=[l]{//}}
+\lstdefinelanguage{JSONx}{
+  morestring=[b]", sensitive=true}
+\lstset{basicstyle=\ttfamily\footnotesize, keywordstyle=\bfseries, commentstyle=\itshape\color{gray!70!black},
+  stringstyle=\color{BrickRed!80!black}, breaklines=true, columns=fixed, keepspaces=true,
+  frame=single, rulecolor=\color{gray!50}, framesep=4pt, xleftmargin=4pt, xrightmargin=4pt,
+  aboveskip=1em, belowskip=0.6em, showstringspaces=false}
+
+% ---------- headers ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\nouppercase{\leftmark}}
+\fancyhead[RO]{\small\nouppercase{\rightmark}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+\input{gen/stats.tex}
+
+\title{\textbf{Swype Hero}\\[0.6em]\Large Gesture Recognition, Motor Learning, and the Development\\of a Multimodal Typing Interface\\[0.8em]\large A Game Design, Technical Architecture, and Research Specification}
+\author{Flyxion\\ \small Independent Researcher}
+\date{October 2026\\ \small Specification version 0.2 (working draft)}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\input{parts/front.tex}
+
+\tableofcontents
+
+\mainmatter
+
+\part{Concept and Design Philosophy}\label{part:concept}
+\input{parts/p01.tex}
+
+\part{Core Gameplay}\label{part:gameplay}
+\input{parts/p02.tex}
+
+\part{The Geometry of Gestures}\label{part:geometry}
+\input{parts/p03.tex}
+
+\part{Recognition Algorithms}\label{part:recognition}
+\input{parts/p04.tex}
+
+\part{Learning and Difficulty Progression}\label{part:learning}
+\input{parts/p05.tex}
+
+\part{From Geometric Shapes to Words}\label{part:words}
+\input{parts/p06.tex}
+
+\part{Game Presentation and Interaction}\label{part:presentation}
+\input{parts/p07.tex}
+
+\part{Software Architecture}\label{part:architecture}
+\input{parts/p08.tex}
+
+\part{Advanced Input Interfaces}\label{part:advanced}
+\input{parts/p09.tex}
+
+\part{Experimental Research Program}\label{part:research}
+\input{parts/p10.tex}
+
+\part{Future Applications}\label{part:future}
+\input{parts/p11.tex}
+
+\part{Implementation Roadmap}\label{part:roadmap}
+\input{parts/p12.tex}
+
+\appendix
+\part{Appendices}
+\input{parts/appendices.tex}
+
+\backmatter
+\input{parts/bibliography.tex}
+
+\end{document}

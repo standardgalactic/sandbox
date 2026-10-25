@@ -1,0 +1,278 @@
+This part is the mathematical and experimental foundation of the project. It defines what a gesture is, what a gesture vocabulary should contain, which transformations preserve a gesture's identity, which features carry the information that a recognizer uses, and how the difficulty of a gesture can be measured. The definitions here are used without change by the recognizers of Part~\ref{part:recognition}, the curriculum of Part~\ref{part:learning} and the word geometry of Part~\ref{part:words}.
+
+\chapter{Gesture Representation}\label{ch:gesture-representation}
+
+\section{The trajectory}
+
+A \emph{gesture} is a finite, time-indexed sequence of points in the plane,
+\[
+G=\{(x_i,y_i,t_i)\}_{i=1}^{N},\qquad t_1<t_2<\dots<t_N,
+\]
+where $(x_i,y_i)\in\R^2$ are logical coordinates (Chapter~\ref{ch:playfield}) and $t_i$ is a timestamp in milliseconds from a monotonic clock. The sequence begins at the first sample after the pointer becomes active and ends at the sample at which it is released. Samples need not be equally spaced in time or in space, because both the spacing of events and the speed of the hand vary. The number $N$ is not fixed; a stroke of two seconds on a device delivering 60 events per second has about 120 samples, while a high-rate mouse can deliver several times that.
+
+The planar sample is a minimum. An implementation may attach further channels to each sample, so that a general sample is a vector $s_i=(x_i,y_i,t_i,\mathbf{c}_i)$ where $\mathbf{c}_i$ holds optional measurements such as contact pressure, contact width and height, stylus tilt, the pointer type, or device orientation. The recognizers of this specification use only the planar part, but the extended channels are preserved because they cannot be recovered later and because research questions about pressure and contact area are likely.\evS
+
+\section{Path and execution}
+
+Two strokes can follow the same route at different speeds, with different pauses, and with different sampling. It is useful to separate what was drawn from how it was drawn. The \emph{geometric path} of a gesture is the curve $\gamma:[0,1]\to\R^2$ obtained by interpolating the samples and parameterizing by normalized arc length. The \emph{execution} is the monotone map $\varphi$ from time to arc length, so that the planar part of the gesture is $G(t)=\gamma(\varphi(t))$ with $\varphi$ non-decreasing. Under this decomposition a stroke drawn twice as fast has the same path and a different execution, and a stroke with a pause has a $\varphi$ with a flat interval. Part~\ref{part:geometry} treats the path and its features in Chapters~\ref{ch:primitives} to~\ref{ch:curvature}, and the execution in Chapter~\ref{ch:temporal}. The recognizers of the first milestone depend only on the path.
+
+\begin{definition}[Geometric path equivalence]\label{def:path-equivalence}
+Two gestures $G$ and $G'$ are \emph{path-equivalent} if their paths are equal as curves up to a monotone reparameterization. Path equivalence is the relation that a time-invariant recognizer must respect.
+\end{definition}
+
+\section{Derived quantities}
+
+Several quantities are computed from the samples and used throughout. Let $\Delta_i=(x_{i}-x_{i-1},\,y_i-y_{i-1})$ for $i\ge2$. The cumulative arc length is $s_1=0$ and $s_i=s_{i-1}+\norm{\Delta_i}$, and the total path length is $\ell(G)=s_N$. The heading of the $i$th segment is $\theta_i=\operatorname{atan2}(\Delta_{i,y},\Delta_{i,x})$, and the turning angle at sample $i$ is $\tau_i=\operatorname{wrap}(\theta_{i+1}-\theta_i)$, where $\operatorname{wrap}$ maps an angle to $(-\pi,\pi]$. The discrete curvature at sample $i$ is
+\[
+\kappa_i=\frac{\tau_i}{\tfrac12\bigl(\norm{\Delta_i}+\norm{\Delta_{i+1}}\bigr)},
+\]
+and the instantaneous speed is $v_i=\norm{\Delta_i}/(t_i-t_{i-1})$. With the logical coordinate system in which $y$ points down, a positive turning angle corresponds to a clockwise turn on the screen.
+
+\section{Raw and derived data}
+
+The most important rule of the representation concerns what may be changed. A gesture as received from the input device is the \emph{raw gesture}, and every other representation of it, whether smoothed, resampled, normalized, rotated or segmented, is a \emph{derived gesture} computed from the raw one by a named, versioned procedure (Chapter~\ref{ch:normalization}). Derived gestures can be recomputed and discarded; the raw gesture is the observation, and it is the only thing in the system that cannot be regenerated.
+
+\begin{requirement}[Immutable raw input]\label{req:raw}
+The raw gesture \must{} be stored exactly as received, \must{} never be modified by any later processing, and \must{} be retained with the device characteristics needed to interpret it (pointer type, device pixel ratio, viewport size, orientation, and the version of the input adapter). Every derived gesture \must{} carry the identifier of the procedure and version that produced it.\evS
+\end{requirement}
+
+This requirement is the foundation of the second architectural commitment of the project, that raw input remains distinct from interpreted gestures. It makes possible every retrospective analysis in Part~\ref{part:research}, in particular the comparison of recognizers on identical recordings and the study of whether a preprocessing choice caused a recognition error.
+
+\chapter{Primitive Geometric Gestures}\label{ch:primitives}
+
+\section{The initial vocabulary}
+
+The first gesture vocabulary is built from simple one-stroke shapes that a beginner can draw, that are visually distinct from one another, and that between them exercise the movements gesture typing will require. They are straight lines in the four principal directions and two diagonals, corners and hooks, arcs, circles in two senses of rotation, loops, and zigzags. A curriculum needs a library of about twenty entries to be worth playing, and the library below has twenty. The identifiers are stable and are used by the library schema of Appendix~\ref{app:schema}.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}llXr@{}}
+\toprule
+Id & Family & Description & Turns \\
+\midrule
+\texttt{line.h} & Line & Horizontal stroke, left to right & 0 \\
+\texttt{line.v} & Line & Vertical stroke, top to bottom & 0 \\
+\texttt{line.d1} & Line & Diagonal, upper left to lower right & 0 \\
+\texttt{line.d2} & Line & Diagonal, lower left to upper right & 0 \\
+\texttt{corner.l} & Corner & Down then right, a right angle (the letter L) & 1 \\
+\texttt{corner.v} & Corner & Down-right then up-right, acute (the letter V) & 1 \\
+\texttt{corner.caret} & Corner & Up-right then down-right, acute (a caret) & 1 \\
+\texttt{corner.z} & Corner & Right, down-left, right (the letter Z) & 2 \\
+\texttt{hook.j} & Hook & Down then curving left (the letter J) & 1 \\
+\texttt{hook.u} & Hook & Down, curve, up (the letter U) & 1 \\
+\texttt{arc.c} & Arc & Open arc, concave right (the letter C) & 0 \\
+\texttt{arc.d} & Arc & Open arc, concave left, anticlockwise from top (reverse C) & 0 \\
+\texttt{arc.s} & Arc & Two opposed arcs (the letter S) & 0 \\
+\texttt{circle.cw} & Circle & Closed circle drawn clockwise & 0 \\
+\texttt{circle.ccw} & Circle & Closed circle drawn anticlockwise & 0 \\
+\texttt{loop.l} & Loop & Rising stroke with one loop (the letter l in cursive) & 0 \\
+\texttt{loop.e} & Loop & Small loop on a rightward stroke & 0 \\
+\texttt{zig.2} & Zigzag & Right, down-left, right, down-left (two reversals) & 3 \\
+\texttt{zig.3} & Zigzag & Zigzag with three reversals & 4 \\
+\texttt{spiral.in} & Spiral & Inward spiral of one and a half turns & 0 \\
+\bottomrule
+\end{tabularx}
+\caption{The initial twenty-gesture vocabulary. The Turns column counts corner points, meaning sharp changes of direction, as distinct from continuous curvature.}
+\label{tab:vocabulary}
+\end{table}
+
+\section{Geometric complexity and motor difficulty}
+
+It is tempting to treat geometric complexity as motor difficulty, and the identification is not safe. A circle is geometrically simple, being a single curve of constant curvature, yet drawing a circle that closes cleanly in one stroke is motorically demanding for many people, who tend to overshoot the start or flatten one side. A zigzag has a more complicated description, yet the straight segments are easy and the reversals are abrupt but brief. The relationship between the geometry of a shape and the difficulty of producing it has two documented anchors. The first is the speed-accuracy tradeoff in goal-directed movement, summarized by Fitts's law \cite{fitts1954}.\evD{} The second is the steering law, which models the time to move along a path of varying width and predicts that time grows with the integral of the inverse tolerance width along the path \cite{accot1997steering}.\evD{} Neither law predicts the difficulty of an arbitrary shape without calibration. The project therefore treats the relationship as an empirical one, and Hypothesis~\ref{hyp:difficulty} states what is to be tested.
+
+\begin{hypothesis}[Difficulty is not path length]\label{hyp:difficulty}
+For gestures in the initial vocabulary, observed completion time and failure rate are better predicted by a model that includes the number and sharpness of direction changes and the presence of closure than by path length alone.\evH
+\end{hypothesis}
+
+\section{Criteria for introductory targets}
+
+A gesture suits the introduction if it passes five criteria. It can be drawn in a single stroke of reasonable length. It has at most two corner points, so that the player has few things to remember. It has no self-intersection, so that its drawing order is unambiguous. It is at least $\delta_{\min}$ from every other gesture that appears with it at the same level, in the sense of Definition~\ref{def:separation}. Finally, it is described by a symbol that a player can recognize without instruction, which is a visual criterion tested informally in the first playtests. The straight lines, the corners, the open arcs and the circles satisfy all five; the zigzags, loops and spiral belong to the intermediate and advanced families of Part~\ref{part:learning}.
+
+\chapter{Compound Gestures}\label{ch:compound}
+
+\section{A small algebra of shapes}
+
+Compound gestures are built from the primitives of Chapter~\ref{ch:primitives} by a few operations. \emph{Concatenation} joins two paths end to start, with an optional specified join angle. \emph{Repetition} traverses a path $n$ times, as in a loop drawn twice or a zigzag with $n$ reversals. \emph{Reversal} traverses a path backward. \emph{Reflection} mirrors a path about an axis. \emph{Nesting} places one path inside another at a smaller scale, as in a spiral. \emph{Crossing} requires that two parts of the path intersect. These operations generate, among others, the repeated loops, crossing trajectories, reversals and nested curves that the intermediate and advanced curriculum draws on, and they allow the library to be extended systematically instead of by ad hoc invention.
+
+\section{Visual and execution complexity}
+
+Two drawings may appear equally complicated while requiring very different motor coordination, and the distinction matters for choosing and ordering targets. The \emph{visual complexity} of a shape is a property of the image: how much ink, how many parts, how many crossings. The \emph{execution complexity} is a property of the movement: how fast it can be performed with a given accuracy, and how much coordination it demands. A figure-eight and a pair of side-by-side circles drawn as one continuous stroke are visually similar in the amount of ink and in the number of turns of the path. In the figure-eight, however, the direction of rotation reverses at the crossing, so that the hand must change from a clockwise to an anticlockwise sense mid-stroke, while the two circles of the other shape can be drawn with the same rotation sense and a retracing. Execution complexity can be modeled as a predicted completion time that sums, over the segments of the path, a steering-law term and a cost for each direction change,
+\[
+\hat T(G)=\sum_{k}\Bigl(a+b\,\frac{\ell_k}{W}\Bigr)+c_{\mathrm{turn}}\sum_i\abs{\tau_i}+c_{\mathrm{rev}}\,R(G),
+\]
+where $\ell_k$ is the length of segment $k$, $W$ is an effective path width set by the recognizer's tolerance, $R(G)$ counts reversals as defined in Chapter~\ref{ch:complexity}, and $a,b,c_{\mathrm{turn}},c_{\mathrm{rev}}$ are constants to be fitted from player data.\evH{} This predicted time is used by the spawner in Chapter~\ref{ch:balloons} and by the complexity measure of Chapter~\ref{ch:complexity}, and the fitting procedure is part of the research program (Chapter~\ref{ch:learning-curves}).
+
+\chapter{Gesture Equivalence and Invariance}\label{ch:invariance}
+
+\section{Which transformations preserve identity}
+
+A recognizer must decide which differences between two strokes are differences of gesture and which are differences of execution. A circle drawn small and a circle drawn large are the same gesture, and a circle drawn at the top of the screen and a circle drawn at the bottom are the same gesture. A circle drawn clockwise and a circle drawn anticlockwise may or may not be, depending on the game, and the question is of a different kind: it is a design decision about the vocabulary and not a tolerance for noise. For a given library the \emph{invariance} of a gesture is the set of transformations that map it to a stroke that should be recognized as the same gesture.
+
+The relevant transformations act on trajectories. The elements considered are translation, uniform scaling within an allowed range, rotation by an angle within an allowed range, reflection about an axis, reversal of the traversal direction, and, for closed shapes, a cyclic shift of the starting point. A gesture library specifies for each gesture the \emph{allowed set} of these transformations that preserves its identity. The set is a group only when it contains no bounded range, and the distinction matters for what can be proved about it (below).
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+Transformation & Default & Reason to change \\
+\midrule
+Translation & Always allowed & None; the playfield has no privileged position for shape \\
+Uniform scale & Allowed within $[0.4,2.5]$ of the reference size & A narrower range for gestures defined by size \\
+Rotation & Not allowed & Allow only if the shape is rotation-defined, such as a plain line \\
+Reflection & Not allowed & Chirality distinguishes C from reverse C, S from Z \\
+Reversal of direction & Not allowed & Direction matters for tracing practice and motor learning \\
+Start-point shift & Allowed for closed shapes only & A circle has no privileged start \\
+\bottomrule
+\end{tabularx}
+\caption{Default invariances. Each is configurable per gesture, and each configuration is part of the library data and not of the recognizer code.}
+\label{tab:invariances}
+\end{table}
+
+\section{Three notions of distance}
+
+Earlier drafts used a single symbol, $d_H$, for three different things. They are separated here, because only the first has the properties of a metric and the other two should not be credited with them. Throughout, $d$ is the mean pointwise Euclidean distance between two normalized point sequences of $N$ points,
+\[
+d(A,B)=\frac1N\sum_{k=1}^{N}\norm{A_k-B_k},
+\]
+and the units of every distance in this chapter are normalized-stroke units, in which the larger side of the bounding box of a stroke has length one.
+
+\subsection*{The quotient pseudometric}
+
+Let $H$ be a \emph{group} of transformations of point sequences that are isometries of $d$, so that $d(hA,hB)=d(A,B)$ for every $h\in H$. Rotation by an arbitrary angle, reflection, reversal of the index order, and, for closed shapes, cyclic shifts of the starting point are all of this kind, and so are the groups they generate. The distance under $H$ is
+\[
+d_H(A,B)=\min_{h\in H} d(hA,B),
+\]
+where the minimum is attained because $H$ is compact. A bounded range of rotation, such as $\pm15^\circ$, is \emph{not} a group, since composing two admissible rotations can leave the range, and it is therefore excluded from this definition.
+
+\begin{proposition}[Pseudometric under a common group]\label{prop:pseudometric}
+If $H$ is a group of isometries of $d$, then $d_H$ is symmetric, satisfies $d_H(A,A)=0$, and obeys the triangle inequality, so it is a pseudometric.
+\end{proposition}
+\begin{proof}
+Symmetry: $d(hA,B)=d(h^{-1}hA,h^{-1}B)=d(A,h^{-1}B)=d(h^{-1}B,A)$ for every $h$, and $h^{-1}$ ranges over $H$ as $h$ does, so $d_H(A,B)=d_H(B,A)$. Since the identity belongs to $H$, $d_H(A,A)\le d(A,A)=0$. For the triangle inequality choose $h_1$ and $h_2$ attaining $d_H(A,B)$ and $d_H(B,C)$. Then
+\[
+d_H(A,C)\le d(h_2h_1A,C)\le d(h_2h_1A,h_2B)+d(h_2B,C)=d(h_1A,B)+d(h_2B,C),
+\]
+where the equality uses the invariance of $d$ under $h_2$, and the first inequality uses $h_2h_1\in H$. \qedhere
+\end{proof}
+
+The proposition is a statement about a common group acting on a common domain. It does not by itself describe a library in which different gestures declare different invariances, and in particular it does not apply to the pair of a closed shape, which admits start-point shifts, and an open stroke, which does not. The quotient $d_H$ is used where the whole library shares one group, and as the reference against which the other two quantities are checked: when every gesture declares the same group $H$, the matching cost and the confusability below both reduce to $d_H$.
+
+\begin{remark}[The closed-form rotation angle]
+For centered point sequences $a_i$ and $b_i$ in the plane, the angle $\theta^\ast$ minimizing the \emph{sum of squared} distances $\sum_i\norm{R(\theta)a_i-b_i}^2$ is
+\[
+\theta^\ast=\operatorname{atan2}\!\Bigl(\sum_i (a_{i,x}b_{i,y}-a_{i,y}b_{i,x}),\ \sum_i (a_{i,x}b_{i,x}+a_{i,y}b_{i,y})\Bigr),
+\]
+so that no iterative search is required.\evD{} The objective as a function of $\theta$ is a constant minus $2\rho\cos(\theta-\theta^\ast)$ for some $\rho\ge0$, which decreases with the circular distance from $\theta^\ast$, so that minimization over an interval of angles is exact for squared distance and is attained at $\theta^\ast$ when it lies in the interval and otherwise at the nearest endpoint. For the mean of unsquared distances used by $d$ the same angle is not in general the minimizer. Evaluating $d$ at $\theta^\ast$ therefore gives an \emph{upper bound} on the minimum over rotations, which is what the reference implementation computes and what this specification calls the rotation-aligned cost. It equals $d_H$ exactly if $d$ is replaced by the root-mean-square distance, for which Proposition~\ref{prop:pseudometric} applies verbatim. The baseline keeps the mean distance, and the difference between the two is a quantity to be reported in the calibration of Chapter~\ref{ch:recognition-evaluation}.
+\end{remark}
+
+\subsection*{The gesture-specific matching cost}
+
+A library assigns to each gesture $g$ an \emph{allowed set} $\mathcal S_g$ of transformations of the input stroke (Table~\ref{tab:invariances}). The set contains the identity. It may contain a bounded interval of rotation angles, a bounded interval of scale, and a choice of reflection, reversal and start-point shifts, and it is \emph{not} required to be a group. The matching cost of a stroke $G$ against a template $T$ of gesture $g$ is
+\[
+c_g(G,T)=\min_{s\in\mathcal S_g} d(sG,T),
+\]
+and the distance of a stroke to the gesture is $d_g(G)=\min_m c_g(G,T_{g,m})$ over the templates of $g$. The transformation is applied to the input and the allowance is read from the \emph{candidate}, so that the recognizer never needs to know which gesture the stroke was meant to be, which it cannot know. The cost is directional by construction. A stroke may be close to a gesture that tolerates rotation and far from one that does not, and the same two shapes can have $c_{g}(A,B)\ne c_{g'}(B,A)$ when the allowed sets differ. That asymmetry is a property of the vocabulary, not a defect, and no metric property is claimed for $c_g$. Scale is handled by normalization to a canonical size (Chapter~\ref{ch:normalization}) and, when a gesture permits a range of sizes, by the limit on aspect and extent in the library data, and not by minimization, since scaling is not an isometry of $d$.
+
+\subsection*{The pairwise confusability}
+
+For the validation of a library, the question is whether some stroke could be taken for the wrong gesture, and this is a statement about both directions. For templates $T_i$ and $T_j$ of gestures $g_i\ne g_j$ the \emph{confusability distance} is
+\[
+\kappa(T_i,T_j)=\min\bigl\{\,c_{g_i}(T_j,T_i),\ c_{g_j}(T_i,T_j)\,\bigr\}.
+\]
+It is the smaller of the two directional costs: it asks how close a stroke drawn exactly like one template can be brought to the other by the transformations that the \emph{other} gesture tolerates, and it takes the more dangerous direction. It is symmetric, non-negative and zero for a template compared with itself. It does not in general obey the triangle inequality, and the specification makes no claim that it does. When all gestures share a group $H$, $\kappa=d_H$.
+
+\begin{requirement}[Library validity]\label{req:library-validity}
+A gesture library \must{} be rejected at load time if any pair of templates $T_i,T_j$ of distinct gestures satisfies $\kappa(T_i,T_j)<\delta_{\min}$. The check detects, for example, a library that contains both a gesture and its mirror image while one of them declares reflection. The check is executable for any supplied value of $\delta_{\min}$; the value itself is a calibration constant\evC{} in normalized-stroke units, and a library is valid only relative to the value that was used.\evS
+\end{requirement}
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+Quantity & Definition and domain & Claimed properties \\
+\midrule
+$d_H$ & Minimum of $d$ over a common isometry group $H$ & Pseudometric (Proposition~\ref{prop:pseudometric}) \\
+$c_g(G,T)$ & Minimum of $d$ over the allowed set $\mathcal S_g$ of candidate $g$, applied to the stroke & Non-negative; directional; no metric claim \\
+$\kappa(T_i,T_j)$ & Smaller of the two directional costs between templates of distinct gestures & Symmetric; non-negative; no triangle inequality \\
+\bottomrule
+\end{tabularx}
+\caption{The three distance notions of this specification. Recognition uses $c_g$, library validation and the separation floor use $\kappa$, and $d_H$ is used where a common group makes the quotient meaningful.}
+\label{tab:distance-notions}
+\end{table}
+
+\section{Examples of collision}
+
+The need for configurable invariance is clear from familiar pairs. Under rotation by $180^\circ$ the digits $6$ and $9$ coincide, and under rotation by $90^\circ$ the letters N and Z nearly do. Under reflection the letter S becomes a Z-like curve and C becomes a reversed C. Under reversal of direction a line from left to right is the same path as a line from right to left, and a circle drawn clockwise coincides with one drawn anticlockwise. The default of the library is conservative, with all of these off, because a stricter definition of identity costs the player only a requirement to draw the intended shape, while a looser one risks silently merging two gestures that the game treats as distinct. Where a gesture benefits from invariance, as with plain lines in the early levels where direction is not the lesson, the library switches it on for that gesture only.
+
+\chapter{Curvature and Directional Information}\label{ch:curvature}
+
+\section{Features that survive noise}
+
+Pointwise comparison treats every sample as equally informative, which is not true of a stroke. Along a straight segment the samples carry little information beyond the endpoints, while at a corner a few samples determine the character of the gesture. The turning angles $\tau_i$ and the discrete curvature $\kappa_i$ defined in Chapter~\ref{ch:gesture-representation} concentrate the information at the places where the path changes direction, and they are invariant to translation and, up to scaling of $\kappa$, to scale, which makes them natural features. Their weakness is sensitivity to noise: a differentiated signal amplifies jitter in the samples, so that curvature computed from raw samples is unreliable and must be computed from a smoothed and resampled path.
+
+\section{Landmarks}
+
+A \emph{landmark} is a point of a gesture at which the path has a locally informative feature: a corner, an inflection, an endpoint, a crossing, or a point of locally extreme curvature. A reliable procedure for corners is to compute the turning angle on the resampled path with a window $w$, so that the turn at index $i$ is measured between the headings over $[i-w,i]$ and $[i,i+w]$, and then to keep the local maxima of the absolute turning that exceed a threshold $\tau_c$, after non-maximum suppression within a distance $w$. Inflections are the sign changes of the smoothed curvature. Crossings are found by testing the segments of the resampled polyline pairwise, excluding adjacent pairs. The simplification of a polyline by the Douglas--Peucker procedure \cite{douglas1973}\evD{} provides an alternative route to corners: the vertices retained at a tolerance $\epsilon$ are the geometrically informative ones. The ordered sequence of landmarks, with their types and positions, is the representation used by the geometric feature recognizers of Chapter~\ref{ch:geometric-recognition}.
+
+\section{Informative portions}
+
+Which part of a gesture matters most for recognition is an empirical question that can be answered by occlusion. For a library $\Lib$ and a gesture $T_i$, remove a contiguous portion of $T_i$ by replacing it with the straight chord between its endpoints, and measure the change in the distance to the nearest competitor. A portion whose removal brings $T_i$ close to another gesture is informative, and a portion whose removal changes nothing is redundant. Computing this for all portions yields an \emph{informativeness profile} $\iota_i(s)$ along the arc length of each template, and the profile is used in three places: to choose the order in which parts of a gesture are drawn when the player is taught to abbreviate (Chapter~\ref{ch:abbreviation}), to decide where a partial stroke becomes unambiguous (Chapter~\ref{ch:partial-recognition}), and to study how much information can be removed before recognition fails (Chapter~\ref{ch:degraded}).
+
+\chapter{Temporal Structure}\label{ch:temporal}
+
+\section{What time contributes}
+
+The execution of a stroke carries information beyond the path. The speed profile $v(s)$ along the path, the presence and length of pauses, the acceleration at the start and the deceleration at the end, and the overall rhythm are all measurable, and they differ between people and between occasions for the same person. The question is which of these should influence recognition. The answer adopted is conservative: recognition in the first milestones is purely geometric and time-invariant, in accordance with Principle~\ref{pr:independence} and with the aim of accommodating different users, since tempo varies far more across people than shape does.
+
+Time enters the system in other roles. The pointer events supply timestamps by which the response time is measured for scoring. Pauses are used by input adapters to decide when a stroke has ended on devices that have no release event, such as a gaze tracker (Chapter~\ref{ch:eye-tracking}). In the word keyboard, a deliberate dwell on a key is an optional way to indicate a repeated letter, as discussed in Chapter~\ref{ch:keyboard-geometry}. Finally, the fluency measures of Chapter~\ref{ch:fluency} are computed from the execution and are among the primary outputs of the learning research.
+
+\section{Measures of execution}
+
+The principal execution measures are as follows. The duration is $T=t_N-t_1$. The mean speed is $\ell/T$, and the peak speed is $\max_i v_i$. A \emph{pause} is a maximal interval in which the speed stays below $v_{\mathrm{pause}}$ for longer than $t_{\mathrm{pause}}$, with starting values of $20$ logical units per second and $120$ milliseconds. The smoothness of the movement can be summarized by a dimensionless jerk, discussed in Chapter~\ref{ch:fluency}. A well-documented regularity of human drawing is that the speed along a curve decreases where the curvature is high, quantified by the two-thirds power law, which states that angular velocity is proportional to the two-thirds power of curvature, or equivalently that tangential speed varies as the negative one-third power of curvature \cite{lacquaniti1983}.\evD{} The regularity is useful for two purposes in this project: as a way of testing whether a recorded stroke has the kinematic character of a human movement and not a synthetic one, and as a prediction that curvature will cost time in the execution model of Chapter~\ref{ch:compound}.
+
+\section{Which temporal properties to ignore}
+
+A recognizer that depended on speed would penalize a slow beginner and a hurried expert alike, and would make the distinction between gestures dependent on how they are drawn instead of on what they are. The specification therefore requires that two path-equivalent strokes (Definition~\ref{def:path-equivalence}) produce the same recognition outcome in the baseline recognizer, up to the effect of finite sampling. Temporal information may be used by an optional recognizer variant, labeled as such in the results, and the distinction between the two is preserved in the evaluation (Chapter~\ref{ch:competing-recognizers}).
+
+\begin{requirement}[Time invariance of the baseline]\label{req:time-invariance}
+The baseline recognizer \must{} depend on the planar coordinates of the stroke only, and \must{} yield the same distance for two strokes that are path-equivalent and differ only in timing, within a numerical tolerance of $10^{-6}$ logical units after resampling.\evS
+\end{requirement}
+
+\chapter{Gesture Complexity}\label{ch:complexity}
+
+\section{A multidimensional measure}
+
+The complexity of a gesture is not one thing, and a single scalar built from path length would mislead in the ways Chapter~\ref{ch:primitives} describes. The measure used here has five components, each normalized to lie between zero and one, combined linearly. For a gesture $G$,
+\[
+C(G)=\alpha L(G)+\beta T(G)+\gamma X(G)+\delta R(G)+\eta A(G),
+\]
+with non-negative weights $\alpha,\beta,\gamma,\delta,\eta$ summing to one. The terms are measures of path length, turning complexity, self-intersection, reversal and ambiguity. Each is defined with a saturating transformation $\varsigma_c(x)=x/(x+c)$ that maps the non-negative reals into $[0,1)$ and has a constant $c$ for the value of $x$ at which the transformed value is one half.
+
+\begin{definition}[Components]\label{def:components}
+Let $D(G)$ be the diagonal of the bounding box of $G$, let $\tau_i$ be the turning angles of the resampled path, let $\mathrm{cross}(G)$ be the number of proper crossings between non-adjacent segments of the resampled polyline, and let $\mathrm{rev}(G)$ be the number of turning angles with $\abs{\tau_i}\ge5\pi/6$. The components are
+\begin{align*}
+L(G)&=\varsigma_{c_L}\bigl(\ell(G)/D(G)-1\bigr), &
+T(G)&=\varsigma_{c_T}\Bigl(\tfrac{1}{2\pi}\sum_i\abs{\tau_i}\Bigr),\\
+X(G)&=\varsigma_{c_X}\bigl(\mathrm{cross}(G)\bigr), &
+R(G)&=\varsigma_{c_R}\bigl(\mathrm{rev}(G)\bigr),\\
+A(G)&=\exp\!\bigl(-\operatorname{sep}_{\Lib}(G)/s_0\bigr),
+\end{align*}
+where $\operatorname{sep}_{\Lib}(G)=\min_{T\in\Lib,\,T\ne G}\kappa(G,T)$ is the confusability distance from $G$ to its nearest competitor in the library and $s_0>0$ is a scale constant.
+\end{definition}
+
+The length term subtracts one so that a straight line, which has $\ell=D$, has zero length complexity. The ambiguity term depends on the library and not on the gesture alone, which is intentional: the same shape is harder to use in a library that contains a near neighbor. The default constants are $c_L=1$, $c_T=1$, $c_X=1$, $c_R=2$ and $s_0=\delta_{\min}$, and the default weights are $\alpha=0.2$, $\beta=0.25$, $\gamma=0.15$, $\delta=0.15$ and $\eta=0.25$. These are design decisions that provide a usable ordering before data exist.\evS
+
+\section{Computed example}
+
+The definitions apply unchanged to word trajectories on the keyboard, where $D$ is replaced by the fixed scale of the key width. Part~\ref{part:words} uses the same components, and the quantities in Table~\ref{tab:word-metrics} and Figure~\ref{fig:word-paths} are $L$-type path length, total turning, crossing count and reversal count computed from the idealized polyline of each word. These raw quantities, before the saturating transformation, are reported so that they can be inspected directly.
+
+\section{From intuition to data}
+
+The weights should not remain intuitive guesses. Let $y_{ug}\in\{0,1\}$ record whether player $u$ succeeded on a presentation of gesture $g$, and let $\phi(g)=(L,T,X,R,A)$ be the component vector. A logistic mixed-effects model
+\[
+\operatorname{logit}\Pr(y_{ug}=1)=\mu+\theta_u-\mathbf{w}^{\top}\phi(g)
+\]
+with a random effect $\theta_u$ for the player gives an estimate of $\mathbf{w}$, and normalizing the estimated weights to sum to one yields data-informed values of $(\alpha,\dots,\eta)$. The same data support estimating completion time with a model of the form in Chapter~\ref{ch:compound}. The refit is a recurring task of the research program (Chapter~\ref{ch:learning-curves}), and the library records the version of the weights used to compute each difficulty value so that changes are traceable.\evS

@@ -1,0 +1,53 @@
+The milestones order the work so that each ends in something that can be tried. The first is the immediate engineering target, and the later ones are stated at the level of detail that is useful now, with the expectation that each will be refined when the preceding one is complete. For each milestone, the exit criteria are the conditions under which it can be considered complete, and they are stated so that a judge other than the author could decide.
+
+\chapter{Milestones}\label{ch:milestones}
+
+\section*{Milestone 1: Playable arcade prototype}
+
+The first milestone is the playable prototype and is the first implementation target. It provides touch and mouse input through the pointer adapter, descending balloons with the behavior of Chapter~\ref{ch:balloons}, a vocabulary of ten to twenty geometric gestures from Table~\ref{tab:vocabulary}, the baseline recognizer of Chapter~\ref{ch:template-matching} with the decision rule of Chapter~\ref{ch:confidence}, scoring as in Chapter~\ref{ch:scoring}, and a restart after the loss of the last life. It includes the survival mode only, the accessibility baseline of Requirement~\ref{req:a11y}, local storage of settings and best score, installability and offline play. It includes recording of raw strokes and session replay, since these are cheap to build early and costly to retrofit. The exit criteria are that a new player can begin without instruction, that the median latency from release to outcome is within budget on the reference device, that a recorded session replays to the same final state, that the recognizer attains the accuracy target on the synthetic and the first recorded sets, and that a group of players asked to play for ten minutes report that they would play again, which is the only test of the independence of enjoyment (Requirement~\ref{req:enjoyment}) that the milestone can run.
+
+\section*{Milestone 2: Expanded gesture vocabulary}
+
+The second milestone adds more complex shapes, the ambiguous and rejected outcomes with their feedback, the practice mode, and the replay of recorded gestures for inspection. It introduces the confidence calibration and the evaluation harness of Chapter~\ref{ch:recognition-evaluation} and the first comparisons of recognizers on recorded data. The exit criteria are that the vocabulary reaches the full twenty gestures at the separation floor, that the three outcomes are distinguishable by players in a test of the kind described in Chapter~\ref{ch:animation}, and that the harness reproduces a published table of results from a fixed dataset.
+
+\section*{Milestone 3: Adaptive gesture curriculum}
+
+The third milestone adds the competence model, the selection of challenges, the gesture history, and the measurements of learning over time, together with the optional and consent-based data collection of Chapter~\ref{ch:dataset}. The exit criteria are that the competence model predicts held-out success with better calibration than a model with no player term, that the curriculum can be run in a frozen-recognizer arm, and that the consent and deletion procedures have been externally reviewed.
+
+\section*{Milestone 4: Word trajectories}
+
+The fourth milestone introduces the keyboard-derived shapes of Part~\ref{part:words}: word balloons, the lexicon and personal dictionary, keyboard overlays with fading assistance, transitional exercises and the typing exercises and measures of Chapter~\ref{ch:typing-proficiency}. The exit criteria are that word shapes are generated reproducibly, that the recognizer meets its latency budget against a lexicon of the target size, and that a first study of the curriculum reports its effect on typing measures with the uncertainty that the sample permits.
+
+\section*{Milestone 5: Alternative input systems}
+
+The fifth milestone adds the adapters of Part~\ref{part:advanced}: arrow-key and Vim-style cursor control, two-dial controls, joysticks and gamepads, and experimental gaze input. The exit criteria are that each adapter satisfies the adapter contract (Requirement~\ref{req:adapter}), that the cross-device study of Chapter~\ref{ch:cross-device} has produced a first estimate of the gap and of the cost differences, and that assistive devices have been considered in consultation with the people who would use them.
+
+\section*{Milestone 6: Research and standalone applications}
+
+The sixth milestone carries out the comparative recognition experiments of Chapter~\ref{ch:competing-recognizers}, develops personalization beyond the adaptation of the first design, packages the recognition engine as a reusable library with a stable interface, and evaluates a standalone gesture keyboard (Chapter~\ref{ch:standalone-keyboard}). The exit criteria depend on results that do not yet exist and are not stated here.
+
+\chapter{Scope of the First Implementation}\label{ch:first-scope}
+
+Although the complete specification may be long, the first implementation should be deliberately small. It should contain a functioning playfield, approximately twenty gestures, a transparent recognition algorithm, and enough progression to establish whether the core interaction is enjoyable. Everything else in this document is conditional on that answer. A specification that describes in detail a game that no one wants to play has no value, and it is better to learn this from a small prototype than from a large one.
+
+\section{Three architectural commitments}
+
+Three decisions are cheap to make correctly at the beginning and expensive to repair later, and they are fixed here as commitments of the first implementation.
+
+\begin{principle}[Recognition independent of gameplay]\label{pr:A1}
+The recognizer is a library that knows nothing about balloons, scores or levels. It receives strokes and candidate sets and returns results, and it can be used unchanged in a typing tutor, a keyboard or another application.
+\end{principle}
+
+\begin{principle}[Raw input distinct from interpreted gestures]\label{pr:A2}
+The system preserves enough information to investigate recognition errors and to compare algorithms, and never rewrites its recorded observations. Every interpretation is a derived object carrying the identity of the procedure that produced it.
+\end{principle}
+
+\begin{principle}[Learning distinct from adaptation]\label{pr:A3}
+Players become better at producing gestures, and the software can become better at interpreting them. These are separate processes, and they remain experimentally distinguishable because every adaptive behavior can be frozen and every session records the state of the recognizer.
+\end{principle}
+
+The first corresponds to the package structure of Chapter~\ref{ch:technology}, the second to Requirement~\ref{req:raw}, and the third to Requirement~\ref{req:frozen} and the designs of Chapter~\ref{ch:human-vs-model}.
+
+\section{The coherent progression}
+
+Swype Hero does not have to begin as a typing tutor. It can begin as an entertaining arcade game in which the player acquires a progressively richer vocabulary of movements, and those movements can later become the geometry of written language. The progression is from drawing shapes, to recognizing shapes, to mastering word trajectories, to producing language through learned movement. This outline is therefore treated as the table of contents of a substantial, versioned specification, while the first playable prototype remains the immediate engineering objective.

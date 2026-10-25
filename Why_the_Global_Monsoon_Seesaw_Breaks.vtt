@@ -1,0 +1,4427 @@
+WEBVTT
+
+00:00.000 --> 00:05.080
+I want you to imagine like a giant planetary scale seesaw.
+
+00:05.240 --> 00:06.520
+Okay, I'm picturing it.
+
+00:06.520 --> 00:14.360
+It's just a massive mechanism that has been rhythmically tilting back and forth for hundreds of thousands of years.
+
+00:15.440 --> 00:19.260
+And on each end of the seesaw rests the rain supply for half the globe.
+
+00:19.940 --> 00:27.280
+So when one side goes up, a massive monsoon drenches Asia, right, bringing life-giving water to billions of acres of land.
+
+00:27.500 --> 00:29.600
+Which is an almost unfathomable amount of water.
+
+00:30.000 --> 00:30.760
+Exactly.
+
+00:31.600 --> 00:38.160
+And then when the seesaw tilts the other way, that rain empties over South America, you know, feeding the Amazon basin.
+
+00:39.000 --> 00:46.600
+For eons, this alternating rhythm has pretty much fundamentally dictated where the water falls on Earth.
+
+00:46.840 --> 00:48.980
+It is a really striking image.
+
+00:49.360 --> 00:56.280
+And scientifically, it represents the foundational baseline of how we've understood the global climate system.
+
+00:56.920 --> 00:59.000
+I mean, we rely on that alternating rhythm.
+
+00:59.000 --> 01:01.940
+The opposition between the hemispheres isn't just a pattern.
+
+01:02.120 --> 01:06.040
+It is a fundamental expectation of atmospheric physics.
+
+01:06.860 --> 01:06.920
+Right.
+
+01:07.020 --> 01:08.020
+It's like a law of nature.
+
+01:08.280 --> 01:10.180
+A very comforting metronome.
+
+01:10.660 --> 01:17.640
+But now I want you to imagine what happens when you're watching this seesaw and suddenly the fulcrum just snaps.
+
+01:17.980 --> 01:18.900
+The whole mechanism breaks.
+
+01:19.160 --> 01:19.340
+Yeah.
+
+01:19.340 --> 01:23.900
+Instead of alternating, both sides of the seesaw plummet to the ground at the exact same time.
+
+01:24.620 --> 01:29.460
+The water just dries up on both sides of the planet simultaneously.
+
+01:29.820 --> 01:33.260
+Which completely defies the baseline expectation of the entire system.
+
+01:33.260 --> 01:39.180
+I mean, if the water isn't in Asia, and it isn't in South America, where did it go?
+
+01:39.420 --> 01:39.860
+Exactly.
+
+01:40.660 --> 01:45.300
+The physics of the atmosphere shouldn't allow for a synchronized failure of that magnitude.
+
+01:45.680 --> 01:48.880
+Or at least, you know, not according to our standard operating models.
+
+01:48.880 --> 01:55.060
+Okay, let's unpack this, because that broken seesaw is exactly the mystery we are diving into today.
+
+01:55.260 --> 02:04.980
+Our source material for this deep dive is a wonderfully dense, incredibly fascinating independent essay from October 2026 by an author named Flyxion.
+
+02:05.260 --> 02:06.020
+Yeah, it's a great piece.
+
+02:06.020 --> 02:12.580
+It's titled Regularity Without Invariance, The Limits of the Interhemispheric Monsoon Dipole.
+
+02:13.160 --> 02:22.400
+And what Flyxion is doing here is deeply analyzing a massive, groundbreaking 2026 climate study published by a team of researchers led by Olson.
+
+02:22.640 --> 02:26.600
+The Olson et al. study is just a monumental piece of paleoclimatology.
+
+02:27.260 --> 02:35.080
+They essentially built a continuous 450,000-year-old climate record using stalagmites from caves deep in Peru.
+
+02:35.080 --> 02:36.260
+Which is wild.
+
+02:36.460 --> 02:37.260
+It really is.
+
+02:37.940 --> 02:44.600
+Their goal was to prove that this global seesaw exists, but the data ended up doing something far more interesting.
+
+02:45.040 --> 02:50.640
+It showed exactly when, how, and why the seesaw periodically broke down over the last half million years.
+
+02:50.820 --> 02:51.160
+Yes.
+
+02:51.560 --> 02:58.540
+So our mission today, for you listening, is to unpack this ancient climate mystery hidden inside these Peruvian cave formations.
+
+02:58.540 --> 03:08.220
+We're going to explore why a seemingly permanent law of nature, the opposing weather patterns of the northern and southern hemispheres, periodically just stops working.
+
+03:08.380 --> 03:09.740
+It's quite the detective story.
+
+03:09.900 --> 03:10.520
+It really is.
+
+03:11.040 --> 03:16.100
+We're going to look at the mathematical realities of global rain, the hidden power of ocean currents,
+
+03:16.100 --> 03:22.600
+and what this ancient broken seesaw reveals about the absolute limits of predicting our own future climate.
+
+03:22.600 --> 03:26.920
+Well, before we can begin to diagnose how the global climate system broke,
+
+03:27.580 --> 03:32.120
+we really have to establish an airtight understanding of how it operates under normal conditions.
+
+03:32.260 --> 03:32.360
+Right.
+
+03:32.440 --> 03:32.860
+The baseline.
+
+03:33.200 --> 03:33.560
+Exactly.
+
+03:34.340 --> 03:39.460
+The baseline mechanics of this system are governed by celestial forces that are so powerful,
+
+03:40.100 --> 03:42.940
+they almost seem to operate outside of earthly physics entirely.
+
+03:42.940 --> 03:48.540
+The formal name for this baseline seesaw is the interhemispheric monsoon dipole.
+
+03:49.300 --> 03:54.120
+And Phloxion points out that for the vast majority of the past 450,000 years,
+
+03:54.640 --> 03:59.940
+the Asian summer monsoon and the South American summer monsoon have been in strict opposite phases.
+
+04:00.140 --> 04:00.780
+Total opposition.
+
+04:01.000 --> 04:01.180
+Right.
+
+04:01.600 --> 04:03.700
+Asia gets wet, South America gets dry.
+
+04:04.440 --> 04:09.320
+Then thousands of years pass, the orbital configuration of the Earth shifts, and the reverse happens.
+
+04:09.960 --> 04:11.440
+It's a massive pendulum.
+
+04:11.440 --> 04:14.480
+But I guess, what is actually pushing the pendulum?
+
+04:14.980 --> 04:17.300
+Well, it all comes down to Milankovic cycles.
+
+04:18.180 --> 04:22.140
+Specifically, the component of those cycles known as orbital precession.
+
+04:22.460 --> 04:29.080
+I always picture orbital precession like a spinning top that's just starting to lose its momentum.
+
+04:29.800 --> 04:36.240
+You know, it spins perfectly upright for a while, but then the axis starts to trace a slow, wide circle in the air.
+
+04:36.700 --> 04:37.700
+That's a great analogy.
+
+04:37.700 --> 04:45.120
+The Earth's axis wobbles in that exact same way, just on a massive 23,000-year timescale.
+
+04:45.620 --> 04:49.600
+Yeah, and that rotational wobble fundamentally alters the calendar date of perihelion.
+
+04:50.280 --> 04:51.320
+Perihelion being?
+
+04:51.820 --> 04:56.300
+The specific day of the year when the Earth is physically closest to the Sun in its elliptical orbit.
+
+04:56.300 --> 05:04.680
+So, as the axis slowly sweeps through that 23,000-year circle, the seasonal distribution of incoming solar radiation changes.
+
+05:05.220 --> 05:07.480
+And we call this incoming radiation insulation.
+
+05:07.480 --> 05:17.980
+So, to be clear, for anyone listening who might be conflating this with global warming, it's not that the Earth is receiving more total heat from the Sun over the course of a full year.
+
+05:18.140 --> 05:18.700
+No, not at all.
+
+05:18.960 --> 05:22.360
+The total energy budget of the planet remains relatively stable.
+
+05:23.040 --> 05:30.060
+It's just that the delivery schedule of that heat is being rerouted, depending on the hemisphere and the season.
+
+05:30.060 --> 05:37.500
+Exactly. The annual mean radiation at any given latitude barely fluctuates, but the seasonal intensity changes dramatically.
+
+05:38.260 --> 05:42.500
+And in the tropics and subtropics, that seasonal distribution dictates everything.
+
+05:42.740 --> 05:43.420
+It's the engine.
+
+05:43.880 --> 05:44.160
+Right.
+
+05:44.860 --> 05:50.000
+When this precession cycle causes the northern hemisphere to receive intensely concentrated summer sun,
+
+05:50.720 --> 05:56.820
+the vast landmasses of the north, especially across Asia, warm up much faster than the surrounding global oceans.
+
+05:56.820 --> 06:00.140
+Because rock and soil have a lower heat capacity than water, right?
+
+06:00.560 --> 06:05.460
+The continent just bakes, while the ocean sort of absorbs the heat slowly.
+
+06:05.920 --> 06:06.380
+Precisely.
+
+06:07.040 --> 06:13.660
+This differential heating creates a profound temperature contrast between the hot land surface and the cooler air offshore.
+
+06:13.940 --> 06:15.440
+And that contrast drives the wind.
+
+06:15.820 --> 06:16.060
+Yes.
+
+06:16.800 --> 06:25.080
+This thermal engine pulls the intratropical convergence zone, the ITCZ, which is the main belt of rainfall that circles the equator.
+
+06:25.080 --> 06:26.600
+It pulls it northward.
+
+06:27.120 --> 06:31.800
+It drags the deep, moisture-laden tropical monsoon rains right over Asia.
+
+06:32.500 --> 06:38.700
+It really is like a slow, deeply predictable metronome that's been dictating the rhythm of global weather for eons.
+
+06:39.340 --> 06:39.660
+Tick.
+
+06:40.040 --> 06:42.220
+The northern hemisphere bakes in the summer sun.
+
+06:42.540 --> 06:43.300
+Asia gets drenched.
+
+06:43.880 --> 06:44.260
+Talk.
+
+06:44.700 --> 06:48.760
+11,500 years later, the axis has wobbled to the other side.
+
+06:49.100 --> 06:51.500
+The southern hemisphere gets the intense summer sun.
+
+06:51.820 --> 06:53.040
+And South America gets drenched.
+
+06:53.040 --> 06:55.640
+It's beautiful in its simplicity.
+
+06:56.420 --> 06:56.800
+It is.
+
+06:57.220 --> 07:01.720
+And Flyxion makes it clear that this isn't just a neat theoretical model on a chalkboard.
+
+07:02.340 --> 07:08.160
+The Olsen et al. study found an incredibly strong mathematical correlation in the physical record to back this up.
+
+07:08.380 --> 07:08.640
+They did.
+
+07:08.920 --> 07:19.100
+They calculated a correlation coefficient of r equals 0.67 between their reconstructed dipole index and the cross-equatorial insulation difference.
+
+07:19.280 --> 07:20.480
+Which is huge, right?
+
+07:20.980 --> 07:21.520
+Massive.
+
+07:22.080 --> 07:35.160
+To contextualize that number, you know, in the incredibly noisy, chaotic world of paleoclimatology, finding an r value of 0.67 sustained over a 450,000-year timeline is striking.
+
+07:35.360 --> 07:35.600
+Right.
+
+07:35.600 --> 07:42.320
+If we assume a linear relationship, squaring that value gives us an r squared of about 0.45.
+
+07:42.820 --> 07:52.920
+This means that celestial orbital forcing alone accounts for roughly 45% of the variance in this massive, chaotic, global monsoon system.
+
+07:52.920 --> 08:05.720
+Which means the astronomical theory correctly predicts the sign of the rain, meaning whether a hemisphere is wet or dry, it predicts the 23,000-year frequency perfectly, and it predicts the exact timing of the shifts.
+
+08:06.100 --> 08:09.480
+That is just a massive triumph for orbital climate theory.
+
+08:09.480 --> 08:10.440
+It really is.
+
+08:10.820 --> 08:14.760
+But what's fascinating here is a vital distinction Flipsian introduces.
+
+08:15.380 --> 08:20.600
+We have to separate astronomical forcing from atmospheric response.
+
+08:20.980 --> 08:22.120
+Okay, break that down.
+
+08:22.520 --> 08:28.060
+Well, the insulation anomaly, that orbital wobble we're talking about, is celestial mechanics.
+
+08:28.560 --> 08:30.240
+It is gravity and geometry.
+
+08:30.980 --> 08:35.520
+We can calculate it backward for millions of years with absolute pinpoint precision.
+
+08:35.640 --> 08:36.240
+Like clockwork.
+
+08:36.240 --> 08:41.360
+But incoming solar radiation does not spontaneously condense into rain droplets.
+
+08:42.200 --> 08:42.280
+Right.
+
+08:42.840 --> 08:46.720
+The sun provides the energy, but the Earth has to do the actual work of making the weather.
+
+08:46.980 --> 08:47.360
+Exactly.
+
+08:48.320 --> 08:53.180
+The orbital configuration merely sets the boundary conditions for the energy supplied to the top of the atmosphere.
+
+08:54.180 --> 09:04.780
+The Earth's climate system then has to absorb that energy, translate it into sensible and latent heat, and push it through an incredibly messy, complicated chain of intermediate processes.
+
+09:05.360 --> 09:06.080
+Like what?
+
+09:06.240 --> 09:15.380
+You have ocean heat transport, atmospheric circulation cells, localized convection, mountain topography, cloud albedo feedback loops.
+
+09:16.420 --> 09:22.200
+So the celestial math is perfect, but the atmospheric response is subject to the chaotic reality of fluid dynamics.
+
+09:22.200 --> 09:22.660
+Yes.
+
+09:22.660 --> 09:30.340
+So when we casually say the Earth's wobble causes the monsoon, we are employing a massive shorthand.
+
+09:30.340 --> 09:37.000
+We're compressing thousands of chaotic intervening steps into one very clean, easily digestible narrative.
+
+09:37.000 --> 09:45.700
+And as Flyxion argues throughout the essay, relying too heavily on that compressed narrative is exactly what blinds us to the truth of what happens when the regularity fails.
+
+09:46.140 --> 09:55.760
+Because to actually prove that the celestial seesaw governs earthly rain, and to catch the moments where it breaks, scientists couldn't just look at astronomical models on a computer.
+
+09:55.760 --> 09:57.180
+No, they needed hard data.
+
+09:57.600 --> 09:57.760
+Right.
+
+09:57.920 --> 10:02.820
+They needed a pristine, physical, localized record of ancient weather, locked in stone.
+
+10:03.180 --> 10:06.040
+Which brings us to the time machine part of this deep dive.
+
+10:06.040 --> 10:13.020
+I am endlessly fascinated by the sheer physical effort and ingenuity required to extract paleoclimate data.
+
+10:13.260 --> 10:14.000
+It's grueling work.
+
+10:14.640 --> 10:22.340
+The Olsen et al. study didn't rely on the usual suspects, like drilling ice cores in Antarctica or pulling up ocean sediment in the Atlantic.
+
+10:22.680 --> 10:25.120
+They built their record out of stalagmites.
+
+10:25.400 --> 10:27.280
+30 stalagmites in total.
+
+10:27.860 --> 10:35.640
+These were meticulously collected from three specific, highly isolated caves on the eastern flank of the Peruvian Andes, situated in the upper Amazon basin.
+
+10:36.040 --> 10:37.580
+And these caves have names, right?
+
+10:37.760 --> 10:38.020
+Yes.
+
+10:38.020 --> 10:43.320
+The caves are named Antipayaguna, Pakupahwain, and Huagapo.
+
+10:43.920 --> 10:50.660
+Just visualizing the logistics of hauling 30 fragile ancient rock formations out of cave systems high in the Andes is staggering.
+
+10:51.100 --> 10:54.000
+But the laboratory work they did on those rocks is even more intense.
+
+10:54.520 --> 11:03.160
+I mean, they extracted 13,939 separate oxygen isotope measurements from the calcite layers of these stalagmites.
+
+11:03.360 --> 11:04.780
+That is a lot of data points.
+
+11:04.780 --> 11:10.120
+And to figure out exactly when those layers were formed, they relied on uranium-thorium decay dating.
+
+11:10.780 --> 11:16.360
+Uranium-thorium, or UTH dating, is really the gold standard for this specific kind of terrestrial proxy.
+
+11:17.080 --> 11:21.660
+The mechanics of why it works so perfectly for cave formations are actually quite elegant.
+
+11:22.320 --> 11:22.840
+How so?
+
+11:23.220 --> 11:25.060
+Well, uranium is soluble in water.
+
+11:25.600 --> 11:26.800
+Thorium is not.
+
+11:26.800 --> 11:33.320
+As rainwater percolates through the soil and the limestone bedrock above the cave, it picks up trace amounts of uranium.
+
+11:33.960 --> 11:38.300
+But because thorium is insoluble, it gets left behind in the rock above.
+
+11:38.300 --> 11:48.260
+So when a drop of water finally falls from the ceiling of the cave and hits the floor to start forming the stalagmite, it contains a tiny bit of uranium, but absolutely zero thorium.
+
+11:48.500 --> 11:48.960
+Exactly.
+
+11:49.700 --> 11:50.840
+The clock starts at zero.
+
+11:51.380 --> 11:51.740
+Wow.
+
+11:52.080 --> 11:55.200
+The moment that calcite crystallizes, the system is sealed.
+
+11:55.200 --> 12:05.800
+Over thousands of years, the radioactive uranium-234 trapped in the stalagmite slowly decays into thorium-230 at a strictly known invariable rate.
+
+12:06.300 --> 12:07.780
+So it's literally a stopwatch.
+
+12:08.080 --> 12:08.360
+Yes.
+
+12:08.980 --> 12:20.820
+By simply measuring the ratio of uranium to thorium in a specific microscopic layer of the rock, scientists can calculate exactly how long ago that layer crystallized, down to an incredibly tight error margin.
+
+12:20.820 --> 12:27.760
+The Olsen team obtained 217 new UTH ages and incorporated 90 previously published ones.
+
+12:28.260 --> 12:30.440
+But they didn't just plot these dates on a simple graph, right?
+
+12:30.780 --> 12:35.640
+Flyxion mentions they ran all of this data through something called the B-Cron algorithm to build their timeline.
+
+12:36.120 --> 12:39.720
+B-Cron is a Bayesian age-depth modeling tool.
+
+12:41.100 --> 12:45.060
+In the real world, stalagmites don't grow at a perfectly uniform rate.
+
+12:45.680 --> 12:47.800
+Sometimes the cave is wetter and they grow faster.
+
+12:48.200 --> 12:50.360
+Sometimes it's drier and they barely grow at all.
+
+12:50.360 --> 12:50.720
+Right.
+
+12:50.960 --> 13:01.840
+If you only have, say, 50 firm dating points along a rock that represents 100,000 years, you have to interpolate the ages of all the layers in between.
+
+13:02.140 --> 13:04.640
+You have to guess the growth rate between the dots.
+
+13:04.960 --> 13:05.200
+Right.
+
+13:05.980 --> 13:13.120
+Rather than just drawing a straight line between the dots, B-Cron uses Markov chain Monte Carlo simulations.
+
+13:14.020 --> 13:15.320
+Okay, that sounds intense.
+
+13:15.320 --> 13:26.480
+It basically generates thousands of possible growth pathways that fit the data, assigning a mathematical probability to each one based on prior knowledge of how stalagmites accumulate.
+
+13:26.480 --> 13:29.040
+So, it's finding the most likely path.
+
+13:29.460 --> 13:29.800
+Exactly.
+
+13:30.400 --> 13:43.540
+The result is a continuous climate record stretching back 450 millennia with an average temporal resolution of just 50 years, complete with a rigorously quantified envelope of uncertainty.
+
+13:43.540 --> 13:54.800
+So, every 50 years, basically the span of a single human adult life, for the last 450,000 years, we have a data point for the weather in the Amazon basin.
+
+13:54.800 --> 13:57.700
+That is an absurd level of detail.
+
+13:58.160 --> 13:59.900
+It's unprecedented for this region.
+
+14:00.340 --> 14:02.260
+But we need to translate the chemistry here.
+
+14:02.360 --> 14:08.060
+How does the chemistry of a piece of cave rock tell you how hard it rained hundreds of thousands of years ago?
+
+14:08.240 --> 14:13.860
+This relies on the mechanics of moisture transport physics, specifically isotopic fractionation.
+
+14:13.860 --> 14:21.760
+We are looking at the ratio of oxygen-18 to oxygen-16 in the calcite, which is denoted as delta-18-0.
+
+14:22.360 --> 14:24.240
+Okay, let me make sure I've got this.
+
+14:24.780 --> 14:29.960
+Most oxygen is oxygen-16, meaning it has 8 protons and 8 neutrons.
+
+14:30.560 --> 14:33.560
+But oxygen-18 has 2 extra neutrons.
+
+14:33.660 --> 14:35.800
+It is physically a heavier isotope.
+
+14:35.800 --> 14:36.360
+Yes.
+
+14:37.080 --> 14:45.120
+And because it has those 2 extra neutrons, a water molecule containing oxygen-18 is thermodynamically slightly different.
+
+14:45.840 --> 14:47.880
+It requires more energy to evaporate.
+
+14:48.340 --> 14:53.040
+And critically, it condenses back into a liquid state more easily than lighter water.
+
+14:53.720 --> 14:56.900
+Okay, let's trace a cloud to see how this works in practice.
+
+14:57.620 --> 15:02.660
+Imagine a massive, wet air mass gathering moisture over the tropical Atlantic Ocean.
+
+15:02.660 --> 15:11.120
+The trade winds push this moisture inland, westward over the vast expanse of the Amazon Basin, heading toward the towering wall of the Andes Mountains.
+
+15:11.980 --> 15:16.640
+As that air mass travels across the continent, it encounters convection and begins to drop rain.
+
+15:17.440 --> 15:19.860
+This process is known as Rayleigh distillation.
+
+15:20.520 --> 15:21.600
+Rayleigh distillation.
+
+15:22.180 --> 15:26.440
+Because the oxygen-18 water molecules are heavier and condense more readily,
+
+15:26.820 --> 15:31.280
+they preferentially fall out of the cloud in the very first rainstorms near the coast.
+
+15:31.280 --> 15:34.300
+Ah, the heavy water drops out early.
+
+15:34.860 --> 15:38.040
+As the cloud continues its journey thousands of kilometers further inland,
+
+15:38.320 --> 15:43.620
+the remaining water vapor in that cloud becomes progressively depleted of the heavy oxygen-18.
+
+15:44.360 --> 15:48.340
+The isotopic signature becomes lighter and lighter the further inland you go.
+
+15:48.920 --> 15:50.780
+And the more it rains along the way.
+
+15:51.380 --> 15:53.920
+So if the South American monsoon is incredibly strong,
+
+15:53.920 --> 15:59.520
+like if there is intense, continuous rainfall all across the Amazon Basin upstream of these caves,
+
+15:59.760 --> 16:04.380
+by the time that heavily depleted cloud finally reaches the eastern flank of the Andes,
+
+16:04.580 --> 16:09.620
+the rain it drops over the cave system is going to have a very low concentration of oxygen-18.
+
+16:10.180 --> 16:11.120
+That's it exactly.
+
+16:11.880 --> 16:18.480
+Lower delta-18-0 in the cave drip water directly correlates to a stronger, more intense upstream monsoon.
+
+16:18.480 --> 16:23.040
+That isotopic signature gets locked into the calcite layer of the stalagmite.
+
+16:23.680 --> 16:27.700
+By reading the layers, we're essentially reading the integrated history of rainfall
+
+16:27.700 --> 16:32.160
+across the entire Amazon Basin for that specific 50-year block of time.
+
+16:32.600 --> 16:32.860
+Okay.
+
+16:33.100 --> 16:36.520
+If I'm listening to this and I know how chaotic local weather is,
+
+16:36.580 --> 16:37.580
+I'm finding a flaw in the plan.
+
+16:38.020 --> 16:38.180
+Oh.
+
+16:38.520 --> 16:40.140
+These caves are in the mountains.
+
+16:40.900 --> 16:44.480
+Mountains generate their own crazy, unpredictable microclimates.
+
+16:44.480 --> 16:50.560
+How can Olson's team be absolutely sure that the stalagmite is recording this giant regional Amazon monsoon
+
+16:50.560 --> 16:55.600
+and not just a localized thunderstorm system that hovered over the cave entrance for a decade?
+
+16:56.100 --> 17:00.380
+That is the central defining problem of interpreting any paleoclimate proxy.
+
+17:01.440 --> 17:05.040
+A stalagmite is not a pristine, isolated scientific instrument.
+
+17:05.280 --> 17:05.500
+Right.
+
+17:05.620 --> 17:07.320
+It's a rock in a damp hole.
+
+17:07.320 --> 17:11.940
+It is responding to multiple overlapping influences simultaneously.
+
+17:12.280 --> 17:15.680
+The source water in the Atlantic, the upstream rain out across the basin,
+
+17:16.180 --> 17:18.340
+local orographic precipitation hitting the mountain,
+
+17:18.700 --> 17:21.380
+and even the ambient temperature inside the cave itself.
+
+17:21.640 --> 17:26.540
+So how did they mathematically filter out the local mountain noise to get to the pure regional signal?
+
+17:27.300 --> 17:30.220
+They utilized an independent environmental archive.
+
+17:30.920 --> 17:33.480
+Roughly 30 kilometers away from the cave sites,
+
+17:33.480 --> 17:38.380
+there is a sediment-based proxy record of ancient glacier extent from Lake Hunin.
+
+17:38.840 --> 17:39.100
+Okay.
+
+17:39.400 --> 17:43.420
+This glacial index responds primarily to local temperature and local precipitation,
+
+17:44.100 --> 17:46.900
+specific to that high-altitude Andean environment.
+
+17:47.700 --> 17:50.760
+Olson et al. standardized both the cave record and the lake record
+
+17:50.760 --> 17:56.120
+and essentially subtracted the Lake Hunin Glacial Index from the Andean cave composite.
+
+17:56.120 --> 18:04.880
+The logic being, if you subtract the local mountain weather signal from the combined local regional cave signal,
+
+18:05.080 --> 18:09.440
+you are left with an index of pure upstream rain out in the Amazon lowlands.
+
+18:09.600 --> 18:11.640
+That is the conceptual framework, yes.
+
+18:12.220 --> 18:13.840
+I have to push back on this algebraically.
+
+18:14.300 --> 18:20.660
+Subtracting one proxy from another entirely different type of proxy to get a mathematically pure regional rain signal.
+
+18:20.660 --> 18:25.080
+If I subtract my local neighborhood's weather data from my state's weather data,
+
+18:25.280 --> 18:28.540
+I don't magically get a perfect map of a global weather pattern.
+
+18:28.920 --> 18:32.600
+There's so much shared variance, isn't this incredibly risky math?
+
+18:32.960 --> 18:34.960
+Your skepticism is entirely warranted,
+
+18:35.520 --> 18:39.300
+and it is a point that Flyxion explicitly unpacks in the essay.
+
+18:39.880 --> 18:42.700
+The algebraic limits of this kind of subtraction are profound.
+
+18:43.340 --> 18:44.340
+Let's look at the variables.
+
+18:45.060 --> 18:46.960
+Let's say your cave record is variable X,
+
+18:46.960 --> 18:50.940
+and its variance is driven by a combination of local weather and regional weather.
+
+18:51.580 --> 18:54.200
+And your lake record is variable G,
+
+18:54.620 --> 18:57.220
+which is also driven by local weather and regional weather,
+
+18:57.600 --> 19:00.440
+just interacting in different proportions and sensitivities.
+
+19:00.560 --> 19:02.460
+Right, they're both responding to the same sky.
+
+19:03.420 --> 19:06.780
+Standardizing them to have a mean of zero and a variance of one,
+
+19:07.560 --> 19:11.160
+and that subtracting G from X does not mathematically guarantee
+
+19:11.160 --> 19:14.300
+that the local variables perfectly cancel each other out to zero.
+
+19:14.300 --> 19:17.340
+Furthermore, it certainly does not guarantee
+
+19:17.340 --> 19:20.540
+that the regional variables are perfectly preserved in the remainder.
+
+19:20.960 --> 19:21.680
+You could lose data.
+
+19:22.140 --> 19:22.380
+Yes.
+
+19:23.020 --> 19:27.300
+You might accidentally subtract out some of the regional signal you were trying to isolate,
+
+19:27.680 --> 19:30.840
+simply because the local glacier also responded to it.
+
+19:31.260 --> 19:37.460
+So this subtraction method is not a mathematical magic wand that reveals the pure truth.
+
+19:37.680 --> 19:38.340
+It is not.
+
+19:38.340 --> 19:44.600
+Flyxion is very careful to emphasize that the validity of this correction relies on external corroboration.
+
+19:45.160 --> 19:49.140
+You have to match the resulting subtracted curve with independent records,
+
+19:49.520 --> 19:54.940
+like speleothems from the Western Amazon that aren't subject to the same local Andean mountain weather.
+
+19:55.320 --> 19:56.080
+It's a cross-check.
+
+19:56.380 --> 19:56.800
+Exactly.
+
+19:57.600 --> 19:59.260
+The proxy record is an inference.
+
+19:59.740 --> 20:03.500
+It is a highly educated, meticulously cross-checked inference
+
+20:03.500 --> 20:07.660
+that narrows down the boundaries of what was physically possible in the past.
+
+20:07.660 --> 20:13.380
+So we trust the stalagmite record, as corrected, to be a highly reliable baseline.
+
+20:13.700 --> 20:15.680
+It confirms the orbital theory.
+
+20:16.180 --> 20:19.940
+It shows us that for the vast majority of the last 450,000 years,
+
+20:20.400 --> 20:22.620
+the metronome ticked and the seesaw worked.
+
+20:23.040 --> 20:25.940
+Asia gets wet, South America gets dry, and vice versa.
+
+20:26.640 --> 20:29.780
+But the whole reason Flyxion wrote this essay is to look at the moments
+
+20:29.780 --> 20:32.320
+where the data completely contradicts that baseline.
+
+20:32.660 --> 20:33.800
+The glitches in the matrix.
+
+20:33.800 --> 20:40.240
+Olsen et al. identified 10 specific intervals in this massive 450,000-year record
+
+20:40.240 --> 20:43.520
+where the inter-hemispheric monsoon dipole failed.
+
+20:44.220 --> 20:49.100
+10 periods where the monsoons departed from their strict opposition and moved together.
+
+20:49.520 --> 20:51.180
+Here's where it gets really interesting.
+
+20:51.780 --> 20:54.420
+Imagine flipping a coin for 450,000 years.
+
+20:54.420 --> 20:58.340
+It always lands heads on one side of the world and tails on the other side.
+
+20:58.680 --> 20:59.440
+Every single time.
+
+21:00.160 --> 21:03.540
+And then suddenly, for a period of 4,000 years,
+
+21:03.800 --> 21:06.560
+both coins start landing on tails simultaneously.
+
+21:07.160 --> 21:08.920
+Where do these glitches occur in the timeline?
+
+21:09.600 --> 21:11.560
+Flyxion categorizes them systematically,
+
+21:12.060 --> 21:14.300
+based on the background state of the planet when they occurred.
+
+21:14.940 --> 21:16.640
+First, we have the dry terminations.
+
+21:17.240 --> 21:18.180
+Terminations meaning?
+
+21:18.180 --> 21:22.620
+A glacial termination is a period of highly rapid global warming,
+
+21:23.240 --> 21:27.940
+marking the violent transition from a deep ice age back to a warm interglacial period.
+
+21:28.460 --> 21:28.700
+Okay.
+
+21:29.280 --> 21:32.220
+During these specific rapid warming transitions,
+
+21:32.740 --> 21:38.160
+which are characterized by huge natural spikes in atmospheric CO2 and massive ice melt,
+
+21:38.740 --> 21:42.080
+both the Asian and South American monsoons weakened synchronously.
+
+21:42.460 --> 21:46.680
+This failure lasted anywhere from 100 to 4,250 years.
+
+21:46.680 --> 21:48.620
+They both just dried up.
+
+21:49.060 --> 21:49.860
+The seesaw broke.
+
+21:50.080 --> 21:51.100
+Both sides hit the ground,
+
+21:51.280 --> 21:54.740
+and billions of gallons of water vanished from the continental weather systems.
+
+21:55.300 --> 21:57.380
+And the granular details here are fascinating.
+
+21:57.900 --> 22:00.060
+Flyxion notes that during these terminations,
+
+22:00.360 --> 22:02.060
+the cross-equatorial insulation,
+
+22:02.480 --> 22:04.060
+the strict orbital math we discussed,
+
+22:04.640 --> 22:07.320
+dictated that the northern hemisphere should be getting wet,
+
+22:07.700 --> 22:09.320
+and the south should be getting dry.
+
+22:09.840 --> 22:11.700
+Right. That was the baseline expectation.
+
+22:12.260 --> 22:15.820
+The South American monsoon did exactly what orbital mechanics told it to do.
+
+22:15.820 --> 22:16.440
+It was weak.
+
+22:16.680 --> 22:18.720
+But the Asian monsoon rebelled.
+
+22:19.140 --> 22:21.820
+It weakened when the sun was telling it to strengthen.
+
+22:21.820 --> 22:26.100
+The Asian monsoon fundamentally decoupled from the celestial forcing.
+
+22:27.300 --> 22:29.760
+Now, consider the second category.
+
+22:30.700 --> 22:34.840
+We have four synchronous dry events that occurred within stable interglacial periods,
+
+22:35.060 --> 22:37.340
+not during the violent rapid transitions.
+
+22:37.560 --> 22:38.660
+So when things were calm.
+
+22:38.660 --> 22:43.200
+During these specific interglacial dry events,
+
+22:43.620 --> 22:46.880
+the orbital insulation gradient strongly favored the southern hemisphere.
+
+22:47.580 --> 22:48.820
+So according to the math,
+
+22:49.460 --> 22:50.540
+Asia was supposed to be dry,
+
+22:50.640 --> 22:52.680
+and South America was supposed to be intensely wet.
+
+22:52.680 --> 22:53.860
+Okay, let me guess.
+
+22:55.140 --> 22:56.900
+Asia was dry, obeying the rules.
+
+22:57.540 --> 23:01.920
+But this time it was the South American monsoon that rebelled and remained inexplicably weak.
+
+23:02.140 --> 23:04.280
+So sometimes Asia breaks the rules,
+
+23:04.600 --> 23:06.380
+and sometimes South America breaks the rules,
+
+23:06.380 --> 23:08.320
+but the emergent result is always the same.
+
+23:08.600 --> 23:10.080
+They both go dry simultaneously.
+
+23:10.080 --> 23:13.800
+This immediately makes me think that global warming is the culprit.
+
+23:14.580 --> 23:16.100
+But it's not that simple, is it?
+
+23:16.220 --> 23:20.600
+It is not, because Flyxion points to a third highly counterintuitive category.
+
+23:21.200 --> 23:22.520
+The wet glacials.
+
+23:23.080 --> 23:23.420
+Right.
+
+23:24.040 --> 23:26.240
+During marine isotope stage 6,
+
+23:26.480 --> 23:29.580
+which was a period of extreme punishing cold,
+
+23:29.700 --> 23:32.620
+like deep glacial conditions across the globe,
+
+23:32.620 --> 23:34.920
+both monsoons strengthened together.
+
+23:35.440 --> 23:37.460
+They both got wet simultaneously.
+
+23:38.660 --> 23:39.420
+The seesaw broke,
+
+23:39.620 --> 23:41.920
+but this time both sides shot up into the air,
+
+23:42.040 --> 23:42.980
+flooding both continents.
+
+23:43.560 --> 23:46.500
+Which definitively proves that we cannot lazily blame
+
+23:46.500 --> 23:50.240
+these synchronous anomalies on a generic concept of global warming.
+
+23:51.200 --> 23:53.520
+Departures from the dipole happened under both
+
+23:53.520 --> 23:57.260
+exceptionally warm and exceptionally cold global boundary conditions.
+
+23:57.580 --> 23:59.600
+It's more complex than just temperature.
+
+24:00.220 --> 24:02.460
+And there is one final anomaly,
+
+24:02.620 --> 24:04.100
+that defies categorization.
+
+24:05.020 --> 24:06.820
+Marine isotope stage 11.
+
+24:07.760 --> 24:08.500
+What happened then?
+
+24:09.320 --> 24:12.700
+Marine isotope stage 11 was a prolonged interglacial period
+
+24:12.700 --> 24:15.300
+characterized by very weak processional forcing,
+
+24:15.820 --> 24:18.700
+meaning the orbital wobble was geometrically muted,
+
+24:19.600 --> 24:24.020
+combined with an extreme near total loss of northern hemisphere ice.
+
+24:24.640 --> 24:26.640
+So warm with almost no wobble.
+
+24:26.640 --> 24:28.120
+And during this period,
+
+24:28.500 --> 24:31.580
+the dipole didn't just synchronize into a dry or wet state.
+
+24:31.580 --> 24:33.660
+It just sort of dissolved.
+
+24:34.400 --> 24:36.120
+The strict antiphasing broke down,
+
+24:36.460 --> 24:39.040
+and the monsoons stopped mirroring each other closely.
+
+24:39.520 --> 24:41.700
+The metronome lost its rhythm entirely.
+
+24:42.060 --> 24:44.420
+It's just anomaly after anomaly.
+
+24:45.200 --> 24:49.080
+But I want to pause here and make sure we are rigorously defining a specific word,
+
+24:49.280 --> 24:52.740
+because Vlaikjong dedicates an entire section to clarifying it.
+
+24:53.740 --> 24:54.340
+Synchronicity.
+
+24:54.340 --> 24:57.580
+When we say the monsoon's synchronized,
+
+24:57.780 --> 25:00.280
+we have to be careful about what we're actually implying.
+
+25:00.620 --> 25:04.000
+The distinction is vital for understanding the physics involved.
+
+25:04.000 --> 25:06.740
+In dynamical systems theory,
+
+25:06.740 --> 25:09.020
+when we talk about coupled oscillators,
+
+25:09.380 --> 25:12.060
+like two metronomes sitting on the same wooden board,
+
+25:12.180 --> 25:14.360
+or two pendulum clocks on the same wall,
+
+25:15.220 --> 25:17.880
+synchronization means they are physically interacting.
+
+25:18.420 --> 25:21.100
+They exchange energy through the medium connecting them,
+
+25:21.420 --> 25:24.720
+adjusting their rhythms until they lock into phase with one another.
+
+25:24.720 --> 25:26.800
+Like they're physically holding hands,
+
+25:26.920 --> 25:30.020
+and the movement of one forces the movement of the other.
+
+25:30.400 --> 25:34.760
+But that is not what synchronicity means in the context of these monsoon failures.
+
+25:35.620 --> 25:36.780
+In this climate record,
+
+25:37.180 --> 25:40.980
+synchronicity simply means they simultaneously responded to a shared,
+
+25:41.520 --> 25:43.400
+overwhelming external influence.
+
+25:44.280 --> 25:47.080
+They did not lock together because they were mutually dependent.
+
+25:47.660 --> 25:50.800
+They acted at the same time because they were both struck by the same hammer.
+
+25:50.800 --> 25:54.700
+It's like if you and I are walking down opposite sides of the street,
+
+25:55.000 --> 25:57.720
+completely ignoring each other, zero interaction.
+
+25:58.560 --> 26:01.180
+Suddenly, a massive thunderstorm breaks overhead.
+
+26:01.720 --> 26:04.820
+We both deploy our umbrellas at the exact same second.
+
+26:05.520 --> 26:09.640
+We didn't synchronize our actions because we were mathematically coupled to each other.
+
+26:09.880 --> 26:15.000
+We just both reacted independently to a giant, overriding external driver.
+
+26:15.300 --> 26:17.020
+That is exactly the dynamic.
+
+26:17.600 --> 26:20.200
+They were driven by a common external forcing,
+
+26:20.200 --> 26:22.740
+not by mutual internal dependence.
+
+26:23.560 --> 26:25.900
+And understanding that independent reaction
+
+26:25.900 --> 26:29.380
+leads Flyxion to address a massive physics paradox
+
+26:29.380 --> 26:32.360
+that often trips up both the public and climate communicators.
+
+26:33.080 --> 26:34.260
+The conservation of water?
+
+26:34.740 --> 26:35.080
+Yes.
+
+26:35.640 --> 26:39.820
+Because if you look at the highly simplified mental model we have of the global monsoon,
+
+26:40.420 --> 26:40.980
+the seesaw,
+
+26:41.480 --> 26:44.680
+it is implicitly treated as a zero-sum game.
+
+26:44.880 --> 26:48.100
+If the rain isn't falling over the Yangtze River Basin in Asia,
+
+26:48.100 --> 26:52.500
+it must have been mathematically displaced to the Amazon Basin in South America.
+
+26:53.240 --> 26:55.200
+The water on Earth has to go somewhere, right?
+
+26:55.320 --> 27:00.740
+So how is it physically thermodynamically possible for both massive continental monsoons
+
+27:00.740 --> 27:02.140
+to dry up at the same time?
+
+27:02.520 --> 27:05.060
+Did the Earth just vent water vapor into space?
+
+27:05.060 --> 27:10.080
+This is where we have to correct a fundamental misunderstanding of atmospheric fluid dynamics.
+
+27:11.600 --> 27:14.360
+Flyxion calls this the zero-sum fallacy.
+
+27:15.640 --> 27:19.260
+People intuitively assume that precipitation is just geographically displaced,
+
+27:19.600 --> 27:26.480
+that a volumetric loss in region A must perfectly stoichiometrically equal a volumetric gain in region B.
+
+27:26.920 --> 27:29.860
+But rain isn't a conserved quantity in that way.
+
+27:29.860 --> 27:31.060
+No, it is not.
+
+27:32.000 --> 27:35.160
+Flyxion brings out the actual atmospheric moisture budget equation,
+
+27:35.500 --> 27:36.920
+to mathematically prove this point.
+
+27:38.200 --> 27:44.020
+The equation states that the partial derivative of column-integrated water vapor with respect to time,
+
+27:44.540 --> 27:47.020
+plus the divergence of the horizontal moisture flux,
+
+27:47.660 --> 27:50.820
+equals the rate of evaporation minus the rate of precipitation.
+
+27:51.780 --> 27:55.220
+Okay, let's translate that calculus into a physical picture for the listener.
+
+27:55.220 --> 27:59.960
+Essentially, if you draw an imaginary massive vertical column from the ground
+
+27:59.960 --> 28:01.920
+all the way up to the edge of the atmosphere,
+
+28:02.760 --> 28:07.280
+the amount of water vapor changing inside that column depends on three things.
+
+28:08.180 --> 28:09.100
+Okay, what's number one?
+
+28:09.780 --> 28:14.680
+One, how much wind-driven moisture is blowing into or out of the sides of the column.
+
+28:14.940 --> 28:16.520
+That's the horizontal moisture flux.
+
+28:17.220 --> 28:21.640
+Two, how much water is evaporating straight up from the ground or ocean below.
+
+28:21.640 --> 28:25.980
+And three, how much water is falling out of the bottom as rain.
+
+28:26.780 --> 28:32.220
+So on a local scale, inside that specific column, water is absolutely conserved.
+
+28:32.560 --> 28:33.660
+The math always balances.
+
+28:34.500 --> 28:37.900
+Water doesn't magically appear or disappear from the physical universe.
+
+28:38.580 --> 28:38.980
+Correct.
+
+28:38.980 --> 28:42.780
+But, and this is the crux of Flyxion's argument,
+
+28:43.780 --> 28:48.200
+that local conservation equation places absolutely zero constraint
+
+28:48.200 --> 28:51.740
+on the sum total of precipitation between two arbitrary,
+
+28:52.340 --> 28:55.160
+geographically distant regions on opposite sides of the planet.
+
+28:55.440 --> 28:55.760
+Right.
+
+28:56.280 --> 28:59.420
+Just because the Asian and South American monsoons are the largest,
+
+28:59.820 --> 29:01.880
+most visible players in the tropical rain belt
+
+29:01.880 --> 29:05.640
+does not mean they represent a closed, isolated thermodynamic loop.
+
+29:05.640 --> 29:08.540
+It's exactly like trying to balance a household budget,
+
+29:08.800 --> 29:10.160
+but only looking at two categories.
+
+29:10.800 --> 29:12.560
+Let's say you have a fixed monthly income.
+
+29:13.240 --> 29:15.660
+If you suddenly stop spending so much money on groceries,
+
+29:16.080 --> 29:18.380
+which represents the Asian monsoon drying up,
+
+29:18.900 --> 29:24.020
+it doesn't automatically dictate that you must be taking that exact same amount of saved money
+
+29:24.020 --> 29:26.240
+and spending it on dining out at restaurants,
+
+29:26.460 --> 29:27.960
+which represents South America.
+
+29:28.300 --> 29:30.200
+Because there are other categories in the budget.
+
+29:30.340 --> 29:30.520
+Right.
+
+29:30.520 --> 29:34.360
+You might have diverted that money to a third, entirely unrelated category,
+
+29:34.600 --> 29:37.060
+like putting it into a savings account or buying a car.
+
+29:37.720 --> 29:41.220
+Or, in a more extreme scenario, you might have just lost your job entirely,
+
+29:41.400 --> 29:43.260
+meaning your overall total income dropped,
+
+29:43.600 --> 29:45.680
+so all spending goes down simultaneously.
+
+29:45.680 --> 29:49.160
+The translation of that analogy to atmospheric physics is perfect.
+
+29:49.860 --> 29:54.780
+The horizontal moisture flux could have been diverted by shifting winds to a third region entirely.
+
+29:55.580 --> 29:55.980
+Like where?
+
+29:56.420 --> 30:00.740
+The moisture might have rained out over the vast expanse of the open Pacific or Atlantic oceans,
+
+30:00.920 --> 30:04.380
+where we don't have convenient terrestrial stalagmites to measure it.
+
+30:05.020 --> 30:08.760
+Or, the overall global evaporation from the oceans could have dropped substantially,
+
+30:08.980 --> 30:11.300
+which is your lost job scenario.
+
+30:11.300 --> 30:14.720
+If the ocean cools, less water evaporates globally,
+
+30:15.020 --> 30:19.420
+meaning there is simply less absolute moisture available in the air to fuel either monsoon.
+
+30:19.900 --> 30:23.340
+Furthermore, the thermodynamic structure of the atmosphere itself could have changed.
+
+30:24.020 --> 30:28.820
+The vertical temperature profile might have shifted in a way that aggressively suppressed vertical convection.
+
+30:29.780 --> 30:31.580
+So the water is there, but it can't fall.
+
+30:31.960 --> 30:32.360
+Exactly.
+
+30:32.860 --> 30:35.960
+The moisture could have been hovering right there in the air, thick and humid,
+
+30:35.960 --> 30:41.660
+but without the intense upward updrafts required to cool that air and condense it into deep rain clouds,
+
+30:42.180 --> 30:43.980
+the rain simply doesn't fall.
+
+30:44.640 --> 30:48.620
+Any combination of those mechanisms can happen simultaneously in both hemispheres
+
+30:48.620 --> 30:51.780
+without violating a single law of physics.
+
+30:52.180 --> 30:54.740
+So if we pull back and look at the bigger picture,
+
+30:55.160 --> 30:58.800
+Flyxion is arguing that the dipole, the elegant alternating seesaw,
+
+30:59.240 --> 31:03.420
+is merely an emergent response to a specific set of stable conditions.
+
+31:03.420 --> 31:07.540
+It is a pattern, not a foundational conservation law.
+
+31:07.780 --> 31:07.980
+Yes.
+
+31:08.500 --> 31:12.760
+The laws of physics weren't suspended during these thousands of years of anomalous drought.
+
+31:13.240 --> 31:17.620
+Our simplified mental model of how the Earth works was just painfully inadequate.
+
+31:18.300 --> 31:23.180
+We were looking at an incredibly complex, multidimensional web of moisture transport
+
+31:23.180 --> 31:26.960
+and pretending it was a simple, one-dimensional straight line.
+
+31:27.200 --> 31:29.540
+Which forces a radical shift in perspective.
+
+31:29.540 --> 31:31.960
+If we connect this to the bigger picture,
+
+31:32.500 --> 31:35.580
+if orbital mechanics didn't cause these simultaneous dry spells,
+
+31:36.020 --> 31:38.380
+because the orbital metronome never stopped ticking,
+
+31:39.000 --> 31:42.980
+and the water was just being dynamically reorganized globally by other forces,
+
+31:43.520 --> 31:46.120
+what was the massive external driver?
+
+31:46.960 --> 31:50.260
+What was the hammer big enough to strike both continents at the same time
+
+31:50.260 --> 31:52.600
+and make them both open their umbrellas?
+
+31:52.960 --> 31:56.560
+To find a force that massive, we have to look away from the sky
+
+31:56.560 --> 31:58.880
+and look down into the oceans.
+
+31:58.880 --> 32:03.040
+This brings us to the most interconnected, systemic part of the analysis,
+
+32:03.620 --> 32:07.220
+the ocean's long reach, teleconnections and conditional coupling.
+
+32:07.720 --> 32:12.060
+Let's start with the Atlantic Ocean because it seems to be the prime suspect in these terminations.
+
+32:12.420 --> 32:18.980
+Specifically, we need to examine the Atlantic Meridional Overturning Circulation, or the AMOC.
+
+32:19.100 --> 32:19.880
+Okay, the AMOC.
+
+32:19.880 --> 32:25.580
+This is a colossal system of deep ocean currents that acts as a global conveyor belt.
+
+32:26.120 --> 32:32.460
+It carries massive amounts of warm tropical surface water northward across the equator deep into the North Atlantic.
+
+32:32.760 --> 32:32.860
+Right.
+
+32:33.200 --> 32:40.040
+As it reaches the north, the water cools, becomes denser, sinks to the abyssal plain, and flows back southward.
+
+32:40.040 --> 32:44.280
+This conveyor belt fundamentally keeps the northern hemisphere much warmer
+
+32:44.280 --> 32:47.460
+than it would otherwise be based on solar radiation alone.
+
+32:48.120 --> 32:52.580
+But during a glacial termination, when the ice age is violently ending and the globe is warming,
+
+32:53.060 --> 32:58.380
+you have massive, continent-spanning ice sheets covering North America and Europe that begin to disintegrate.
+
+32:58.380 --> 33:04.820
+As they melt, they dump astronomical volumes of freezing freshwater directly into the North Atlantic Ocean.
+
+33:05.300 --> 33:09.520
+And freshwater, lacking the dissolved salt of seawater, is significantly less dense.
+
+33:10.140 --> 33:11.180
+It refuses to sink.
+
+33:11.700 --> 33:13.080
+It just floats on top.
+
+33:13.360 --> 33:19.400
+It pools on the surface, creating a massive, buoyant lid that physically chokes off the sinking mechanism
+
+33:19.400 --> 33:22.440
+that drives the entire AMOC conveyor belt.
+
+33:22.440 --> 33:28.180
+The overturning circulation drastically weakens, or even collapses entirely.
+
+33:28.920 --> 33:29.040
+Wow.
+
+33:29.640 --> 33:35.200
+The oceanic transport of heat grinds to a halt, and the North Atlantic region cools dramatically,
+
+33:35.800 --> 33:41.460
+ironically plunging into a deep freeze, even while the rest of the globe is experiencing rapid warming.
+
+33:42.240 --> 33:47.340
+So older climate theories, like the influential one published by Chang et al. back in 2016,
+
+33:48.040 --> 33:51.040
+suggested a fairly straightforward reaction to this.
+
+33:51.040 --> 33:56.200
+They argued that if the North Atlantic gets incredibly cold, the intertropical convergence zone,
+
+33:56.360 --> 33:59.520
+the rain belt, would simply flee southward to find warmth.
+
+33:59.960 --> 34:05.060
+Heat pools in the equatorial South Atlantic, the North gets cold and dry, the South gets warm and wet.
+
+34:05.360 --> 34:07.580
+The seesaw just tilts heavily to the South.
+
+34:08.180 --> 34:12.660
+But Olsen's pristine stalagmite data directly contradicts that simple southern shift theory.
+
+34:13.380 --> 34:15.420
+The South American monsoon weakened too.
+
+34:15.900 --> 34:17.000
+The seesaw didn't tilt.
+
+34:17.780 --> 34:18.360
+It broke.
+
+34:19.400 --> 34:20.740
+It's never that simple.
+
+34:21.040 --> 34:25.920
+And this is where the oceanic physics become incredibly complex and unintuitive.
+
+34:26.620 --> 34:29.780
+To understand how a cold Atlantic dries out South America,
+
+34:30.740 --> 34:34.060
+Olsen et al. looked at multi-model hosing experiments,
+
+34:34.480 --> 34:39.460
+specifically drawing from the North Atlantic Hosing Model Intercomparison Project, or NOMIP.
+
+34:39.460 --> 34:44.540
+Let's explain what a hosing experiment actually is in the context of climate modeling.
+
+34:44.540 --> 34:49.540
+In computational climate dynamics, a hosing experiment is a stress test.
+
+34:50.480 --> 34:57.920
+Modelers take a highly complex simulation of the Earth's climate and mathematically force a massive, unnatural flux of fresh water,
+
+34:58.020 --> 35:02.940
+like turning on a giant fire hose, directly into the simulated North Atlantic.
+
+35:02.940 --> 35:04.600
+They intentionally break it.
+
+35:04.600 --> 35:10.280
+They artificially collapse the AMOC just to see what breaks downstream in the global weather systems.
+
+35:11.020 --> 35:15.200
+And what did the NAHMIP simulations reveal when they hosed the Atlantic?
+
+35:15.200 --> 35:23.180
+They found that weakening the AMOC does not simply push the ITC-Z rainbelts southward in a clean, linear fashion.
+
+35:23.900 --> 35:28.980
+Instead, the extreme cooling in the North triggers a massive reorganization of atmospheric pressure.
+
+35:29.340 --> 35:30.060
+Okay.
+
+35:30.060 --> 35:36.260
+It causes a complex, highly heterogeneous drying pattern across both Asia and the Andes
+
+35:36.260 --> 35:40.500
+by fundamentally strengthening and expanding the subtropical high-pressure systems.
+
+35:40.880 --> 35:44.840
+It's like throwing a heavy steel wrench into a finely tuned gearbox.
+
+35:45.100 --> 35:50.760
+It doesn't just make the gears cleanly turn in reverse, it makes the entire engine block shudder, warp, and strip its teeth.
+
+35:51.340 --> 35:54.360
+The disruption radiates outward in totally unpredictable ways.
+
+35:55.100 --> 35:57.460
+But wait, that's just the Atlantic mechanism.
+
+35:57.460 --> 36:01.080
+Flyxion also deeply analyzes the Pacific connection, doesn't he?
+
+36:01.520 --> 36:01.820
+It does.
+
+36:01.920 --> 36:07.060
+And the Pacific-Walker circulation is arguably the most critical piece of the puzzle for the Amazon.
+
+36:07.300 --> 36:08.600
+What is the Walker circulation?
+
+36:09.080 --> 36:14.000
+It is the massive east-west overturning of the tropical atmosphere over the Pacific Ocean.
+
+36:14.900 --> 36:20.140
+Under normal conditions, air rises vigorously over the very warm western Pacific pool near Indonesia,
+
+36:20.840 --> 36:22.760
+travels eastward high in the atmosphere,
+
+36:23.000 --> 36:26.900
+and sinks over the much cooler waters of the eastern Pacific near South America.
+
+36:27.460 --> 36:31.700
+So how does a cold North Atlantic mess with an ocean on the other side of the world?
+
+36:31.700 --> 36:33.880
+Through atmospheric teleconnections.
+
+36:34.700 --> 36:37.620
+When the North Atlantic cools drastically due to that melting ice,
+
+36:38.140 --> 36:42.600
+the chilled air suppresses thermal convection over the tropical Atlantic and Central America.
+
+36:43.080 --> 36:44.700
+Okay, the air stops rising.
+
+36:44.700 --> 36:51.200
+This suppression alters the trade winds and triggers a chain reaction that physically shifts the sinking
+
+36:51.200 --> 36:53.900
+and rising branches of the Walker cells in the Pacific.
+
+36:54.380 --> 36:57.760
+I want to make sure I'm following the physical chain of events here.
+
+36:57.940 --> 37:02.880
+Are we literally saying that a localized patch of cold water in the North Atlantic Ocean
+
+37:02.880 --> 37:05.540
+reached completely across the globe,
+
+37:06.320 --> 37:08.860
+messed with the atmospheric flow over the Pacific Ocean,
+
+37:08.860 --> 37:13.500
+and ultimately turned off the rain falling on the Amazon rainforest?
+
+37:14.140 --> 37:16.500
+We are tracing exactly that causal chain.
+
+37:17.000 --> 37:19.240
+As the atmospheric circulation shifts,
+
+37:19.600 --> 37:22.260
+the eastern Pacific Ocean, near the coast of South America,
+
+37:22.640 --> 37:26.180
+begins to warm anomalously in response to the changing winds.
+
+37:26.840 --> 37:28.060
+The water gets warmer.
+
+37:28.060 --> 37:34.100
+Yes, and this shift in the locus of tropical heating generates massive atmospheric ripples
+
+37:34.100 --> 37:36.460
+known as tropical Rossby waves.
+
+37:36.980 --> 37:41.840
+Rossby waves are those massive planetary scale meanders in high-altitude winds, right?
+
+37:41.960 --> 37:43.640
+Like the jet stream looping wildly.
+
+37:44.060 --> 37:48.680
+Yes, they are planetary waves driven by the conservation of potential vorticity.
+
+37:49.380 --> 37:51.800
+When this abnormal heating occurs in the eastern Pacific,
+
+37:51.800 --> 37:59.300
+it forces a stationary Rossby wave response that manifests as twin, powerful high-pressure anticyclones
+
+37:59.300 --> 38:00.640
+straddling the equator.
+
+38:01.200 --> 38:02.380
+Twin anticyclones.
+
+38:02.920 --> 38:07.520
+And crucially, these high-pressure domes park themselves directly over the northern Amazon basin.
+
+38:08.120 --> 38:09.900
+And high-pressure means sinking air?
+
+38:10.080 --> 38:12.620
+If the air is being pushed down by these anticyclones,
+
+38:12.940 --> 38:19.100
+it physically cannot rise to form the towering deep convective clouds required for a monsoon downpour.
+
+38:19.560 --> 38:20.040
+Exactly.
+
+38:20.040 --> 38:25.860
+The moisture from the Atlantic is still blowing in, but the atmosphere acts like a physical lid.
+
+38:26.280 --> 38:28.300
+The convection is mathematically suppressed.
+
+38:28.640 --> 38:33.340
+So a melting glacier in Canada collapses a current in the Atlantic,
+
+38:33.780 --> 38:35.600
+which warms the eastern Pacific,
+
+38:36.420 --> 38:39.120
+which creates an invisible dome of high pressure over Brazil,
+
+38:39.300 --> 38:41.900
+which stops the rain from falling on a cave in Peru.
+
+38:42.100 --> 38:45.020
+That level of interconnectedness is terrifying.
+
+38:45.020 --> 38:50.780
+It perfectly illustrates the formal dynamical concept of state-dependent response, or conditional coupling.
+
+38:50.960 --> 38:52.640
+State-dependent response.
+
+38:52.640 --> 38:58.340
+The core idea here is that the massive components of the Earth system—the volume of the ice sheets,
+
+38:58.580 --> 39:03.940
+the concentration of greenhouse gases, the state of the ocean currents—they aren't just passive background scenery.
+
+39:04.500 --> 39:07.200
+They are highly active, dynamical variables.
+
+39:07.200 --> 39:16.720
+They set the boundary conditions of the entire planet, and those boundary conditions explicitly dictate how the regional climate reacts to the steady orbital wobble.
+
+39:16.720 --> 39:22.280
+So if the planetary boundary conditions change, like swapping out a warm Atlantic for a cold one,
+
+39:22.800 --> 39:29.040
+the exact same 23,000-year celestial wobble produces a totally unrecognizable pattern of rainfall.
+
+39:29.600 --> 39:30.060
+Precisely.
+
+39:30.060 --> 39:36.880
+When the inter-hemispheric insulation contrast—the orbital seesaw—is the dominant thermodynamic force,
+
+39:37.140 --> 39:39.900
+you get the beautiful alternating monsoon pattern.
+
+39:40.120 --> 39:40.760
+The metronome.
+
+39:40.940 --> 39:45.000
+But when a collapsing ice sheet causes a massive, overriding oceanic shock,
+
+39:45.420 --> 39:49.460
+that new, violent influence drowns out the gentle orbital wobble.
+
+39:50.320 --> 39:51.980
+The celestial forcing is still happening.
+
+39:52.800 --> 39:53.900
+The math hasn't changed.
+
+39:54.180 --> 39:58.840
+But its terrestrial consequences are completely masked by the traumatized state of the oceans.
+
+39:58.840 --> 40:03.700
+This realization brings us to one of the most intellectually satisfying parts of Flyxion's essay.
+
+40:04.480 --> 40:07.140
+Flyxion doesn't just describe this interplay conceptually.
+
+40:07.460 --> 40:14.100
+They introduce a rigorous mathematical framework to prove how the orbital seesaw and these violent oceanic shocks
+
+40:14.100 --> 40:18.260
+can actually coexist in the data without mathematically canceling each other out.
+
+40:18.780 --> 40:22.080
+It is a brilliant, clarifying mathematical decomposition.
+
+40:22.920 --> 40:26.040
+Flyxion proposes that to truly understand the proxy record,
+
+40:26.040 --> 40:35.000
+we have to separate the monsoon variants into two distinct mathematical modes—the difference mode and the common mode.
+
+40:35.000 --> 40:40.820
+Okay, let's carefully walk through the algebra of this for the listener because it's the key that unlocks the whole mystery.
+
+40:41.580 --> 40:42.620
+It's straightforward algebra.
+
+40:43.360 --> 40:49.540
+Let's designate the rainfall anomaly in the northern hemisphere, the Asian monsoon, as variable Xn.
+
+40:49.960 --> 40:56.920
+And let's designate the rainfall anomaly in the southern hemisphere, the South American monsoon, as variable Xs.
+
+40:56.920 --> 41:00.960
+Okay, we have our two monsoons, Xn and Xs.
+
+41:01.600 --> 41:05.800
+Flyxion defines the difference mode, which we will call D, with a simple equation.
+
+41:06.580 --> 41:11.080
+D equals the quantity of Xn minus Xs divided by 2.
+
+41:11.500 --> 41:11.920
+Got it.
+
+41:12.400 --> 41:15.140
+This mathematical mode represents the orbital seesaw.
+
+41:15.520 --> 41:21.300
+It perfectly isolates and measures the opposition, the pure contrast, between the two hemispheres.
+
+41:21.300 --> 41:25.740
+Right. It measures how far apart their weather patterns are at any given moment.
+
+41:25.880 --> 41:26.280
+Exactly.
+
+41:27.040 --> 41:30.800
+Then Flyxion defines the common mode, which we will call C.
+
+41:31.400 --> 41:38.040
+The equation for the common mode is C equals the quantity of Xn plus Xs divided by 2.
+
+41:38.440 --> 41:40.160
+Okay, addition instead of subtraction.
+
+41:40.480 --> 41:43.000
+This mode isolates the simultaneous variance.
+
+41:43.500 --> 41:48.600
+It represents the strength of an external shock that is hitting both hemispheres at the exact same time,
+
+41:48.960 --> 41:50.240
+pushing them in the same direction.
+
+41:50.240 --> 41:55.160
+And the absolute revelation of structuring the data this way is that mathematically,
+
+41:55.600 --> 42:01.200
+a massive catastrophic plunge in the common mode can make both monsoons appear to dry up entirely,
+
+42:01.520 --> 42:05.860
+even while the difference mode continues to oscillate perfectly in the background.
+
+42:06.360 --> 42:10.300
+Let's apply some hypothetical numbers to the equations to make the physics concrete.
+
+42:11.120 --> 42:16.300
+Imagine a scenario where the common mode, C, drops to a severe value of negative 2.
+
+42:16.640 --> 42:16.880
+Okay.
+
+42:16.880 --> 42:21.040
+This represents a massive oceanic shock, like an AMOC collapse,
+
+42:21.440 --> 42:25.000
+that is applying a strong drying force to both hemispheres simultaneously.
+
+42:25.800 --> 42:28.500
+But at that exact same moment in geological time,
+
+42:28.900 --> 42:33.600
+let's say the difference mode, D, is sitting at a value of plus 0.5,
+
+42:34.040 --> 42:38.440
+because the orbital seesaw happens to be tilted slightly, favoring rain in the north.
+
+42:38.440 --> 42:40.000
+Okay, I'll do the algebra.
+
+42:40.000 --> 42:45.060
+Based on Flyxion's decomposition, the actual observed northern rainfall, Xn,
+
+42:45.220 --> 42:48.140
+is simply equal to the common mode plus the difference mode.
+
+42:48.300 --> 42:49.340
+So, C plus D.
+
+42:49.840 --> 42:54.400
+That's negative 2 plus 0.5, which equals negative 1.5.
+
+42:54.840 --> 42:57.160
+The Asian monsoon registers as very dry.
+
+42:57.980 --> 42:58.480
+Correct.
+
+42:58.480 --> 43:05.280
+And the southern rainfall, Xs, is equal to the common mode minus the difference mode, C minus D.
+
+43:06.060 --> 43:10.400
+That's negative 2 minus 0.5, which equals negative 2.5.
+
+43:10.840 --> 43:14.300
+The South American monsoon registers as extremely dry.
+
+43:14.760 --> 43:15.780
+Look at the result.
+
+43:15.780 --> 43:20.680
+Both monsoons are registering as anomalously dry at the exact same time.
+
+43:21.420 --> 43:24.260
+The synchronous failure is fully triggered.
+
+43:24.860 --> 43:28.480
+But if you look at the underlying math, the difference between them,
+
+43:28.740 --> 43:31.600
+the gap between minus 1.5 and minus 2.5,
+
+43:31.880 --> 43:34.980
+is still entirely driven by the orbital seesaw.
+
+43:35.500 --> 43:38.120
+It's still exactly a difference of 1.
+
+43:38.660 --> 43:40.780
+The dipole never actually died.
+
+43:41.420 --> 43:44.340
+The physics of the orbital wobble were still operating perfectly,
+
+43:44.340 --> 43:46.780
+shifting the relative balance of moisture.
+
+43:47.180 --> 43:48.120
+They were just overwhelmed,
+
+43:48.440 --> 43:52.080
+drowned out by a massive negative baseline shift in the common mode.
+
+43:52.800 --> 43:55.480
+I love thinking about this in terms of audio engineering.
+
+43:55.820 --> 43:58.700
+It's exactly like listening to a stereo system
+
+43:58.700 --> 44:02.800
+where the left speaker and the right speaker are taking turns playing a melody.
+
+44:03.040 --> 44:04.960
+Left, right, left, right.
+
+44:05.340 --> 44:06.380
+Panning back and forth.
+
+44:06.780 --> 44:07.480
+Like the seesaw.
+
+44:07.760 --> 44:07.960
+Yeah.
+
+44:08.440 --> 44:10.380
+That panning melody is your dipole.
+
+44:10.640 --> 44:11.560
+That's your difference mode.
+
+44:11.560 --> 44:15.720
+But suddenly, a producer reaches over to the mixing board
+
+44:15.720 --> 44:19.600
+and grabs the master volume fader and pulls it way, way down.
+
+44:20.180 --> 44:22.460
+That master volume fader is the common mode.
+
+44:22.700 --> 44:25.460
+That is a phenomenal conceptual map for the mathematics.
+
+44:25.760 --> 44:28.520
+The left and right speakers are technically still taking turns.
+
+44:29.080 --> 44:33.500
+The internal electronic wiring is still routing the electrical signal left and right perfectly.
+
+44:33.500 --> 44:35.080
+The seesaw is intact.
+
+44:35.820 --> 44:38.160
+But because the master volume has been crushed,
+
+44:38.500 --> 44:43.160
+the acoustic output in the room is so low that you basically can't hear the music from either speaker.
+
+44:43.500 --> 44:45.880
+To an untrained observer standing in the room,
+
+44:46.020 --> 44:48.800
+it just sounds like both speakers broke at the same time.
+
+44:48.920 --> 44:49.860
+But they aren't broken.
+
+44:50.360 --> 44:51.120
+They are just quiet.
+
+44:51.120 --> 44:56.100
+I heavily endorse that analogy because it highlights the exact analytical trap
+
+44:56.100 --> 44:57.860
+Flyxion is warning us about.
+
+44:58.460 --> 45:02.940
+A simplified observational model assumes that if you don't hear the melody clearly,
+
+45:03.240 --> 45:06.340
+the internal wiring of the stereo must be fundamentally destroyed.
+
+45:06.740 --> 45:10.280
+But the wiring, the difference mode, is perfectly fine.
+
+45:11.240 --> 45:14.300
+Now, what adds an extra layer of complexity to reality
+
+45:14.300 --> 45:18.860
+is that these modes aren't perfectly hermetically isolated from each other.
+
+45:19.220 --> 45:19.820
+What do you mean?
+
+45:19.820 --> 45:22.720
+Earth is not a perfectly symmetrical sphere.
+
+45:23.420 --> 45:26.680
+There are massive geographical asymmetries between the hemispheres.
+
+45:27.200 --> 45:31.120
+The northern hemisphere contains vastly more continental land mass,
+
+45:31.360 --> 45:32.700
+Eurasia and North America,
+
+45:33.120 --> 45:35.580
+while the southern hemisphere is dominated by ocean.
+
+45:35.880 --> 45:35.980
+Right.
+
+45:36.460 --> 45:38.960
+The distribution of mountain ranges is different.
+
+45:39.080 --> 45:41.420
+The geography of the ice sheets is different.
+
+45:42.140 --> 45:46.220
+These physical asymmetries generate complex mathematical coupling
+
+45:46.220 --> 45:48.440
+between the common and difference modes.
+
+45:48.440 --> 45:50.640
+So, extending the stereo analogy,
+
+45:51.160 --> 45:53.820
+the master volume knob might occasionally glitch out
+
+45:53.820 --> 45:57.500
+and suppress the left speaker slightly more than it suppresses the right speaker,
+
+45:57.600 --> 45:59.560
+just because they are built slightly differently.
+
+45:59.940 --> 46:00.460
+Precisely.
+
+46:01.140 --> 46:05.040
+The hemispheric asymmetries ensure that a globally applied common mode shock
+
+46:05.040 --> 46:08.680
+does not manifest identically on both sides of the equator,
+
+46:08.680 --> 46:12.340
+which perfectly explains the quirks in the cave data.
+
+46:12.340 --> 46:13.840
+Ah, the weird anomalies.
+
+46:14.660 --> 46:16.620
+It explains why during the glacial terminations,
+
+46:17.320 --> 46:20.820
+the Asian monsoon acted weirder and decoupled more violently,
+
+46:21.560 --> 46:23.580
+whereas during the interglacial periods,
+
+46:23.720 --> 46:25.860
+the South American monsoon was the one that rebelled.
+
+46:26.700 --> 46:29.860
+The local geography dictates how the global shock is absorbed.
+
+46:29.860 --> 46:32.040
+Which brings us to the most dramatic,
+
+46:32.240 --> 46:34.200
+high-stakes part of this entire deep dive,
+
+46:34.580 --> 46:35.600
+the tipping point debate.
+
+46:36.200 --> 46:37.160
+A contentious topic.
+
+46:37.560 --> 46:38.260
+It really is.
+
+46:38.780 --> 46:42.020
+Did the climate actually break permanently during these events?
+
+46:42.520 --> 46:44.560
+We know the common mode was violently disrupted.
+
+46:45.120 --> 46:47.600
+We know the master volume was turned down for centuries,
+
+46:47.740 --> 46:48.640
+sometimes millennia.
+
+46:49.080 --> 46:51.740
+But was this just a temporary shock to the system,
+
+46:51.920 --> 46:55.640
+or did the Earth's climate cross a terrifying point of no return?
+
+46:56.320 --> 46:59.840
+Flyxion handles this question with an incredible degree of mathematical rigor,
+
+47:00.580 --> 47:03.880
+separating three distinct, mutually exclusive explanations
+
+47:03.880 --> 47:05.380
+for these synchronous anomalies.
+
+47:05.980 --> 47:07.640
+In popular climate communication,
+
+47:08.080 --> 47:11.300
+it is incredibly easy, and frankly incentivized,
+
+47:11.480 --> 47:12.360
+to just yell,
+
+47:12.660 --> 47:15.600
+tipping point, whenever a graph goes sharply down.
+
+47:16.000 --> 47:18.400
+But Flyxion demands strict dynamical precision.
+
+47:18.500 --> 47:21.480
+Let's walk through all three of Flyxion's explanations.
+
+47:21.720 --> 47:23.700
+What is explanation number one?
+
+47:23.700 --> 47:26.580
+Number one is defined as a forced excursion.
+
+47:27.340 --> 47:31.220
+This means a temporary external push was applied to a stable system.
+
+47:31.740 --> 47:35.820
+Imagine a melting glacier dumping fresh water into the Atlantic.
+
+47:36.920 --> 47:39.940
+The system is pushed far away from its normal equilibrium state,
+
+47:40.140 --> 47:43.400
+but the underlying mathematical landscape of the climate dynamics
+
+47:43.400 --> 47:45.040
+never actually changes.
+
+47:45.420 --> 47:46.480
+It just bends.
+
+47:47.040 --> 47:48.560
+Once the glacier finishes melting,
+
+47:48.940 --> 47:50.440
+and the fresh water stops flowing,
+
+47:50.440 --> 47:54.120
+the system simply relaxes back to its original normal state.
+
+47:54.640 --> 47:57.580
+The stereo volume knob was turned down by a heavy hand,
+
+47:58.020 --> 47:59.060
+and the moment the hand let go,
+
+47:59.540 --> 48:01.080
+the fader sprang back up to the top.
+
+48:01.500 --> 48:04.020
+Okay, a forced excursion feels safe.
+
+48:04.680 --> 48:06.060
+It's a severe weather event,
+
+48:06.180 --> 48:07.700
+but it's fundamentally reversible.
+
+48:08.220 --> 48:09.380
+The climate heals itself.
+
+48:09.940 --> 48:11.300
+What is explanation number two?
+
+48:11.680 --> 48:13.960
+Number two is state-dependent coupling.
+
+48:14.480 --> 48:17.160
+This implies that the system didn't just receive a push.
+
+48:17.160 --> 48:20.240
+The system itself was temporarily highly sensitive
+
+48:20.240 --> 48:22.220
+because of its specific boundary conditions.
+
+48:22.980 --> 48:24.600
+The relaxation rate of the climate,
+
+48:25.000 --> 48:27.100
+how fast it can bounce back from a shock,
+
+48:27.540 --> 48:30.000
+was radically altered because of the background state
+
+48:30.000 --> 48:33.000
+of the melting ice and the rapidly rising CO2.
+
+48:33.320 --> 48:35.180
+So the system itself was fragile.
+
+48:35.440 --> 48:37.660
+The exact same freshwater perturbation,
+
+48:38.100 --> 48:40.720
+if applied 10,000 years earlier or later,
+
+48:41.120 --> 48:43.060
+wouldn't have caused the monsoons to fail at all.
+
+48:43.060 --> 48:46.100
+But because the Earth was in a precarious,
+
+48:46.200 --> 48:47.940
+highly sensitive transitional state,
+
+48:48.340 --> 48:49.860
+it was susceptible to the shock.
+
+48:50.680 --> 48:53.000
+So it's not just a heavy hand on the volume knob.
+
+48:53.100 --> 48:55.720
+It's that the internal mechanisms of the knob itself
+
+48:55.720 --> 48:57.280
+were temporarily altered,
+
+48:57.700 --> 48:59.660
+making it hypersensitive to even a light touch.
+
+49:00.300 --> 49:02.220
+But again, under this explanation,
+
+49:02.460 --> 49:04.700
+once the boundary conditions finally stabilize
+
+49:04.700 --> 49:06.060
+and the transition ends,
+
+49:06.520 --> 49:07.780
+the system goes back to normal.
+
+49:07.880 --> 49:08.760
+It's still reversible.
+
+49:09.300 --> 49:09.400
+Right.
+
+49:09.400 --> 49:11.820
+But then we have the third explanation,
+
+49:12.240 --> 49:13.300
+which is the one that generates
+
+49:13.300 --> 49:14.540
+all the terrifying headlines.
+
+49:15.400 --> 49:18.200
+Explanation number three is a true regime transition,
+
+49:18.760 --> 49:20.800
+defined mathematically as a bifurcation.
+
+49:21.220 --> 49:22.000
+The tipping point.
+
+49:22.220 --> 49:22.440
+Yes.
+
+49:23.360 --> 49:24.340
+In this strict reading,
+
+49:24.620 --> 49:26.960
+the climate crossed a critical stability threshold.
+
+49:27.440 --> 49:29.980
+It completely lost its original equilibrium state.
+
+49:30.500 --> 49:32.320
+The mathematics governing it broke down,
+
+49:32.660 --> 49:34.300
+and it snapped into a brand new,
+
+49:34.420 --> 49:36.240
+entirely different stable state.
+
+49:36.240 --> 49:40.460
+Flyxion uses something called a cubic model of bifurcation
+
+49:40.460 --> 49:42.080
+in the essay to explain this,
+
+49:42.200 --> 49:42.680
+and honestly,
+
+49:42.780 --> 49:45.480
+it gets pretty deep into the weeds of topological mathematics.
+
+49:46.080 --> 49:48.240
+They talk about pitchfork bifurcations
+
+49:48.240 --> 49:50.400
+and saddle node bifurcations.
+
+49:51.280 --> 49:54.120
+Can you translate what a mathematical bifurcation
+
+49:54.120 --> 49:56.500
+actually looks and feels like for the listener
+
+49:56.500 --> 49:58.960
+without using differential equations?
+
+49:59.600 --> 50:01.880
+Let's use a topological landscape analogy.
+
+50:02.280 --> 50:03.200
+Think of a heavy marble
+
+50:03.200 --> 50:05.800
+resting at the bottom of a smooth, concave bowl.
+
+50:06.720 --> 50:08.080
+The bottom of the bowl represents
+
+50:08.080 --> 50:10.220
+a stable equilibrium state for the climate.
+
+50:10.940 --> 50:11.980
+If you flick the marble,
+
+50:12.260 --> 50:13.620
+which is a forced excursion,
+
+50:13.940 --> 50:15.500
+it rolls up the side of the bowl,
+
+50:15.860 --> 50:17.920
+but gravity inevitably pulls it back down
+
+50:17.920 --> 50:19.400
+until it settles in the bottom again.
+
+50:19.720 --> 50:19.980
+Okay.
+
+50:20.220 --> 50:21.420
+The marble always finds home.
+
+50:22.180 --> 50:24.140
+Now imagine the bowl is made of flexible rubber,
+
+50:24.700 --> 50:27.220
+and you start slowly, relentlessly
+
+50:27.220 --> 50:28.860
+pushing up from the bottom center
+
+50:28.860 --> 50:30.740
+right underneath the marble.
+
+50:31.140 --> 50:32.900
+The bowl starts to flatten out.
+
+50:32.900 --> 50:33.720
+Oh, I see.
+
+50:33.720 --> 50:36.620
+The marble is still technically sitting in the middle,
+
+50:36.880 --> 50:38.140
+but the slope is gone.
+
+50:38.860 --> 50:40.000
+Now, if you flick it,
+
+50:40.060 --> 50:41.240
+it rolls much further
+
+50:41.240 --> 50:43.540
+and takes much longer to settle back.
+
+50:43.680 --> 50:44.640
+It's precarious.
+
+50:45.260 --> 50:46.540
+That flattening landscape
+
+50:46.540 --> 50:48.960
+is state-dependent susceptibility.
+
+50:48.960 --> 50:50.660
+And a bifurcation,
+
+50:51.000 --> 50:51.920
+a true tipping point.
+
+50:52.380 --> 50:53.600
+You keep pushing up from the bottom
+
+50:53.600 --> 50:54.560
+until the center of the bowl
+
+50:54.560 --> 50:56.160
+suddenly pops upward,
+
+50:56.760 --> 50:58.020
+completely inverting the center.
+
+50:58.600 --> 50:59.680
+What used to be a valley
+
+50:59.680 --> 51:00.700
+is now a hill.
+
+51:01.520 --> 51:01.840
+Suddenly,
+
+51:02.120 --> 51:03.480
+resting in the exact center
+
+51:03.480 --> 51:04.900
+is physically impossible.
+
+51:05.260 --> 51:06.300
+Because it's a peak.
+
+51:06.500 --> 51:08.380
+The marble must roll off the hill,
+
+51:08.620 --> 51:10.240
+either to the left or to the right,
+
+51:10.600 --> 51:12.100
+into a completely new groove
+
+51:12.100 --> 51:12.760
+that is formed.
+
+51:13.260 --> 51:14.800
+The original stable state,
+
+51:14.800 --> 51:15.700
+the center valley,
+
+51:16.060 --> 51:18.020
+has been mathematically destroyed
+
+51:18.020 --> 51:19.460
+and replaced by two new
+
+51:19.460 --> 51:20.920
+alternative stable states.
+
+51:21.600 --> 51:23.340
+That specific topological change
+
+51:23.340 --> 51:25.260
+is known as a pitchfork bifurcation.
+
+51:26.000 --> 51:28.220
+And if it was a saddle node bifurcation?
+
+51:28.620 --> 51:30.300
+In a saddle node bifurcation,
+
+51:30.440 --> 51:31.560
+you don't push up the center.
+
+51:32.120 --> 51:33.760
+You tilt the entire bowl
+
+51:33.760 --> 51:35.000
+until the lip of the bowl
+
+51:35.000 --> 51:36.060
+merges with the bottom.
+
+51:36.700 --> 51:37.440
+And the marble suddenly
+
+51:37.440 --> 51:38.580
+just drops off a cliff
+
+51:38.580 --> 51:39.280
+into free fall
+
+51:39.280 --> 51:40.540
+until it hits a lower surface.
+
+51:40.540 --> 51:42.820
+The entire original attractor
+
+51:42.820 --> 51:44.100
+vanishes in an instant.
+
+51:44.940 --> 51:46.440
+Okay, so if we assume
+
+51:46.440 --> 51:48.740
+a pitchfork bifurcation happened
+
+51:48.740 --> 51:50.620
+and the marble is now stuck
+
+51:50.620 --> 51:51.520
+in a new groove
+
+51:51.520 --> 51:52.700
+on the left side of the bowl,
+
+51:52.940 --> 51:55.340
+if you stop pushing on the rubber,
+
+51:55.680 --> 51:57.200
+if you remove the shock,
+
+51:57.620 --> 51:58.860
+does the marble just
+
+51:58.860 --> 51:59.960
+roll back to the center?
+
+52:00.500 --> 52:01.240
+Not necessarily.
+
+52:02.120 --> 52:03.600
+And this is the most terrifying part
+
+52:03.600 --> 52:04.200
+of Tipping Points.
+
+52:04.620 --> 52:05.840
+Once the marble is locked
+
+52:05.840 --> 52:06.600
+in the new groove,
+
+52:06.700 --> 52:07.580
+it is trapped there
+
+52:07.580 --> 52:09.300
+by a new local gravity well.
+
+52:09.300 --> 52:11.720
+Even if you slowly relax
+
+52:11.720 --> 52:12.340
+the rubber bowl
+
+52:12.340 --> 52:13.480
+back to its original shape,
+
+52:13.780 --> 52:15.020
+the marble might stay stuck
+
+52:15.020 --> 52:15.800
+off to the side
+
+52:15.800 --> 52:17.640
+for a very long time
+
+52:17.640 --> 52:18.860
+until the bowl is nearly
+
+52:18.860 --> 52:19.900
+perfectly flat again
+
+52:19.900 --> 52:21.420
+and it finally slips back.
+
+52:22.160 --> 52:22.660
+It gets stuck.
+
+52:23.160 --> 52:24.120
+That delay,
+
+52:24.720 --> 52:26.140
+that failure of a system
+
+52:26.140 --> 52:27.500
+to return to its original state
+
+52:27.500 --> 52:28.620
+along the same path
+
+52:28.620 --> 52:29.520
+it took to leave it,
+
+52:29.880 --> 52:31.240
+is a mathematical property
+
+52:31.240 --> 52:32.520
+called hysteresis.
+
+52:33.140 --> 52:34.680
+So a true tipping point,
+
+52:34.840 --> 52:35.660
+a bifurcation,
+
+52:36.320 --> 52:37.920
+means the climate gets stuck
+
+52:37.920 --> 52:39.120
+in a new reality.
+
+52:39.640 --> 52:40.400
+Simply removing
+
+52:40.400 --> 52:41.360
+the carbon emissions
+
+52:41.360 --> 52:43.040
+or stopping the freshwater shock
+
+52:43.040 --> 52:45.100
+doesn't magically fix the system.
+
+52:45.540 --> 52:46.900
+It requires massive,
+
+52:47.280 --> 52:48.300
+disproportionate force
+
+52:48.300 --> 52:49.080
+to push the marble
+
+52:49.080 --> 52:49.780
+back up the hill.
+
+52:50.160 --> 52:50.520
+Exactly.
+
+52:51.080 --> 52:52.340
+And now to evaluate the data.
+
+52:53.420 --> 52:55.260
+The Olsen et al. source paper
+
+52:55.260 --> 52:56.660
+repeatedly uses the word
+
+52:56.660 --> 52:57.940
+reorganization
+
+52:57.940 --> 52:59.360
+to describe these
+
+52:59.360 --> 53:00.480
+anomalous dry events.
+
+53:00.960 --> 53:01.780
+But Flyxion
+
+53:01.780 --> 53:03.060
+expertly points out
+
+53:03.060 --> 53:03.640
+that the authors
+
+53:03.640 --> 53:04.620
+are using that word
+
+53:04.620 --> 53:05.460
+descriptively
+
+53:05.460 --> 53:06.340
+to talk about
+
+53:06.340 --> 53:07.440
+a change in patterns,
+
+53:07.600 --> 53:08.740
+not mathematically
+
+53:08.740 --> 53:09.500
+to claim
+
+53:09.500 --> 53:10.740
+a bifurcation occurred.
+
+53:11.520 --> 53:13.040
+So what does this all mean
+
+53:13.040 --> 53:14.060
+for the current discourse?
+
+53:14.700 --> 53:16.080
+I really feel
+
+53:16.080 --> 53:17.300
+the need to push back
+
+53:17.300 --> 53:18.280
+on the massive hype
+
+53:18.280 --> 53:18.960
+around climate
+
+53:18.960 --> 53:19.800
+tipping points here.
+
+53:19.800 --> 53:20.840
+Because if you read
+
+53:20.840 --> 53:21.720
+the science sections
+
+53:21.720 --> 53:22.400
+of the news today,
+
+53:22.860 --> 53:24.140
+literally every single
+
+53:24.140 --> 53:25.100
+ecological change
+
+53:25.100 --> 53:25.560
+is framed
+
+53:25.560 --> 53:26.500
+as a tipping point.
+
+53:26.700 --> 53:26.780
+True.
+
+53:26.780 --> 53:28.080
+The AMOC is tipping.
+
+53:28.520 --> 53:29.460
+The Amazon rainforest
+
+53:29.460 --> 53:29.960
+is tipping.
+
+53:30.080 --> 53:30.900
+The Greenland ice sheets
+
+53:30.900 --> 53:31.260
+are tipping.
+
+53:31.940 --> 53:32.500
+Everyone,
+
+53:32.820 --> 53:33.460
+from journalists
+
+53:33.460 --> 53:34.240
+to activists,
+
+53:34.460 --> 53:35.460
+loves a dramatic,
+
+53:35.820 --> 53:36.440
+catastrophic
+
+53:36.440 --> 53:37.580
+tipping point narrative.
+
+53:38.220 --> 53:39.280
+But is Flyxion
+
+53:39.280 --> 53:40.260
+basically arguing
+
+53:40.260 --> 53:40.840
+that we need to
+
+53:40.840 --> 53:41.920
+calm down,
+
+53:42.540 --> 53:43.380
+look at the strict
+
+53:43.380 --> 53:44.940
+calculus of dynamical systems,
+
+53:45.060 --> 53:46.000
+and stop crying wolf
+
+53:46.000 --> 53:46.740
+about permanent
+
+53:46.740 --> 53:47.500
+regime shifts?
+
+53:48.120 --> 53:48.940
+This raises
+
+53:48.940 --> 53:49.820
+an important question
+
+53:49.820 --> 53:50.780
+about the evidential
+
+53:50.780 --> 53:51.560
+bar we use.
+
+53:52.260 --> 53:53.240
+Flyxion is forcing us
+
+53:53.240 --> 53:53.700
+to confront
+
+53:53.700 --> 53:54.940
+a highly rigorous standard.
+
+53:55.640 --> 53:56.320
+Flyxion argues
+
+53:56.320 --> 53:57.400
+that the proxy data
+
+53:57.400 --> 53:58.140
+from the caves
+
+53:58.140 --> 53:59.820
+definitively proves
+
+53:59.820 --> 54:01.120
+that explanation
+
+54:01.120 --> 54:01.840
+number one
+
+54:01.840 --> 54:02.440
+or number two
+
+54:02.440 --> 54:02.840
+happened,
+
+54:03.200 --> 54:04.300
+either a severe
+
+54:04.300 --> 54:05.460
+forced excursion
+
+54:05.460 --> 54:06.660
+or a period
+
+54:06.660 --> 54:07.160
+of heightened
+
+54:07.160 --> 54:08.240
+state-dependent coupling.
+
+54:08.680 --> 54:09.420
+But not number three.
+
+54:09.940 --> 54:10.520
+But crucially,
+
+54:11.000 --> 54:12.060
+the data does not
+
+54:12.060 --> 54:13.000
+contain the necessary
+
+54:13.000 --> 54:14.020
+mathematical signatures
+
+54:14.020 --> 54:15.380
+to prove
+
+54:15.380 --> 54:16.020
+that a true
+
+54:16.020 --> 54:16.600
+bifurcation
+
+54:16.600 --> 54:17.600
+or tipping point occurred.
+
+54:17.800 --> 54:18.300
+Just because
+
+54:18.300 --> 54:19.400
+an anomaly is severe
+
+54:19.400 --> 54:20.100
+and just because
+
+54:20.100 --> 54:21.240
+it lasts a thousand years
+
+54:21.240 --> 54:22.080
+doesn't mean
+
+54:22.080 --> 54:22.640
+the fundamental
+
+54:22.640 --> 54:23.960
+mathematical attractors
+
+54:23.960 --> 54:25.000
+of the planetary system
+
+54:25.000 --> 54:25.780
+have permanently
+
+54:25.780 --> 54:26.460
+mutated.
+
+54:26.860 --> 54:27.240
+Precisely.
+
+54:28.020 --> 54:28.840
+To a human being,
+
+54:29.020 --> 54:29.920
+a thousand-year drought
+
+54:29.920 --> 54:30.700
+is an apocalypse.
+
+54:31.300 --> 54:32.460
+To a stalagmite
+
+54:32.460 --> 54:33.860
+recording a half-million-year
+
+54:33.860 --> 54:34.360
+history,
+
+54:34.800 --> 54:35.420
+a thousand years
+
+54:35.420 --> 54:36.240
+is a minor blip.
+
+54:36.440 --> 54:36.700
+Right.
+
+54:37.280 --> 54:38.180
+The fact that
+
+54:38.180 --> 54:39.020
+the global monsoons
+
+54:39.020 --> 54:39.940
+eventually reverted
+
+54:39.940 --> 54:40.860
+back to their strict
+
+54:40.860 --> 54:41.840
+antiphased
+
+54:41.840 --> 54:42.700
+seesaw behavior
+
+54:42.700 --> 54:43.700
+after every single
+
+54:43.700 --> 54:44.220
+one of these
+
+54:44.220 --> 54:45.260
+catastrophic events
+
+54:45.260 --> 54:46.620
+strongly implies
+
+54:46.620 --> 54:47.740
+that the underlying
+
+54:47.740 --> 54:48.640
+stability of the
+
+54:48.640 --> 54:49.260
+climate system
+
+54:49.260 --> 54:50.240
+wasn't destroyed.
+
+54:50.800 --> 54:51.360
+It was merely
+
+54:51.360 --> 54:53.020
+obscured by a massive
+
+54:53.020 --> 54:54.120
+temporary forcing.
+
+54:54.120 --> 54:55.100
+The volume knob
+
+54:55.100 --> 54:56.080
+was just turned down.
+
+54:56.960 --> 54:57.760
+Flyxion is warning
+
+54:57.760 --> 54:58.800
+the scientific community
+
+54:58.800 --> 54:59.520
+not to assume
+
+54:59.520 --> 55:00.200
+a catastrophic
+
+55:00.200 --> 55:01.260
+regime transition
+
+55:01.260 --> 55:02.320
+when a highly
+
+55:02.320 --> 55:03.200
+sensitive but
+
+55:03.200 --> 55:04.280
+ultimately reversible
+
+55:04.280 --> 55:05.780
+forced excursion
+
+55:05.780 --> 55:07.000
+explains the physical
+
+55:07.000 --> 55:08.140
+data perfectly well.
+
+55:08.360 --> 55:09.420
+Which is such a
+
+55:09.420 --> 55:10.380
+vital grounding warning
+
+55:10.380 --> 55:11.140
+for modern climate
+
+55:11.140 --> 55:11.580
+science.
+
+55:12.120 --> 55:12.940
+But acknowledging
+
+55:12.940 --> 55:13.620
+that uncertainty
+
+55:13.620 --> 55:14.780
+leads us right into
+
+55:14.780 --> 55:15.860
+the final major
+
+55:15.860 --> 55:16.520
+problem of this
+
+55:16.520 --> 55:16.920
+analysis,
+
+55:17.560 --> 55:18.820
+the absolute limits
+
+55:18.820 --> 55:19.600
+of looking backward.
+
+55:20.200 --> 55:21.320
+Can we actually use
+
+55:21.320 --> 55:22.140
+this ancient data
+
+55:22.140 --> 55:23.120
+to predict the future?
+
+55:23.560 --> 55:24.100
+That's the million
+
+55:24.100 --> 55:24.740
+dollar question.
+
+55:25.180 --> 55:26.100
+Because if we can't
+
+55:26.100 --> 55:27.420
+even definitively
+
+55:27.420 --> 55:28.720
+prove mathematically
+
+55:28.720 --> 55:29.740
+how the climate
+
+55:29.740 --> 55:31.020
+system broke in the
+
+55:31.020 --> 55:31.980
+past, whether it was
+
+55:31.980 --> 55:33.440
+an excursion or a
+
+55:33.440 --> 55:34.320
+true bifurcation,
+
+55:34.320 --> 55:35.680
+how can we possibly
+
+55:35.680 --> 55:36.720
+justify using this
+
+55:36.720 --> 55:37.560
+cave data to
+
+55:37.560 --> 55:38.580
+confidently predict
+
+55:38.580 --> 55:39.300
+what will happen to
+
+55:39.300 --> 55:40.100
+our weather tomorrow?
+
+55:40.600 --> 55:41.500
+It is the ultimate
+
+55:41.500 --> 55:42.980
+existential challenge
+
+55:42.980 --> 55:44.460
+of paleoclimatology.
+
+55:45.580 --> 55:46.600
+Flyxion identifies a
+
+55:46.600 --> 55:48.160
+massive, often ignored
+
+55:48.160 --> 55:49.340
+statistical hurdle here
+
+55:49.340 --> 55:50.800
+called causal
+
+55:50.800 --> 55:52.360
+non-identifiability.
+
+55:53.200 --> 55:55.380
+Causal non-identifiability.
+
+55:56.160 --> 55:57.100
+Basically meaning,
+
+55:57.640 --> 55:58.620
+we know definitively
+
+55:58.620 --> 55:59.540
+that an event happened,
+
+55:59.660 --> 56:00.760
+but we lack the ability
+
+56:00.760 --> 56:02.060
+to mathematically prove
+
+56:02.060 --> 56:03.340
+which specific variable
+
+56:03.340 --> 56:03.960
+caused it.
+
+56:04.040 --> 56:04.260
+Right.
+
+56:04.960 --> 56:05.660
+Think about the sheer
+
+56:05.660 --> 56:06.800
+chaos of a glacial
+
+56:06.800 --> 56:07.420
+termination.
+
+56:08.180 --> 56:09.360
+The entire planetary
+
+56:09.360 --> 56:10.400
+ice age is ending.
+
+56:11.120 --> 56:12.100
+Basically, every major
+
+56:12.100 --> 56:13.220
+climate variable on
+
+56:13.220 --> 56:14.060
+Earth is undergoing
+
+56:14.060 --> 56:16.000
+massive, violent change
+
+56:16.000 --> 56:17.280
+at the exact same
+
+56:17.280 --> 56:18.180
+geological moment.
+
+56:18.180 --> 56:19.480
+Everything is moving
+
+56:19.480 --> 56:19.960
+at once.
+
+56:20.320 --> 56:20.960
+The Laurentide ice
+
+56:20.960 --> 56:21.700
+sheets are collapsing,
+
+56:22.020 --> 56:23.000
+global sea levels are
+
+56:23.000 --> 56:24.160
+rising by hundreds of
+
+56:24.160 --> 56:25.720
+feet, ocean circulation
+
+56:25.720 --> 56:26.840
+patterns are frantically
+
+56:26.840 --> 56:28.600
+reorganizing, surface
+
+56:28.600 --> 56:29.760
+albedo is dropping,
+
+56:30.420 --> 56:31.780
+and atmospheric CO2
+
+56:31.780 --> 56:32.860
+is spiking rapidly.
+
+56:33.620 --> 56:34.380
+So if you look at the
+
+56:34.380 --> 56:35.460
+timeline and you see
+
+56:35.460 --> 56:36.660
+the Asian monsoon
+
+56:36.660 --> 56:38.260
+completely fail at the
+
+56:38.260 --> 56:39.720
+exact moment atmospheric
+
+56:39.720 --> 56:41.780
+CO2 spikes, it is
+
+56:41.780 --> 56:43.000
+incredibly tempting to
+
+56:43.000 --> 56:43.920
+draw a straight line and
+
+56:43.920 --> 56:45.420
+say, ah, high CO2
+
+56:45.420 --> 56:46.140
+killed the monsoon.
+
+56:46.140 --> 56:47.520
+But you cannot make
+
+56:47.520 --> 56:48.520
+that causal claim
+
+56:48.520 --> 56:50.160
+definitively, because
+
+56:50.160 --> 56:51.380
+the catastrophic melting
+
+56:51.380 --> 56:53.260
+of the ice sheet was also
+
+56:53.260 --> 56:54.620
+happening at that exact
+
+56:54.620 --> 56:56.640
+same moment, and the
+
+56:56.640 --> 56:58.840
+AMOC was collapsing at
+
+56:58.840 --> 56:59.860
+that exact same moment.
+
+57:00.000 --> 57:01.040
+You can't isolate the
+
+57:01.040 --> 57:01.420
+cause.
+
+57:02.080 --> 57:03.480
+Just because CO2 rises
+
+57:03.480 --> 57:04.740
+simultaneously with a
+
+57:04.740 --> 57:06.340
+monsoon failure does not
+
+57:06.340 --> 57:07.540
+mean one mechanically
+
+57:07.540 --> 57:08.860
+caused the other.
+
+57:09.480 --> 57:11.280
+The temporal coincidence is
+
+57:11.280 --> 57:12.160
+actually very weak
+
+57:12.160 --> 57:13.960
+evidence, because multiple
+
+57:13.960 --> 57:14.920
+different dynamical
+
+57:14.920 --> 57:16.160
+mechanisms can generate
+
+57:16.160 --> 57:17.580
+observable proxy histories
+
+57:17.580 --> 57:19.240
+that look completely
+
+57:19.240 --> 57:20.260
+identical to our
+
+57:20.260 --> 57:20.980
+limited tools.
+
+57:21.280 --> 57:22.340
+Flyxion talks about the
+
+57:22.340 --> 57:24.060
+danger of the illusion
+
+57:24.060 --> 57:25.520
+of correlation, right?
+
+57:25.920 --> 57:27.040
+They bring up a specific
+
+57:27.040 --> 57:28.480
+statistical check to prove
+
+57:28.480 --> 57:30.100
+this, the Ebizazaki phase
+
+57:30.100 --> 57:31.120
+randomization test.
+
+57:31.200 --> 57:32.220
+Can we break down how
+
+57:32.220 --> 57:32.640
+that works?
+
+57:33.120 --> 57:34.360
+The Ebizazaki phase
+
+57:34.360 --> 57:35.680
+randomization test is a
+
+57:35.680 --> 57:37.180
+brilliant, sobering,
+
+57:37.320 --> 57:38.640
+algorithmic reality check
+
+57:38.640 --> 57:39.640
+for climate scientists.
+
+57:40.100 --> 57:41.280
+When you have two time
+
+57:41.280 --> 57:42.680
+series of data that vary,
+
+57:42.840 --> 57:43.960
+very slowly over many
+
+57:43.960 --> 57:45.620
+thousands of years, like
+
+57:45.620 --> 57:47.380
+a slowly warming global
+
+57:47.380 --> 57:48.900
+ocean temperature and a
+
+57:48.900 --> 57:50.560
+slowly drying cave in
+
+57:50.560 --> 57:52.080
+Peru, they can look
+
+57:52.080 --> 57:53.320
+highly correlated on a
+
+57:53.320 --> 57:54.580
+graph just by pure
+
+57:54.580 --> 57:55.920
+statistical chance, not
+
+57:55.920 --> 57:56.340
+physics.
+
+57:56.700 --> 57:57.720
+Because if you have two
+
+57:57.720 --> 57:59.060
+wavy lines that both take
+
+57:59.060 --> 58:00.660
+10,000 years to go up and
+
+58:00.660 --> 58:02.000
+down, they are bound to
+
+58:02.000 --> 58:03.020
+overlap sometimes.
+
+58:03.400 --> 58:03.840
+Exactly.
+
+58:04.300 --> 58:05.600
+What Ebizazaki's
+
+58:05.600 --> 58:07.620
+mathematical method does is
+
+58:07.620 --> 58:08.840
+it takes the proxy data,
+
+58:09.380 --> 58:10.820
+uses a Fourier transform to
+
+58:10.820 --> 58:11.800
+break it down into its
+
+58:11.800 --> 58:13.720
+constituent frequencies, and
+
+58:13.720 --> 58:15.160
+then literally scrambles the
+
+58:15.160 --> 58:17.160
+phase angles, the timing, of
+
+58:17.160 --> 58:18.640
+all those waves, while
+
+58:18.640 --> 58:19.900
+keeping the overall spectral
+
+58:19.900 --> 58:21.180
+power intact.
+
+58:21.700 --> 58:22.660
+So it scrambles the data, but
+
+58:22.660 --> 58:23.220
+keeps the shape.
+
+58:23.440 --> 58:25.180
+It generates thousands of
+
+58:25.180 --> 58:26.440
+synthetic timelines that have
+
+58:26.440 --> 58:28.760
+the exact same slow rhythm as
+
+58:28.760 --> 58:29.980
+the real data, but with
+
+58:29.980 --> 58:30.780
+randomized timing.
+
+58:31.240 --> 58:32.480
+And then you test your
+
+58:32.480 --> 58:33.460
+correlation against the
+
+58:33.460 --> 58:34.040
+random data.
+
+58:34.480 --> 58:34.800
+Yes.
+
+58:35.180 --> 58:36.700
+And very often, you find that
+
+58:36.700 --> 58:37.760
+your groundbreaking
+
+58:37.760 --> 58:39.760
+correlation between CO2 and
+
+58:39.760 --> 58:41.500
+rainfall appears just as
+
+58:41.500 --> 58:42.840
+strongly in the completely
+
+58:42.840 --> 58:44.820
+randomized fake data.
+
+58:45.500 --> 58:46.220
+It proves that the
+
+58:46.220 --> 58:47.480
+correlation might just be a
+
+58:47.480 --> 58:49.480
+statistical phantom generated
+
+58:49.480 --> 58:50.880
+by the slow-moving nature of
+
+58:50.880 --> 58:52.420
+the variables, not a true
+
+58:52.420 --> 58:53.340
+causal link.
+
+58:54.140 --> 58:55.280
+So we have this massive,
+
+58:55.600 --> 58:58.400
+incredibly detailed, 450,000-
+
+58:58.400 --> 58:59.780
+year cave record, but
+
+58:59.780 --> 59:00.760
+Flyxion is essentially
+
+59:00.760 --> 59:02.280
+warning us that we can't just
+
+59:02.280 --> 59:03.880
+draw straight, simplistic
+
+59:03.880 --> 59:06.000
+lines from past causes to
+
+59:06.000 --> 59:06.760
+past effects.
+
+59:06.760 --> 59:09.000
+We need a much better, more
+
+59:09.000 --> 59:10.400
+rigorous plan if we want to
+
+59:10.400 --> 59:11.160
+survive the future.
+
+59:11.920 --> 59:13.640
+Which is precisely why Flyxion
+
+59:13.640 --> 59:14.820
+concludes the essay by
+
+59:14.820 --> 59:17.580
+proposing a rigorous, deeply
+
+59:17.580 --> 59:18.840
+mathematical, three-step
+
+59:18.840 --> 59:19.780
+predictive program.
+
+59:20.640 --> 59:22.900
+If we want to use paleoclimate
+
+59:22.900 --> 59:24.280
+data to predict our
+
+59:24.280 --> 59:26.680
+anthropogenic future, we have to
+
+59:26.680 --> 59:27.540
+elevate our standards.
+
+59:28.040 --> 59:29.400
+Let's lay out the program.
+
+59:29.700 --> 59:29.920
+Okay.
+
+59:30.640 --> 59:31.240
+Step one.
+
+59:31.620 --> 59:32.200
+Step one.
+
+59:32.400 --> 59:34.200
+We must define state-dependent
+
+59:34.200 --> 59:37.040
+susceptibility mathematically, not
+
+59:37.040 --> 59:37.840
+just descriptively.
+
+59:38.220 --> 59:39.600
+We cannot just count how many
+
+59:39.600 --> 59:41.200
+times the monsoon failed in the
+
+59:41.200 --> 59:42.900
+past and assume a percentage
+
+59:42.900 --> 59:43.420
+risk.
+
+59:43.680 --> 59:45.480
+We can't just guess based on
+
+59:45.480 --> 59:45.840
+history.
+
+59:46.200 --> 59:48.280
+We must build dynamical models
+
+59:48.280 --> 59:50.220
+that can calculate the exact
+
+59:50.220 --> 59:51.640
+derivative of the climate's
+
+59:51.640 --> 59:52.100
+response.
+
+59:52.980 --> 59:55.280
+We need an equation that tells us
+
+59:55.280 --> 59:57.040
+exactly how sensitive the monsoon
+
+59:57.040 --> 59:59.620
+is to an AMOC collapse under every
+
+59:59.620 --> 01:00:01.860
+possible boundary condition of ice
+
+01:00:01.860 --> 01:00:02.480
+and carbon.
+
+01:00:02.480 --> 01:00:04.900
+We need the math, not just the
+
+01:00:04.900 --> 01:00:05.240
+story.
+
+01:00:05.760 --> 01:00:06.340
+Step two.
+
+01:00:06.660 --> 01:00:07.260
+Step two.
+
+01:00:07.820 --> 01:00:09.740
+We must test all competing climate
+
+01:00:09.740 --> 01:00:11.240
+models out of sample.
+
+01:00:11.960 --> 01:00:14.640
+This is a huge, often violated rule
+
+01:00:14.640 --> 01:00:15.120
+in modeling.
+
+01:00:15.880 --> 01:00:17.800
+If a modeling team builds a highly
+
+01:00:17.800 --> 01:00:19.900
+complex, parameter-heavy simulation
+
+01:00:19.900 --> 01:00:22.100
+that perfectly replicates the monsoon
+
+01:00:22.100 --> 01:00:24.940
+failure that occurred 300,000 years ago,
+
+01:00:25.440 --> 01:00:27.600
+that is an impressive feat of curve
+
+01:00:27.600 --> 01:00:27.820
+fitting.
+
+01:00:27.980 --> 01:00:28.260
+Right.
+
+01:00:28.260 --> 01:00:31.200
+But the true test of physics is whether
+
+01:00:31.200 --> 01:00:33.360
+that exact same model with the exact
+
+01:00:33.360 --> 01:00:35.660
+same parameters can accurately predict
+
+01:00:35.660 --> 01:00:37.360
+the different monsoon failure that
+
+01:00:37.360 --> 01:00:39.120
+happened 100,000 years ago.
+
+01:00:39.660 --> 01:00:41.740
+You fit the model on one glacial cycle
+
+01:00:41.740 --> 01:00:43.780
+and you force it to test itself on a
+
+01:00:43.780 --> 01:00:45.820
+completely different, unseen glacial
+
+01:00:45.820 --> 01:00:47.800
+cycle to see if the underlying physics
+
+01:00:47.800 --> 01:00:48.680
+actually hold up.
+
+01:00:49.000 --> 01:00:50.880
+No cheating by letting the algorithm see
+
+01:00:50.880 --> 01:00:51.740
+the answers first.
+
+01:00:52.300 --> 01:00:53.180
+And step three.
+
+01:00:53.180 --> 01:00:54.420
+Step three.
+
+01:00:54.960 --> 01:00:56.740
+We must rigorously propagate
+
+01:00:56.740 --> 01:00:58.400
+chronological uncertainty.
+
+01:00:58.800 --> 01:00:59.060
+Okay.
+
+01:00:59.240 --> 01:01:00.660
+This loops all the way back to the
+
+01:01:00.660 --> 01:01:02.600
+uranium-thorium dating we discussed
+
+01:01:02.600 --> 01:01:03.100
+at the beginning.
+
+01:01:03.480 --> 01:01:03.880
+It does.
+
+01:01:04.540 --> 01:01:06.020
+The radiometric dates on those
+
+01:01:06.020 --> 01:01:07.420
+stalagmites are incredible,
+
+01:01:07.980 --> 01:01:10.420
+but they still carry roughly a 1% error
+
+01:01:10.420 --> 01:01:12.940
+margin, which sounds negligible
+
+01:01:12.940 --> 01:01:16.740
+until you realize that 1% of 300,000
+
+01:01:16.740 --> 01:01:19.120
+years is 3,000 years.
+
+01:01:19.120 --> 01:01:21.860
+A 3,000-year margin of error is longer
+
+01:01:21.860 --> 01:01:23.920
+than the entire duration of some of
+
+01:01:23.920 --> 01:01:25.360
+these extreme drought anomalies.
+
+01:01:25.780 --> 01:01:26.220
+Exactly.
+
+01:01:26.820 --> 01:01:28.340
+If the true age of the South American
+
+01:01:28.340 --> 01:01:30.940
+proxy timeline is actually shifted by
+
+01:01:30.940 --> 01:01:33.400
+just 2,000 years within that margin of
+
+01:01:33.400 --> 01:01:35.680
+error, while the Asian timeline remains
+
+01:01:35.680 --> 01:01:37.860
+where it is, an event that looked
+
+01:01:37.860 --> 01:01:39.640
+perfectly synchronous on paper might
+
+01:01:39.640 --> 01:01:41.820
+suddenly reveal itself to be a massive,
+
+01:01:42.380 --> 01:01:43.200
+staggered delay.
+
+01:01:43.540 --> 01:01:44.100
+Wow.
+
+01:01:44.320 --> 01:01:45.320
+That changes everything.
+
+01:01:45.960 --> 01:01:48.100
+So, Flyxion argues that you cannot just
+
+01:01:48.100 --> 01:01:50.460
+run your statistical analysis on the
+
+01:01:50.460 --> 01:01:52.700
+single, most likely timeline generated
+
+01:01:52.700 --> 01:01:53.920
+by the B-Cron algorithm.
+
+01:01:54.540 --> 01:01:57.180
+You must run your model against 10,000
+
+01:01:57.180 --> 01:02:00.500
+possible, slightly shifted timelines to
+
+01:02:00.500 --> 01:02:03.000
+see if the synchronicity is robust or if
+
+01:02:03.000 --> 01:02:04.920
+it vanishes when the dates inevitably
+
+01:02:04.920 --> 01:02:05.340
+wiggle.
+
+01:02:05.800 --> 01:02:07.540
+It's essentially demanding that the field
+
+01:02:07.540 --> 01:02:10.000
+stops treating its proxy timelines as
+
+01:02:10.000 --> 01:02:12.680
+absolute gospel truth and starts treating
+
+01:02:12.680 --> 01:02:15.200
+them as statistical probability distributions.
+
+01:02:15.560 --> 01:02:16.080
+Precisely.
+
+01:02:16.080 --> 01:02:18.620
+Because if we don't hold ourselves to these
+
+01:02:18.620 --> 01:02:20.500
+punishingly strict mathematical standards,
+
+01:02:20.680 --> 01:02:23.000
+we risk drawing entirely the wrong
+
+01:02:23.000 --> 01:02:25.240
+conclusions about our own immediate future.
+
+01:02:25.860 --> 01:02:28.020
+Which brings us to the ultimate
+
+01:02:28.020 --> 01:02:30.040
+inescapable reality check,
+
+01:02:30.740 --> 01:02:32.420
+the anthropogenic contrast.
+
+01:02:32.420 --> 01:02:35.280
+And this is exactly where the rubber meets
+
+01:02:35.280 --> 01:02:37.280
+the road for anyone listening right now.
+
+01:02:37.580 --> 01:02:39.240
+If you're listening to this, you are
+
+01:02:39.240 --> 01:02:40.980
+probably trying to figure out what this
+
+01:02:40.980 --> 01:02:44.120
+450,000-year-old rock means for your
+
+01:02:44.120 --> 01:02:46.640
+weather next year, or your children's
+
+01:02:46.640 --> 01:02:47.500
+weather in 50 years.
+
+01:02:47.980 --> 01:02:50.180
+You want to know if the AMOC is going to
+
+01:02:50.180 --> 01:02:52.360
+collapse tomorrow and completely turn off
+
+01:02:52.360 --> 01:02:53.140
+the rain in the Amazon.
+
+01:02:53.780 --> 01:02:55.760
+But Flyxion points out a glaring issue.
+
+01:02:56.500 --> 01:02:58.820
+The past is a foreign country, and its
+
+01:02:58.820 --> 01:03:00.040
+geography doesn't match ours.
+
+01:03:00.040 --> 01:03:02.720
+The massive, synchronous failures of the
+
+01:03:02.720 --> 01:03:04.500
+global rain system recorded in the caves,
+
+01:03:05.020 --> 01:03:07.120
+these terrifying glitches in the matrix,
+
+01:03:07.720 --> 01:03:10.000
+happened during natural glacial terminations.
+
+01:03:10.740 --> 01:03:12.440
+Those were periods characterized by the
+
+01:03:12.440 --> 01:03:14.520
+melting of massive, continent-spanning
+
+01:03:14.520 --> 01:03:16.840
+ice sheets in North America and Eurasia.
+
+01:03:17.400 --> 01:03:18.880
+And that meltwater was the trigger.
+
+01:03:19.580 --> 01:03:21.940
+The sheer volume of fresh water locked in
+
+01:03:21.940 --> 01:03:24.720
+those specific geographic locations was the
+
+01:03:24.720 --> 01:03:27.780
+massive hammer that struck the ocean currents.
+
+01:03:27.780 --> 01:03:30.120
+But look at the Earth today.
+
+01:03:30.860 --> 01:03:33.200
+We are warming the planet at a terrifyingly
+
+01:03:33.200 --> 01:03:36.300
+rapid, unnatural rate due to human-made
+
+01:03:36.300 --> 01:03:37.420
+greenhouse gas emissions.
+
+01:03:37.840 --> 01:03:40.040
+But we fundamentally lack those massive
+
+01:03:40.040 --> 01:03:41.920
+Laurentide glacial ice sheets to melt.
+
+01:03:42.320 --> 01:03:44.380
+We have the Greenland ice sheet, and we have
+
+01:03:44.380 --> 01:03:45.400
+Antarctica, yes.
+
+01:03:45.580 --> 01:03:48.220
+But the total global ice volume, and
+
+01:03:48.220 --> 01:03:50.500
+specifically its geographic distribution in
+
+01:03:50.500 --> 01:03:53.280
+relation to the Atlantic, is historically
+
+01:03:53.280 --> 01:03:55.660
+incredibly low compared to the start of a
+
+01:03:55.660 --> 01:03:56.580
+glacial termination.
+
+01:03:57.040 --> 01:03:59.280
+Which means that the boundary conditions of
+
+01:03:59.280 --> 01:04:00.960
+our planet right this second are
+
+01:04:00.960 --> 01:04:04.040
+fundamentally, structurally different from
+
+01:04:04.040 --> 01:04:05.840
+the boundary conditions that triggered the
+
+01:04:05.840 --> 01:04:08.000
+anomalies in the past 450,000 years.
+
+01:04:08.280 --> 01:04:10.860
+We are missing the primary weapon that the
+
+01:04:10.860 --> 01:04:12.640
+climate used to break the seesaw.
+
+01:04:13.500 --> 01:04:15.920
+Flyxion's thesis really drives this home, and
+
+01:04:15.920 --> 01:04:17.100
+it's a brilliant way to frame it.
+
+01:04:17.640 --> 01:04:19.660
+The persistence of a historical correlation
+
+01:04:19.660 --> 01:04:22.880
+correlation is not an unconditional law of
+
+01:04:22.880 --> 01:04:23.220
+physics.
+
+01:04:23.980 --> 01:04:25.580
+Just because the climate responded to
+
+01:04:25.580 --> 01:04:28.140
+warming in a very specific way 200,000
+
+01:04:28.140 --> 01:04:30.420
+years ago does not guarantee it will
+
+01:04:30.420 --> 01:04:32.740
+respond the exact same way tomorrow.
+
+01:04:33.320 --> 01:04:34.940
+Because the background state of the planet
+
+01:04:34.940 --> 01:04:36.740
+has radically shifted.
+
+01:04:37.280 --> 01:04:39.000
+The stage is set differently.
+
+01:04:39.780 --> 01:04:41.320
+The forcing can continue to act.
+
+01:04:41.920 --> 01:04:43.680
+The orbital wobble is still happening.
+
+01:04:43.820 --> 01:04:44.780
+CO2 is still rising.
+
+01:04:44.780 --> 01:04:46.920
+But if the boundary conditions are
+
+01:04:46.920 --> 01:04:49.100
+different, the emergent response can
+
+01:04:49.100 --> 01:04:51.220
+completely, unpredictably change.
+
+01:04:51.720 --> 01:04:53.780
+And that reality is both the beauty and
+
+01:04:54.440 --> 01:04:56.920
+the sheer terror of state-dependent coupling.
+
+01:04:57.300 --> 01:05:00.020
+We cannot simply copy-paste the paleo-climate
+
+01:05:00.020 --> 01:05:01.060
+record onto our future.
+
+01:05:01.620 --> 01:05:03.960
+It is an invaluable guide to the physics, but
+
+01:05:03.960 --> 01:05:06.380
+it is not a literal script for the 21st
+
+01:05:06.380 --> 01:05:06.720
+century.
+
+01:05:06.840 --> 01:05:07.180
+Not at all.
+
+01:05:07.700 --> 01:05:09.860
+So as we pull all of these threads
+
+01:05:09.860 --> 01:05:11.700
+together, let's summarize the immense
+
+01:05:11.700 --> 01:05:12.680
+ground we've covered today.
+
+01:05:12.680 --> 01:05:16.020
+The orbital seesaw, the interhemispheric
+
+01:05:16.020 --> 01:05:17.920
+dipole that has governed global rainfall
+
+01:05:17.920 --> 01:05:19.680
+for eons, is conditional.
+
+01:05:20.420 --> 01:05:23.180
+It is an emergent pattern, not an invariant
+
+01:05:23.180 --> 01:05:24.540
+unbreakable law of physics.
+
+01:05:25.220 --> 01:05:27.460
+A stack of stalagmites sitting in a damp
+
+01:05:27.460 --> 01:05:29.880
+Peruvian cave decisively proves that our
+
+01:05:29.880 --> 01:05:32.060
+climate's rules can be temporarily rewritten
+
+01:05:32.060 --> 01:05:34.220
+when the planet's background conditions
+
+01:05:34.220 --> 01:05:36.680
+undergo massive thermodynamic stress.
+
+01:05:37.260 --> 01:05:38.720
+The master volume can drop.
+
+01:05:39.120 --> 01:05:39.380
+Right.
+
+01:05:40.120 --> 01:05:41.920
+The massive baseline shift of the common
+
+01:05:41.920 --> 01:05:44.120
+mode can completely drown out the steady
+
+01:05:44.120 --> 01:05:45.360
+rhythm of the difference mode.
+
+01:05:45.980 --> 01:05:47.860
+The foundational physical laws of moisture
+
+01:05:47.860 --> 01:05:50.120
+conservation remain perfectly intact globally,
+
+01:05:50.420 --> 01:05:53.120
+but the geographical distribution of that
+
+01:05:53.120 --> 01:05:55.880
+moisture is terrifyingly sensitive to the state
+
+01:05:55.880 --> 01:05:58.540
+of the oceans, the volume of the ice, and the
+
+01:05:58.540 --> 01:05:59.720
+geometry of the atmosphere.
+
+01:06:00.260 --> 01:06:02.760
+Which leaves us with a final, lingering, and
+
+01:06:02.760 --> 01:06:04.500
+frankly provocative thought for you to
+
+01:06:04.500 --> 01:06:06.660
+mill over as you look at the weather today.
+
+01:06:06.660 --> 01:06:10.400
+If the rules of the planetary monsoon seesaw were
+
+01:06:10.400 --> 01:06:14.000
+temporarily suspended in the ancient past, strictly
+
+01:06:14.000 --> 01:06:18.260
+due to changing amounts of ice and CO2, what does it mean for
+
+01:06:18.260 --> 01:06:18.800
+us today?
+
+01:06:19.360 --> 01:06:23.180
+Our current boundary conditions, this highly volatile
+
+01:06:23.180 --> 01:06:26.940
+combination of rapidly rising anthropogenic greenhouse
+
+01:06:26.940 --> 01:06:30.820
+gases combined with a historically low amount of global ice,
+
+01:06:30.820 --> 01:06:37.080
+have arguably never existed in the entire 450,000-year stalagmite record.
+
+01:06:37.580 --> 01:06:39.280
+We are completely off the map.
+
+01:06:39.280 --> 01:06:43.680
+It is entirely unprecedented mathematical and thermodynamic territory.
+
+01:06:43.680 --> 01:06:47.520
+If our current boundary conditions are completely unprecedented,
+
+01:06:48.140 --> 01:06:51.300
+then perhaps the future of our climate isn't just going to be a simple
+
+01:06:51.300 --> 01:06:53.340
+glitch in the old rules.
+
+01:06:53.860 --> 01:06:56.420
+It's not just the seesaw breaking and dropping the rain.
+
+01:06:56.740 --> 01:06:59.240
+We might be entering an entirely new game,
+
+01:06:59.520 --> 01:07:03.500
+where the ancient paleoclimate record can no longer serve as a reliable map.
+
+01:07:03.900 --> 01:07:05.300
+The seesaw hasn't just snapped.
+
+01:07:05.740 --> 01:07:08.840
+Through our emissions, we might have built a completely different,
+
+01:07:09.040 --> 01:07:10.600
+unpredictable machine in its place.
+
+01:07:10.600 --> 01:07:15.160
+It is a sobering thought, and it strongly reinforces Flyxion's demand
+
+01:07:15.160 --> 01:07:19.380
+that we build better, mathematically flawless, predictive, dynamical models,
+
+01:07:19.780 --> 01:07:23.160
+rather than just looking backward into the proxy record for false comfort.
+
+01:07:23.720 --> 01:07:25.060
+We have to do the math.
+
+01:07:25.880 --> 01:07:27.380
+We have to do the math.
+
+01:07:28.140 --> 01:07:31.320
+Thank you so much for joining us on this deep dive into the physical limits
+
+01:07:31.320 --> 01:07:32.420
+of our climate's past.
+
+01:07:32.880 --> 01:07:34.140
+We will catch you next time.
+
